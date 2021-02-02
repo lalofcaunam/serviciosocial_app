@@ -1,0 +1,16 @@
+{
+    "appenders": {
+        "consoleAppender": {
+            "type": "console", "layout": {
+                "type": "pattern", "pattern": "%d{yyyy/MM/dd - hh:mm:ss} | [%p] | %z | %f{2}[%l] | %m"
+            }
+        }
+    },
+    "categories": {
+        "default": {
+            "appenders": ["consoleAppender"],
+            "level": "debug",
+            "enableCallStack": true
+        }
+    }
+}
