@@ -1,0 +1,1 @@
+mongo --host ${MONGO} --eval "if(db.getUser('${MONGO_USERNAME}') == null){ db.createUser({user:'${MONGO_USERNAME}', pwd:'${MONGO_PASSWORD}', roles:[{role:'dbOwner', db:'${MONGO_DB_NAME}'}]});}"
