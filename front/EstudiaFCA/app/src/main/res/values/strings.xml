@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">EstudiaFCA</string>
+    <string name="titulo">EstudiaFCA</string>
+    <string name="descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget leo at justo dapibus dapibus. Mauris pretium purus arcu, sit amet convallis diam lobortis ac. Morbi cursus vehicula faucibus. Mauris eget odio feugiat, semper quam quis, gravida neque. Ut quam metus, varius in eleifend nec, facilisis ut mauris. Sed eget iaculis erat. In ut fringilla dolor, vel facilisis ipsum.</string>
+
+    <string name="siguiente">Siguiente</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
