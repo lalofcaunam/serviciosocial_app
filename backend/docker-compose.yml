@@ -1,0 +1,52 @@
+version: "3"
+services:
+    database:
+      container_name: app-serviciosocial-mongo
+      image: mongo
+      ports: 
+        - "27017:27017"
+      volumes: 
+        - ./mongo/data:/data/db
+    
+    mongoClientTemp:
+      image: mongo:latest
+      container_name: mongoClientTemp
+      restart: on-failure
+      env_file: .env
+      environment: 
+        - MONGO=$MONGO
+        - MONGO_USERNAME=$MONGO_USERNAME
+        - MONGO_PASSWORD=$MONGO_PASSWORD
+        - MONGO_DB_NAME=$MONGO_DB_NAME
+      links:
+        - database:mongo
+      volumes: 
+        - ./mongo/config.sh:/docker-entrypoint.sh/config.sh
+      command: ./docker-entrypoint.sh/config.sh
+      depends_on:
+        - database
+
+    web:
+      container_name: app-serviciosocial-node
+      image: app-serviciosocial-node
+      restart: always
+      build:
+        context: .
+        dockerfile: Dockerfile
+      env_file: .env
+      environment: 
+        - NODE_ENV=$NODE_ENV
+        - PORT=$PORT
+        - MONGO=$MONGO
+        - MONGO_DB_NAME=$MONGO_DB_NAME
+        - MONGO_HOSTNAME=$MONGO_HOSTNAME
+        - MONGO_USERNAME=$MONGO_USERNAME
+        - MONGO_PASSWORD=$MONGO_PASSWORD
+      ports:
+        - "${PORT}:3000"
+      links:
+        - database:mongo
+      volumes: 
+        - .:/usr/src/app
+      depends_on:
+        - mongoClientTemp
