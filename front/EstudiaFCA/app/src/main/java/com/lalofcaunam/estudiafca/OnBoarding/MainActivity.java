@@ -1,11 +1,9 @@
-package com.lalofcaunam.estudiafca;
+package com.lalofcaunam.estudiafca.OnBoarding;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButton;
+import com.lalofcaunam.estudiafca.HomeActivity;
+import com.lalofcaunam.estudiafca.Login.LoginActivity;
+import com.lalofcaunam.estudiafca.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 if(onboardingViewPager.getCurrentItem() + 1 < onBoardingAdapter.getItemCount()){
                     onboardingViewPager.setCurrentItem(onboardingViewPager.getCurrentItem() + 1);
                 } else {
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
                 }
             }

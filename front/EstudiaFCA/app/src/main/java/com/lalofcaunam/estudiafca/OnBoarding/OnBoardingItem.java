@@ -1,4 +1,4 @@
-package com.lalofcaunam.estudiafca;
+package com.lalofcaunam.estudiafca.OnBoarding;
 
 public class OnBoardingItem {
     private int image;
