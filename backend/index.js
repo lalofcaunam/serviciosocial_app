@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // Importamos las constantes del archivo index que se encuentra en la carpeta ./api y ./mongo
 const { api, PORT } = require('./api');
-const { MONGO_URI } = require('./config');
+const { MONGO_URI } = require('./mongo');
 
 // Conexion a la base de datos de Mongo
 mongoose.connect(
@@ -16,4 +16,6 @@ mongoose.connect(
     .catch((err) => logger.error('Error en la conexion de la base de datos: ', err));
 
 // Ponemos a escuchar al servidor en el puerto definido y mostramos en consola un mensaje para conocer esto
-api.listen(PORT, () => logger.info(`Escuchando en el puerto: ${PORT}`));
+api.listen(PORT, () => {
+  logger.info(`Ruta levantada: ${process.env.PROTOCOL}://${process.env.HOSTNAME}:${PORT}/ssfca/api/v1`);
+});
