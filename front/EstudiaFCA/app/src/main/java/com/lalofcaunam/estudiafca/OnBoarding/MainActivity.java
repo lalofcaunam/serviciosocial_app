@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
         List<OnBoardingItem> onBoardingItems = new ArrayList<>();
 
         OnBoardingItem itemPayOnline = new OnBoardingItem();
-        itemPayOnline.setTitle("Pay Your Bill Online");
-        itemPayOnline.setDescription("hjfbsdhjbfjskdhbfskhdjbfshdjkbfjkshe");
-        itemPayOnline.setImage(R.drawable.ic_launcher_background);
+        itemPayOnline.setTitle("Boarding 1");
+        itemPayOnline.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus urna at pellentesque tincidunt. Nullam tincidunt lacus aliquet ultricies euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.");
+        itemPayOnline.setImage(R.drawable.estudia);
 
         OnBoardingItem itemNext = new OnBoardingItem();
-        itemNext.setTitle("new item");
-        itemNext.setDescription("fnjksdfnbjksdfnjb");
-        itemNext.setImage(R.drawable.ic_launcher_foreground);
+        itemNext.setTitle("Boarding 2");
+        itemNext.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus urna at pellentesque tincidunt. Nullam tincidunt lacus aliquet ultricies euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.");
+        itemNext.setImage(R.drawable.estudia);
 
         onBoardingItems.add(itemPayOnline);
         onBoardingItems.add(itemNext);

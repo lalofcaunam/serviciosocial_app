@@ -6,7 +6,7 @@
         android:height="8dp"/>
     <corners
         android:radius="25dp"/>
-    <solid android:color="@color/blue_sky"/>
+    <solid android:color="@color/colorBtn"/>
 
 
 </shape>
