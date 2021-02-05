@@ -22,7 +22,7 @@ api.use(cors());
 api.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 api.use(express.urlencoded({ extended: true }));
 api.use(express.json({ express: true }));
-//api.use('/ssfca/api/v1', require('../routes'));
+api.use('/ssfca/api/v1', require('../routes'));
 
 // Handler errors de validaciones celebrate
 api.use(((err, req, res, next) => {
