@@ -1,36 +1,78 @@
 const Codigo = Object.freeze({
+    200: {
+        http: {
+            code: 200,
+            detail: "Ok",
+        }
+    },
     201: {
         http: {
             code: 201,
-            message: "Created",
+            detail: "Created",
         }
     },
     400: {
         http: {
             code: 400,
-            message: "Error: Bad Request"
+            detail: "Error: Bad Request"
         }
     },
     401: {
         http: {
             code: 401,
-            message: "Error: Unauthorized"
+            detail: "Error: Unauthorized"
         }
     },
     404: {
         http: {
             code: 404,
-            message: "Error: Not Found"
+            detail: "Error: Not Found"
         }
     },
     500: {
         http: {
             code: 500,
-            message: "Error: Internal Server Error"
+            detail: "Error: Internal Server Error"
         }
     }
 });
 
+const Message = (msg, code) => {
+    switch (code) {
+        case 201:
+            return {
+                message: 'La creación se ha realizado con exito',
+                description: msg,
+            }
+        case 400:
+            return {
+                message: 'La petición realizada ha fallado',
+                description: msg
+            }
+        case 401:
+            return {
+                message: 'Hubo un error de autenticación',
+                description: msg
+            }
+        case 404:
+            return {
+                message: 'No se ha encontrado el recurso solicitado o no existe',
+                description: msg
+            }
+        case 500:
+            return {
+                message: 'Ocurrio un error inesperado',
+                description: msg
+            }
+    
+        default:
+            return {
+                msg
+            }
+    }
+}
+
 module.exports = {
-    Codigo
+    Codigo,
+    Message
 };
