@@ -9,15 +9,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonOnBoarding"
-        android:backgroundTint="@color/colorBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
-        android:textSize="15sp"
-        app:cornerRadius="20dp"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        style="@style/btnSimple"
         />
 
     <androidx.viewpager2.widget.ViewPager2
