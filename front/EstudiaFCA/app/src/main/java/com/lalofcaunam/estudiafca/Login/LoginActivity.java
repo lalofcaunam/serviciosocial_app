@@ -18,6 +18,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         btnRegistrarse = findViewById(R.id.btnRegistrarse);
+        btnRegistrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+            }
+        });
     }
 
 }

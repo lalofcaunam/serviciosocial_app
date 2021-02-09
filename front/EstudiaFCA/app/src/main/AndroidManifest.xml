@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EstudiaFCA">
         <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Login.EmailVerificationActivity" />
+        <activity android:name=".Login.ProfileActivity"
+            android:theme="@style/ThemeActionBar"
+            android:parentActivityName=".Login.LoginActivity"/>
+        <activity android:name=".Login.SignupActivity"
+            android:theme="@style/ThemeActionBar"
+            android:parentActivityName=".Login.ProfileActivity"/>
         <activity android:name=".HomeActivity" />
         <activity android:name=".OnBoarding.MainActivity" />
         <activity android:name=".SplashActivity">

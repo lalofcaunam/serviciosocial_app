@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textEmailVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="160dp"
+        android:text="Se ha enviado un link de confirmación a tu correo, favor de ingresar a tu correo electrónico y validar la creación de tu cuenta"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingHorizontal="40dp"
+        android:layout_marginLeft="0dp"
+        style="@style/labelText"/>
+
+
+    <Button
+        android:id="@+id/btnOkVerificar"
+        android:text="OK"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textEmailVerification"
+        style="@style/btnSimple"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
