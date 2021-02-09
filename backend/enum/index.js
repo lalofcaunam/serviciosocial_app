@@ -67,7 +67,7 @@ const Message = (msg, code) => {
     
         default:
             return {
-                msg
+                message: msg
             }
     }
 }
