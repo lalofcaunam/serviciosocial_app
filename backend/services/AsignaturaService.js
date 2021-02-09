@@ -10,9 +10,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio creacionMasiva');
 
+            // Llamar al dto FcaDto.creacionMasiva
             logger.debug('AsignaturaService - creacionMasiva: Realizando creación masiva de asignaturas');
             const asignaturasCreadas = await FcaDto.creacionMasiva(req, Asignatura);
 
+            // Validar que no haya sucedido un error en el dto
             if(asignaturasCreadas == null){
                 logger.debug('AsignaturaService - creacionMasiva: Ocurrio un error al tratar de crear las asignaturas');
                 logger.info('< Termina servicio creacionMasiva');
@@ -38,9 +40,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio leerTodos');
 
+            // Llamar al dto FcaDto.leerTodos
             logger.debug('AsignaturaService - leerTodos: Realizando lectura de todas las asignaturas');
             const asignaturasEncontradas = await FcaDto.leerTodos(Asignatura);
 
+            // Validar que no haya sucedido un error en el dto
             if(asignaturasEncontradas == null){
                 logger.debug('AsignaturaService - creacionMasiva: Ocurrio un error al tratar de leer las asignaturas');
                 logger.info('< Termina servicio leerTodos');
@@ -65,9 +69,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio leerUno');
 
+            // Llamar al dto FcaDto.leerUno
             logger.debug('AsignaturaService - leerUno: Realizando lectura de una asignatura');
             const asignaturaEncontrada = await FcaDto.leerUno(req, Asignatura);
 
+            // Validar que no haya sucedido un error en el dto
             if(asignaturaEncontrada == null){
                 logger.debug('AsignaturaService - leerUno: Ocurrio un error al tratar de leer una asignatura');
                 logger.info('< Termina servicio leerUno');
@@ -92,9 +98,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio leerMuchasLicenciaturasPorFiltro');
 
+            // Llamar al dto FcaDto.leerMuchosPorFiltro
             logger.debug('AsignaturaService - leerMuchasLicenciaturasPorFiltro: Realizando lectura de las asignaturas');
             const asignaturasEncontradas = await FcaDto.leerMuchosPorFiltro(req, Asignatura);
 
+            // Validar que no haya sucedido un error en el dto
             if(asignaturasEncontradas == null){
                 logger.debug('AsignaturaService - leerMuchasLicenciaturasPorFiltro: Ocurrio un error al tratar de leer las asignatura');
                 logger.info('< Termina servicio leerMuchasLicenciaturasPorFiltro');
