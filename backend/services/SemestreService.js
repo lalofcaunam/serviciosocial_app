@@ -10,9 +10,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio creacionMasiva');
 
+            // Llamar al dto FcaDto.creacionMasiva
             logger.debug('SemestreService - creacionMasiva: Realizando creación masiva de semestre');
             const semestresCreados = await FcaDto.creacionMasiva(req, Semestre);
 
+            // Validar que no haya sucedido un error en el dto
             if(semestresCreados == null){
                 logger.debug('SemestreService - creacionMasiva: Ocurrio un error al tratar de crear los semestres');
                 logger.info('< Termina servicio creacionMasiva');
@@ -38,9 +40,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio leerTodos');
 
+            // Llamar al dto FcaDto.leerTodos
             logger.debug('SemestreService - leerTodos: Realizando lectura de todas los semestres');
             const semestresEncontrados = await FcaDto.leerTodos(Semestre);
 
+            // Validar que no haya sucedido un error en el dto
             if(semestresEncontrados == null){
                 logger.debug('SemestreService - creacionMasiva: Ocurrio un error al tratar de leer los semestres');
                 logger.info('< Termina servicio leerTodos');
@@ -65,9 +69,11 @@ module.exports = {
         try {
             logger.info('> Inicia servicio leerUno');
 
+            // Llamar al dto FcaDto.leerUno
             logger.debug('SemestreService - leerUno: Realizando lectura de un semestre');
             const semestreEncontrado = await FcaDto.leerUno(req, Semestre);
 
+            // Validar que no haya sucedido un error en el dto
             if(semestreEncontrado == null){
                 logger.debug('SemestreService - leerUno: Ocurrio un error al tratar de leer un semestre');
                 logger.info('< Termina servicio leerUno');
