@@ -255,7 +255,7 @@ const asignaturas = [
         nombre: 'Servicios de Tecnología',
         clave: '1767',
         claveLicenciatura: ['308'],
-        claveSemestre: ['007']
+        claveSemestre: ['008']
     },
     {
         nombre: 'Entorno de las organizaciones',
