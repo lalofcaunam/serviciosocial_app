@@ -1,6 +1,6 @@
 const logger = require('log4js').getLogger('FCAController');
 const { handler } = require('../utils');
-const { Message } = require('../enum')
+const { Message } = require('../enum');
 const { LicenciaturaService, SemestreService, AsignaturaService } = require('../services');
 
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
 
                 if(!licenciaturasEncontradas){
                     logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Ocurrio un error en el servicio LicenciaturaService');
-                    logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                    logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
                     return handler(Message('Ocurrio un error en el servicio LicenciaturaService', 500), res, 500);
                 }
 
@@ -103,7 +103,7 @@ module.exports = {
 
                 if(!semestresEncontrados){
                     logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Ocurrio un error en el servicio SemestreService');
-                    logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                    logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
                     return handler(Message('Ocurrio un error en el servicio SemestreService', 500), res, 500);
                 }
 
@@ -114,14 +114,14 @@ module.exports = {
             else {
                 // No existe el parametro de busqueda que se esta mandando
                 logger.debug('FCAController - leerTodasLicenciaturasOSemestres: La fuente de busqueda no esta permitida');
-                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
                 return handler(Message('La fuente de busqueda no esta permitida', 400), res, 400);
             }
 
         } catch (error) {
             
             // Si existe un error en la lectura, devolver el error
-            logger.error('Error en controller leerTodasAsignaturasFiltro: ', error);
+            logger.error('Error en controller leerTodasLicenciaturasOSemestres: ', error);
             return handler(Message('Ocurrio un error en el controller leerTodasAsignaturasFiltro', 500), res, 500);
 
         }
