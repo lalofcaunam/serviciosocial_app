@@ -1,5 +1,5 @@
 const logger = require('log4js').getLogger('CompanyController');
-const { ConfiguracionDTO } = require('../dtos');
+const { ConfiguracionDto } = require('../dtos');
 
 module.exports = {
 
@@ -17,7 +17,7 @@ module.exports = {
 
             // Llamar al dto ConfiguracionDTO.crearUno
             logger.debug('ConfiguracionService - crearUno: Realizando creación de configuración');
-            const configuracionCreada = await ConfiguracionDTO.crearUno(configuracion);
+            const configuracionCreada = await ConfiguracionDto.crearUno(configuracion);
 
             // Validar que no haya sucedido un error en el dto
             if(configuracionCreada == null){
@@ -47,7 +47,7 @@ module.exports = {
 
             // Llamar al dto ConfiguracionDTO.leerTodos
             logger.debug('ConfiguracionService - crearUno: Realizando consulta de todas las configuraciones');
-            const configuraciones = await ConfiguracionDTO.leerTodos();
+            const configuraciones = await ConfiguracionDto.leerTodos();
 
             // Validar que no haya sucedido un error en el dto
             if(configuraciones.length != 0){
