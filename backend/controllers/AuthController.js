@@ -13,7 +13,13 @@ module.exports = {
 
             // Revisar si ya existe un usuario con ese correo
             logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
-            const correoExiste = await UsuarioService.leerUnoPorEmail(req.correo);
+            const correoExiste = await UsuarioService.leerUnoPorEmail(req.body.correo);
+
+            // Si no regresa true o null, significa que ya existe un usuario con ese correo
+            if(correoExiste.length != 0 || correoExiste[0] != null) {
+                logger.info('<< Termina controller signup');
+                return handler(Message('Ya existe un usuario con ese correo', 400), res, 400);
+            }
 
             // Si regresa false, significa que hubo un error en el servicio
             if(!correoExiste) {
@@ -21,15 +27,9 @@ module.exports = {
                 return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
             }
 
-            // Si no regresa true o null, significa que ya existe un usuario con ese correo
-            if(correoExiste != null || correoExiste.length != 0) {
-                logger.info('<< Termina controller signup');
-                return handler(Message('Ya existe un usuario con ese correo', 400), res, 400);
-            }
-
             // Crear el usuario
             logger.debug('AuthController - signup: Mandar a llamar al servicio crearUno de Usuario');
-            const usuarioCreado = await UsuarioService.crearUno(req);
+            const usuarioCreado = await UsuarioService.crearUno(req.body);
 
             // Si regresa false, significa que hubo un error en el servicio
             if(!usuarioCreado) {
@@ -77,7 +77,7 @@ module.exports = {
 
             // Buscar al usuario por correo
             logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
-            const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.correo);
+            const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.body.correo);
 
             // Si regresa null, significa que el usuario no existe
             if(usuarioEncontrado == null) {
