@@ -1,3 +1,4 @@
+const logger = require('log4js').getLogger('index');
 const { Codigo } = require('../enum');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -36,7 +37,7 @@ module.exports = {
     },
     enviarCorreo: async (usuario) => {
 
-        const url = `${process.env.PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT}/ssfca/api/v1/usuario/${usuario._id}/correo`
+        const url = `${process.env.PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT}/ssfca/api/v1/usuarios/${usuario._id}/verificar`
 
         const msg = {
             to: usuario.correo,
