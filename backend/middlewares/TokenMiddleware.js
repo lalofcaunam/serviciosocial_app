@@ -4,16 +4,12 @@ const logger = require('log4js').getLogger('TokenMiddleware');
 module.exports = {
   verifyToken: (req, res, next) => {
     try {
-      const { authorization, rol } = req.headers;
+      const { authorization } = req.headers;
 
       // Validar que vengan los headers
       if(authorization == null || authorization == undefined){
         logger.error('No viene el Header Authorization, valor: ', authorization);
         return handler(Message('No viene el Header Authorization', 400), res, 400);
-      }
-      if(rol == null || rol == undefined){
-        logger.error('No viene el Header Rol, valor: ', authorization);
-        return handler(Message('No viene el Header Rol', 400), res, 400);
       }
       
       // Obtener el valor del token codificado
@@ -34,15 +30,12 @@ module.exports = {
         return handler(Message('Hubo un error en la decodificación', 401), res, 401);
       }
  
-      // Verificar que el rol sea valido
-      var isValid = false;
-      const isValidRol = Object.values(decoded.rol);
-      const isValidCorreo = Object.values(decoded.correoActivado);
-      if(isValidRol == rol && isValidCorreo) isValid = true;
+      // Verificar que el correo este activado
+      const correoValido = Object.values(decoded.correoActivado);
 
-      if(isValid) next();
+      if(correoValido) next();
      
-      else return handler(Message('Error de autenticación', 401), res, 401);
+      else return handler(Message('El correo no ha sido activado', 400), res, 400);
 
    } catch (error) {
      logger.error('Error en middleware verifyToken: ', error);
