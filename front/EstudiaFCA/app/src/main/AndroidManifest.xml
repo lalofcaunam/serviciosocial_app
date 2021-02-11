@@ -13,10 +13,12 @@
         <activity android:name=".Login.EmailVerificationActivity" />
         <activity android:name=".Login.ProfileActivity"
             android:theme="@style/ThemeActionBar"
-            android:parentActivityName=".Login.LoginActivity"/>
+            android:parentActivityName=".Login.LoginActivity"
+            android:label="Elige tipo de usuario" />
         <activity android:name=".Login.SignupActivity"
             android:theme="@style/ThemeActionBar"
-            android:parentActivityName=".Login.ProfileActivity"/>
+            android:parentActivityName=".Login.ProfileActivity"
+            android:label="Registrarse"/>
         <activity android:name=".HomeActivity" />
         <activity android:name=".OnBoarding.MainActivity" />
         <activity android:name=".SplashActivity">
