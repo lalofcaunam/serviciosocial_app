@@ -22,7 +22,7 @@ module.exports = {
                 if(usuarioEncontrado == 'Error') {
                     logger.debug('UsuarioService - leerUnoPorEmail: Ocurrio un error al tratar de leer un usuario por email');
                     logger.info('< Termina servicio leerUnoPorEmail');
-                    return false;
+                    return 'Error';
                 }
 
                 logger.debug('usuarioEncontrado: ', usuarioEncontrado);
@@ -37,7 +37,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerUnoPorEmail: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -56,7 +56,7 @@ module.exports = {
             if(usuarioCreado == null){
                 logger.debug('UsuarioService - crearUno: Ocurrio un error al tratar de crear el usuario');
                 logger.info('< Termina servicio crearUno');
-                return false;
+                return 'Error';
             }
 
             logger.debug('UsuarioService - crearUno: Se realizo exitosamente la creacion del usuario');
@@ -67,7 +67,7 @@ module.exports = {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en servicio crearUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -86,6 +86,13 @@ module.exports = {
             if(usuarioEncontrado == 'Error'){
                 logger.debug('UsuarioService - leerUno: Ocurrio un error al tratar de leer un usuario');
                 logger.info('< Termina servicio leerUno');
+                return 'Error';
+            }
+
+            // Validar que exista el usuario
+            if(usuarioEncontrado == null){
+                logger.debug('UsuarioService - leerUno: El usuario no existe con el id proporcionado');
+                logger.info('< Termina servicio leerUno');
                 return false;
             }
 
@@ -96,7 +103,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -115,6 +122,13 @@ module.exports = {
             if(usuarioActualizado == 'Error'){
                 logger.debug('UsuarioService - actualizarUno: Ocurrio un error al tratar de actualizar un usuario');
                 logger.info('< Termina servicio actualizarUno');
+                return 'Error';
+            }
+
+            // Validar que exista el usuario
+            if(usuarioActualizado == null){
+                logger.debug('UsuarioService - actualizarUno: El usuario no existe con el id proporcionado');
+                logger.info('< Termina servicio actualizarUno');
                 return false;
             }
 
@@ -125,7 +139,7 @@ module.exports = {
             
             // Si existe un error en la actualización, devolver el error
             logger.error('Error en servicio actualizarUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -144,6 +158,13 @@ module.exports = {
             if(usuarioBorrado == 'Error'){
                 logger.debug('UsuarioService - borrarUno: Ocurrio un error al tratar de borrar un usuario');
                 logger.info('< Termina servicio borrarUno');
+                return 'Error';
+            }
+
+            // Validar que el usuario exista
+            if(usuarioBorrado == null){
+                logger.debug('UsuarioService - borrarUno: El usuario no existe con el id proporcionado');
+                logger.info('< Termina servicio borrarUno');
                 return false;
             }
 
@@ -154,7 +175,7 @@ module.exports = {
             
             // Si existe un error en el borrado, devolver el error
             logger.error('Error en servicio borrarUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
