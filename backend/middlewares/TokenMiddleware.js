@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { handler } = require('../utils');
+const { Message } = require('../enum');
 const logger = require('log4js').getLogger('TokenMiddleware');
 
 module.exports = {
@@ -31,7 +33,7 @@ module.exports = {
       }
  
       // Verificar que el correo este activado
-      const correoValido = Object.values(decoded.correoActivado);
+      const correoValido = decoded.correoActivado;
 
       if(correoValido) next();
      
