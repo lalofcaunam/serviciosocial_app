@@ -18,7 +18,7 @@ module.exports = {
             if(licenciaturasCreadas == null){
                 logger.debug('LicenciaturaService - creacionMasiva: Ocurrio un error al tratar de crear las licenciaturas');
                 logger.info('< Termina servicio creacionMasiva');
-                return false;
+                return 'Error';
             }
 
             logger.debug('LicenciaturaService - crearUno: Se realizo exitosamente la creacion de las licenciaturas');
@@ -29,7 +29,7 @@ module.exports = {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en servicio creacionMasiva: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -45,8 +45,15 @@ module.exports = {
             const licenciaturasEncontradas = await FcaDto.leerTodos(Licenciatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(licenciaturasEncontradas == null){
+            if(licenciaturasEncontradas == 'Error'){
                 logger.debug('LicenciaturaService - creacionMasiva: Ocurrio un error al tratar de leer las licenciaturas');
+                logger.info('< Termina servicio leerTodos');
+                return 'Error';
+            }
+
+            // Validar que exista al menos una licenciatura
+            if(licenciaturasEncontradas.length == 0){
+                logger.debug('LicenciaturaService - creacionMasiva: No existe ninguna licenciatura');
                 logger.info('< Termina servicio leerTodos');
                 return false;
             }
@@ -58,7 +65,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerTodos: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -74,8 +81,15 @@ module.exports = {
             const licenciaturaEncontrada = await FcaDto.leerUno(req, Licenciatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(licenciaturaEncontrada == null){
+            if(licenciaturaEncontrada == 'Error'){
                 logger.debug('LicenciaturaService - leerUno: Ocurrio un error al tratar de leer una licenciatura');
+                logger.info('< Termina servicio leerUno');
+                return 'Error';
+            }
+
+            // Validar que exista la licenciatura
+            if(licenciaturaEncontrada == null){
+                logger.debug('LicenciaturaService - leerUno: No existe la licenciatura con el id proporcionado');
                 logger.info('< Termina servicio leerUno');
                 return false;
             }
@@ -87,7 +101,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
