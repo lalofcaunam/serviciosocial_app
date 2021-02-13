@@ -81,6 +81,13 @@ module.exports = {
             const asignaturaEncontrada = await FcaDto.leerUno(req, Asignatura);
 
             // Validar que no haya sucedido un error en el dto
+            if(asignaturaEncontrada == 'Error'){
+                logger.debug('AsignaturaService - leerUno: Ocurrio un error al tratar de leer una asignatura');
+                logger.info('< Termina servicio leerUno');
+                return 'Error';
+            }
+
+            // Validar que exista el elemento buscado
             if(asignaturaEncontrada == null){
                 logger.debug('AsignaturaService - leerUno: Ocurrio un error al tratar de leer una asignatura');
                 logger.info('< Termina servicio leerUno');
@@ -94,13 +101,13 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
 
     // Leer las asignaturas por clave de semestre y licenciatura
-    leerMuchasLicenciaturasPorFiltro: async (req) => {
+    leerMuchasAsignaturasPorFiltro: async (req) => {
 
         try {
             logger.info('> Inicia servicio leerMuchasLicenciaturasPorFiltro');
@@ -110,9 +117,16 @@ module.exports = {
             const asignaturasEncontradas = await FcaDto.leerMuchosPorFiltro(req, Asignatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(asignaturasEncontradas == null){
+            if(asignaturasEncontradas == 'Error'){
                 logger.debug('AsignaturaService - leerMuchasLicenciaturasPorFiltro: Ocurrio un error al tratar de leer las asignatura');
                 logger.info('< Termina servicio leerMuchasLicenciaturasPorFiltro');
+                return 'Error';
+            }
+
+            // Validar que exista al menos una asignatura
+            if(asignaturasEncontradas.length == 0){
+                logger.debug('AsignaturaService - leerTodos: No existe ninguna asignatura con esas condiciones');
+                logger.info('< Termina servicio leerTodos');
                 return false;
             }
 
@@ -123,7 +137,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerMuchasLicenciaturasPorFiltro: ', error);
-            return false;
+            return 'Error';
 
         }
     },
