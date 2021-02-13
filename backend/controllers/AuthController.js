@@ -22,7 +22,7 @@ module.exports = {
             }
 
             // Si regresa false, significa que hubo un error en el servicio
-            if(!correoExiste) {
+            if(correoExiste == 'Error') {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
             }
@@ -32,7 +32,7 @@ module.exports = {
             const usuarioCreado = await UsuarioService.crearUno(req.body);
 
             // Si regresa false, significa que hubo un error en el servicio
-            if(!usuarioCreado) {
+            if(usuarioCreado == 'Error') {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
             }
@@ -49,7 +49,7 @@ module.exports = {
                 const usuarioEliminado = await UsuarioService.borrarUno(usuarioCreado._id);
 
                 // Si regresa false, significa que hubo un error en el servicio
-                if(!usuarioEliminado) {
+                if(usuarioEliminado == 'Error') {
                     logger.info('<< Termina controller signup');
                     return handler(Message('Hubo un error en el servicio borrarUno', 500), res, 500);
                 }
@@ -79,15 +79,15 @@ module.exports = {
             logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
             const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.body.correo);
 
-            // Si regresa null, significa que el usuario no existe
-            if(usuarioEncontrado == null) {
+            // Si regresa false, significa que el usuario no existe
+            if(!usuarioEncontrado) {
                 logger.debug('El usuario no existe');
                 logger.info('<< Termina controller signup');
                 return handler(Message('El usuario no existe', 404), res, 404);
             }
 
-            // Si regresa false, significa que hubo un error en el servicio
-            if(!usuarioEncontrado) {
+            // Si regresa 'Error', significa que hubo un error en el servicio
+            if(usuarioEncontrado == 'Error') {
                 logger.debug('Hubo un error en el servicio leerUnoPorEmail');
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
