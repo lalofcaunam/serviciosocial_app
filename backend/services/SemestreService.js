@@ -18,7 +18,7 @@ module.exports = {
             if(semestresCreados == null){
                 logger.debug('SemestreService - creacionMasiva: Ocurrio un error al tratar de crear los semestres');
                 logger.info('< Termina servicio creacionMasiva');
-                return false;
+                return 'Error';
             }
 
             logger.debug('SemestreService - crearUno: Se realizo exitosamente la creacion de los semestres');
@@ -29,7 +29,7 @@ module.exports = {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en servicio creacionMasiva: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -45,8 +45,15 @@ module.exports = {
             const semestresEncontrados = await FcaDto.leerTodos(Semestre);
 
             // Validar que no haya sucedido un error en el dto
-            if(semestresEncontrados == null){
+            if(semestresEncontrados == 'Error'){
                 logger.debug('SemestreService - creacionMasiva: Ocurrio un error al tratar de leer los semestres');
+                logger.info('< Termina servicio leerTodos');
+                return 'Error';
+            }
+
+            // Validar que exista al menos una licenciatura
+            if(semestresEncontrados.length == 0){
+                logger.debug('SemestreService - creacionMasiva: No existe ninguna licenciatura');
                 logger.info('< Termina servicio leerTodos');
                 return false;
             }
@@ -58,7 +65,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerTodos: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -74,8 +81,15 @@ module.exports = {
             const semestreEncontrado = await FcaDto.leerUno(req, Semestre);
 
             // Validar que no haya sucedido un error en el dto
-            if(semestreEncontrado == null){
+            if(semestreEncontrado == 'Error'){
                 logger.debug('SemestreService - leerUno: Ocurrio un error al tratar de leer un semestre');
+                logger.info('< Termina servicio leerUno');
+                return 'Error';
+            }
+
+            // Validar que exista el semestre
+            if(semestreEncontrado == null){
+                logger.debug('SemestreService - leerUno: No existe el semestre con el id proporcionado');
                 logger.info('< Termina servicio leerUno');
                 return false;
             }
@@ -87,7 +101,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
