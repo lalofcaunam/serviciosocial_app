@@ -18,7 +18,7 @@ module.exports = {
             if(asignaturasCreadas == null){
                 logger.debug('AsignaturaService - creacionMasiva: Ocurrio un error al tratar de crear las asignaturas');
                 logger.info('< Termina servicio creacionMasiva');
-                return false;
+                return 'Error';
             }
 
             logger.debug('AsignaturaService - crearUno: Se realizo exitosamente la creacion de las asignaturas');
@@ -29,7 +29,7 @@ module.exports = {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en servicio creacionMasiva: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -45,8 +45,15 @@ module.exports = {
             const asignaturasEncontradas = await FcaDto.leerTodos(Asignatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(asignaturasEncontradas == null){
-                logger.debug('AsignaturaService - creacionMasiva: Ocurrio un error al tratar de leer las asignaturas');
+            if(asignaturasEncontradas == 'Error'){
+                logger.debug('AsignaturaService - leerTodos: Ocurrio un error al tratar de leer las asignaturas');
+                logger.info('< Termina servicio leerTodos');
+                return 'Error';
+            }
+
+            // Validar que exista al menos una asignatura
+            if(asignaturasEncontradas.length == 0){
+                logger.debug('AsignaturaService - leerTodos: No existe ninguna asignatura');
                 logger.info('< Termina servicio leerTodos');
                 return false;
             }
@@ -58,7 +65,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerTodos: ', error);
-            return false;
+            return 'Error';
 
         }
     },
