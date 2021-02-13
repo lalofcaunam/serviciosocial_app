@@ -23,7 +23,7 @@ module.exports = {
             if(configuracionCreada == 'Error'){
                 logger.debug('ConfiguracionService - crearUno: Ocurrio un error al tratar de crear la configuracion');
                 logger.info('< Termina servicio createOne');
-                return false;
+                return 'Error';
             }
 
             logger.debug('ConfiguracionService - crearUno: Se realizo exitosamente la creacion de la configuracion');
@@ -34,7 +34,7 @@ module.exports = {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en controller createOne: ', error);
-            return false;
+            return 'Error';
 
         }
     },
