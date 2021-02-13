@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.lalofcaunam.estudiafca.Alumno.Cuestionarios;
 import com.lalofcaunam.estudiafca.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,7 +50,17 @@ public class LoginActivity extends AppCompatActivity {
                 correo = editTextCorreo.getText().toString();
                 password = editTextPassword.getText().toString();
                 if(validacionesLogin(correo, password)) {
-                    startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                    if(correo.equals("profesor") && password.equals("profesor")){
+                        Intent cuestionariosProfesor=new Intent(LoginActivity.this,Cuestionarios.class);
+                        cuestionariosProfesor.putExtra("rol", "profesor");
+                        startActivity(cuestionariosProfesor);
+                    } else if (correo.equals("alumno") && password.equals("alumno")) {
+                        Intent cuestionariosAlumno=new Intent(LoginActivity.this,Cuestionarios.class);
+                        cuestionariosAlumno.putExtra("rol", "alumno");
+                        startActivity(cuestionariosAlumno);
+                    } else {
+                        mostrarAlertaSimple("Usuario no encontrado", "No se encuentra el usuario favor de intentar nuevamente, o registrarse");
+                    }
                 }
             }
         });

@@ -21,6 +21,17 @@
             android:label="Registrarse"/>
         <activity android:name=".HomeActivity" />
         <activity android:name=".OnBoarding.MainActivity" />
+
+        <!--Cuestionarios-->
+        <activity android:name=".Alumno.Cuestionarios"
+            android:label="Cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.AddCuestionario"
+            android:parentActivityName=".Alumno.Cuestionarios"
+            android:label="Crear cuestionario"
+            android:theme="@style/ThemeActionBar"/>
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
