@@ -1,7 +1,7 @@
 const logger = require('log4js').getLogger('CuestionarioController');
 const { handler } = require('../utils');
 const { Message } = require('../enum');
-const { CuestionarioService, UsuarioService } = require('../services');
+const { CuestionarioService } = require('../services');
 
 module.exports = {
 
@@ -11,23 +11,11 @@ module.exports = {
         try {
             logger.info('>> Inicia controller crearUno');
 
-            // Validar que el usuario existe
-            logger.debug('CuestionarioController - crearUno: Mandar a llamar al servicio leerUno de Usuario');
-            const usuarioEncontrado = await UsuarioService.leerUno(req.body.idProfesor);
+            // Inicializar fechaCreacion
 
-            // Si no existe terminar el proceso
-            if(usuarioEncontrado == null) {
-                logger.debug('El usuario no existe');
-                logger.info('<< Termina controller crearUno');
-                return handler(Message('El usuario no existe', 404), res, 404);
-            }
+            // Agregar al campo idProfesor, el valor del Header idUsuario
 
-            // Si regresa false, significa que hubo un error en el servicio
-            if(!usuarioEncontrado) {
-                logger.debug('Hubo un error en el servicio leerUno');
-                logger.info('<< Termina controller crearUno');
-                return handler(Message('Hubo un error en el servicio leerUno', 500), res, 500);
-            }
+            // Validar que la asignatura exista y de la asignatura encontrada, agregar los campos claveLicenciatura y claveSemestre
 
             // Crear el cuestionario
             logger.debug('CuestionarioController - crearUno: Mandar a llamar al servicio crearUno de Cuestionario');
