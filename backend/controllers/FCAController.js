@@ -49,7 +49,7 @@ module.exports = {
 
             // Llamar al servicio AsignaturaService.leerMuchasLicenciaturasPorFiltro
             logger.debug('FCAController - leerTodasAsignaturasFiltro: Mandar a llamar al servicio leerMuchasLicenciaturasPorFiltro de Asignatura');
-            const asignaturas = await AsignaturaService.leerMuchasLicenciaturasPorFiltro(filtro);
+            const asignaturas = await AsignaturaService.leerMuchasAsignaturasPorFiltro(filtro);
             logger.debug('asignaturas: ', asignaturas);
 
             // Si regresa 'Error', significa que ocurrio un error en el servicio
@@ -61,7 +61,7 @@ module.exports = {
             // Si regresa false, significa que no existe ninguna asignatura
             if(!asignaturas) {
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('No existe ninguna asignatura', 404), res, 404);
+                return handler(Message('No existe ninguna asignatura', 204), res, 204);
             }
 
             logger.info('<< Termina controller leerTodasAsignaturasFiltro');
