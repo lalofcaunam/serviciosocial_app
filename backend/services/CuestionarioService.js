@@ -17,7 +17,7 @@ module.exports = {
             if(cuestinarioCreado == null){
                 logger.debug('CuestionarioService - crearUno: Ocurrio un error al tratar de crear el cuestionario');
                 logger.info('< Termina servicio crearUno');
-                return false;
+                return 'Error';
             }
 
             logger.debug('CuestionarioService - crearUno: Se realizo exitosamente la creacion del cuestionario');
@@ -28,7 +28,7 @@ module.exports = {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en servicio crearUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -47,6 +47,13 @@ module.exports = {
             if(cuestionarioEncontrado == 'Error'){
                 logger.debug('CuestionarioService - leerUno: Ocurrio un error al tratar de leer un cuestionario');
                 logger.info('< Termina servicio leerUno');
+                return 'Error';
+            }
+
+            // Validar que exista el cuestionario
+            if(cuestionarioEncontrado == null){
+                logger.debug('CuestionarioService - leerUno: No existe ningun cuestionario con ese id');
+                logger.info('< Termina servicio leerUno');
                 return false;
             }
 
@@ -57,7 +64,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -76,6 +83,13 @@ module.exports = {
             if(cuestionariosEncontrados == 'Error'){
                 logger.debug('CuestionarioService - leerTodos: Ocurrio un error al tratar de leer todos los cuestionarios');
                 logger.info('< Termina servicio leerTodos');
+                return 'Error';
+            }
+
+            // Validar que exista al menos un cuestionario
+            if(cuestionariosEncontrados.length == 0){
+                logger.debug('CuestionarioService - leerTodos: No existe ningun cuestionario');
+                logger.info('< Termina servicio leerTodos');
                 return false;
             }
 
@@ -86,7 +100,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerTodos: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -105,6 +119,13 @@ module.exports = {
             if(cuestionariosEncontrados == 'Error'){
                 logger.debug('CuestionarioService - leerTodosPorProfesor: Ocurrio un error al tratar de leer todos los cuestionarios por profesor');
                 logger.info('< Termina servicio leerTodosPorProfesor');
+                return 'Error';
+            }
+
+            // Validar que exista al menos un cuestionario
+            if(cuestionariosEncontrados.length == 0){
+                logger.debug('CuestionarioService - leerTodos: No existe ningun cuestionario para ese profesor');
+                logger.info('< Termina servicio leerTodos');
                 return false;
             }
 
@@ -115,7 +136,7 @@ module.exports = {
             
             // Si existe un error en la lectura, devolver el error
             logger.error('Error en servicio leerTodosPorProfesor: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -134,6 +155,13 @@ module.exports = {
             if(cuestionarioActualizado == 'Error'){
                 logger.debug('CuestionarioService - actualizarUno: Ocurrio un error al tratar de actualizar un cuestionario');
                 logger.info('< Termina servicio actualizarUno');
+                return 'Error';
+            }
+
+            // Validar que exista el cuestionario
+            if(cuestionarioActualizado == null){
+                logger.debug('CuestionarioService - actualizarUno: No existe ningun cuestionario con ese id');
+                logger.info('< Termina servicio actualizarUno');
                 return false;
             }
 
@@ -144,7 +172,7 @@ module.exports = {
             
             // Si existe un error en la actualización, devolver el error
             logger.error('Error en servicio actualizarUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
@@ -163,6 +191,13 @@ module.exports = {
             if(cuestionarioBorrado == 'Error'){
                 logger.debug('CuestionarioService - borrarUno: Ocurrio un error al tratar de borrar un cuestionario');
                 logger.info('< Termina servicio borrarUno');
+                return 'Error';
+            }
+
+            // Validar que exista el cuestionario
+            if(cuestionarioBorrado == null){
+                logger.debug('CuestionarioService - borrarUno: No existe ningun cuestionario con ese id');
+                logger.info('< Termina servicio borrarUno');
                 return false;
             }
 
@@ -173,7 +208,7 @@ module.exports = {
             
             // Si existe un error en el borrado, devolver el error
             logger.error('Error en servicio borrarUno: ', error);
-            return false;
+            return 'Error';
 
         }
     },
