@@ -52,10 +52,16 @@ module.exports = {
             const asignaturas = await AsignaturaService.leerMuchasLicenciaturasPorFiltro(filtro);
             logger.debug('asignaturas: ', asignaturas);
 
-            // Si regresa false, significa que ocurrio un error en el servicio
-            if(!asignaturas) {
+            // Si regresa 'Error', significa que ocurrio un error en el servicio
+            if(asignaturas == 'Error') {
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
                 return handler(Message('Ocurrio un error en el servicio AsignaturaService', 500), res, 500);
+            }
+
+            // Si regresa false, significa que no existe ninguna asignatura
+            if(!asignaturas) {
+                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                return handler(Message('No existe ninguna asignatura', 404), res, 404);
             }
 
             logger.info('<< Termina controller leerTodasAsignaturasFiltro');
