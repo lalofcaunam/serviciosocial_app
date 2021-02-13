@@ -22,7 +22,7 @@ module.exports = {
             const cuestionarioCreado = await CuestionarioService.crearUno(req.body);
 
             // Si regresa false, significa que hubo un error en el servicio
-            if(!cuestionarioCreado) {
+            if(cuestionarioCreado == 'Error') {
                 logger.debug('Hubo un error en el servicio crearUno');
                 logger.info('<< Termina controller crearUno');
                 return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
