@@ -1,5 +1,6 @@
 const logger = require('log4js').getLogger('index');
 const { Codigo } = require('../enum');
+const { buscarUno } = require('./BusquedaUtil')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendgrid = require("@sendgrid/mail");
@@ -62,4 +63,5 @@ module.exports = {
 
         return correoEnviado;
     },
+    buscarUno,
 };
