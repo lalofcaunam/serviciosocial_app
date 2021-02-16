@@ -1,7 +1,8 @@
 const logger = require('log4js').getLogger('FCAController');
-const { handler } = require('../utils');
+const { handler, buscarUno } = require('../utils');
 const { Message } = require('../enum');
 const { LicenciaturaService, SemestreService, AsignaturaService } = require('../services');
+const { HeaderMiddleware } = require('../middlewares');
 
 module.exports = {
 
@@ -11,6 +12,10 @@ module.exports = {
         try {
             logger.info('>> Inicia controller leerTodasAsignaturasFiltro');
             logger.debug('Req Query: ', req.query);
+
+            const validarUsuario = await HeaderMiddleware.validar('Profesor', res, req);
+
+            if(!validarUsuario) return logger.info('<< Termina controller leerTodasAsignaturasFiltro');
 
             // Validar que vengan los parametros de busqueda
             if(req.query.claveLicenciatura == null){
@@ -26,7 +31,7 @@ module.exports = {
             }
 
             // Validar que existan los parametros de busqueda
-            const licenciaturaEncontrada = await LicenciaturaService.leerUno({clave: req.query.claveLicenciatura});
+            /* const licenciaturaEncontrada = await LicenciaturaService.leerUno({clave: req.query.claveLicenciatura});
             logger.debug('licenciaturaEncontrada: ', licenciaturaEncontrada);
             if(!licenciaturaEncontrada){
                 logger.debug('FCAController - leerTodasAsignaturasFiltro: La Asignatura no existe');
@@ -40,7 +45,10 @@ module.exports = {
                 logger.debug('FCAController - leerTodasAsignaturasFiltro: El Semestre no existe');
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
                 return handler(Message('El Semestre no existe', 404), res, 404);
-            }
+            } */
+            
+            await buscarUno('Licenciatura', req.query.claveLicenciatura, 'FCA - leerTodasAsignaturasFiltro');
+            await buscarUno('Semestre', req.query.claveSemestre, 'FCA - leerTodasAsignaturasFiltro');
 
             const filtro = {
                 claveLicenciatura: req.query.claveLicenciatura,
