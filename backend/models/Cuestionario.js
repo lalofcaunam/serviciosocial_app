@@ -43,7 +43,7 @@ const cuestionarioSchema = new Schema({
     required: true,
     ref: 'Usuario'
   },
-});
+}, { versionKey: false });
 
 const Cuestionario = mongoose.model('Cuestionario', cuestionarioSchema);
 

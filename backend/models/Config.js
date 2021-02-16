@@ -7,7 +7,7 @@ const configSchema = new Schema({
     type: Date,
     required: true
   },
-});
+}, { versionKey: false });
 
 const Config = mongoose.model('Config', configSchema);
 

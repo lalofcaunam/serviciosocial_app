@@ -50,7 +50,7 @@ const usuarioSchema = new Schema({
           values: ['Profesor', 'Alumno']
         }
     },
-});
+}, { versionKey: false });
 
 // Metodo para encriptar la contraseña
 usuarioSchema.pre('save', function (next) {

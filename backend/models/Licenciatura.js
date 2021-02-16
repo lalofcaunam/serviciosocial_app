@@ -12,7 +12,7 @@ const licenciaturaSchema = new Schema({
     type: String,
     required: true
   }
-});
+}, { versionKey: false });
 
 const Licenciatura = mongoose.model('Licenciatura', licenciaturaSchema);
 

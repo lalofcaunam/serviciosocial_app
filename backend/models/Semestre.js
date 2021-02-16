@@ -12,7 +12,7 @@ const semestreSchema = new Schema({
     type: String,
     required: true
   }
-});
+}, { versionKey: false });
 
 const Semestre = mongoose.model('Semestre', semestreSchema);
 

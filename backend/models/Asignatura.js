@@ -22,7 +22,7 @@ const asignaturaSchema = new Schema({
     type: String,
     required: true
   }]
-});
+}, { versionKey: false });
 
 const Asignatura = mongoose.model('Asignatura', asignaturaSchema);
 
