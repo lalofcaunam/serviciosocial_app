@@ -42,30 +42,37 @@ module.exports = {
         try {
 
             // llamar a la funcion validarModelo, (esta consultara dependiendo el tipo de modelo) y regresara el objeto, false o 'Error'
-            // Solo si regresa el objeto, retornar ese valor
-            // De lo contrario, contestar desde aquí el error correspondiente
-
             const consulta = await validarModelo(modelo, id);
 
             // Validar que se realizo alguna operación
             if ( consulta == 0){
-                // No existe el modelo por el cual se mando a buscar
+                logger.debug(`No existe el modelo ${modelo}`);
+                logger.info(`<< Termina controller ${origen}`);
+                return handler(Message(`No existe el modelo ${modelo}`, 500), res, 500);
             }
 
             // Validar que no hubo errores en la consulta
             if ( consulta == 'Error'){
-                // ...
+                logger.debug(`Hubo un error al consultar el servicio leerUno de ${modelo}`);
+                logger.info(`<< Termina controller ${origen}`);
+                return handler(Message(`Hubo un error al consultar el servicio leerUno de ${modelo}`, 500), res, 500);
             }
 
             // Validar que exista el valor mandado a buscar
             if ( consulta == null){
-                // ...
+                logger.debug(`No existe ningun elemento de ${modelo}`);
+                logger.info(`<< Termina controller ${origen}`);
+                return handler(Message(`No existe ningun elemento de ${modelo}`, 204), res, 204);
             }
 
+            logger.debug(`Objeto encontrado ${consulta}`);
             return consulta;
 
         } catch (error) {
-            // Constestar el error correspodiente
+            // Si existe un error , devolver el error
+            logger.error('Error en la utilidad buscarUno: ', error);
+            logger.info(`<< Termina controller ${origen}`);
+            return handler(Message('Ocurrio un error en la utilidad buscarUno', 500), res, 500);
         }
     },
 };
