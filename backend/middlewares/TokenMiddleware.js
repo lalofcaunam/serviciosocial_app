@@ -7,21 +7,9 @@ module.exports = {
   verifyToken: (req, res, next) => {
     try {
       const { authorization } = req.headers;
-
-      // Validar que vengan los headers
-      if(authorization == null || authorization == undefined){
-        logger.error('No viene el Header Authorization, valor: ', authorization);
-        return handler(Message('No viene el Header Authorization', 400), res, 400);
-      }
       
       // Obtener el valor del token codificado
       const token = authorization.split(' ')[1];
-
-      // Si no viene el valor del token
-      if(token == null || token == undefined) {
-        logger.error('No viene el token, valor: ', token);
-        return handler(Message('No viene el token', 401), res, 401);
-      }
 
       // Decodificar el token con la llave
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
