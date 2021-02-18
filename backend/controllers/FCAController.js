@@ -17,36 +17,7 @@ module.exports = {
 
             if(!validarUsuario) return logger.info('<< Termina controller leerTodasAsignaturasFiltro');
 
-            // Validar que vengan los parametros de busqueda
-            if(req.query.claveLicenciatura == null){
-                logger.debug('FCAController - leerTodasAsignaturasFiltro: No viene el parametro claveLicenciatura');
-                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('No viene el parametro claveLicenciatura', 400), res, 400);
-            }
-
-            if(req.query.claveSemestre == null){
-                logger.debug('FCAController - leerTodasAsignaturasFiltro: No viene el parametro claveSemestre');
-                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('No viene el parametro claveSemestre', 400), res, 400);
-            }
-
-            // Validar que existan los parametros de busqueda
-            /* const licenciaturaEncontrada = await LicenciaturaService.leerUno({clave: req.query.claveLicenciatura});
-            logger.debug('licenciaturaEncontrada: ', licenciaturaEncontrada);
-            if(!licenciaturaEncontrada){
-                logger.debug('FCAController - leerTodasAsignaturasFiltro: La Asignatura no existe');
-                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('La Asignatura no existe', 404), res, 404);
-            }
-
-            const semestreEncontrado = await SemestreService.leerUno({clave: req.query.claveSemestre});
-            logger.debug('semestreEncontrado: ', semestreEncontrado);
-            if(!semestreEncontrado){
-                logger.debug('FCAController - leerTodasAsignaturasFiltro: El Semestre no existe');
-                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('El Semestre no existe', 404), res, 404);
-            } */
-            
+            // Validar que existan la Licenciatura y el Semestre
             await buscarUno('Licenciatura', req.query.claveLicenciatura, 'FCA - leerTodasAsignaturasFiltro');
             await buscarUno('Semestre', req.query.claveSemestre, 'FCA - leerTodasAsignaturasFiltro');
 
@@ -90,13 +61,6 @@ module.exports = {
         try {
             logger.info('>> Inicia controller leerTodasLicenciaturasOSemestres');
             logger.debug('Req Query: ', req.query);
-
-            // Validar que vengan los parametros de busqueda
-            if(req.query.fuente == null){
-                logger.debug('FCAController - leerTodasLicenciaturasOSemestres: No viene el parametro fuente');
-                logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
-                return handler(Message('No viene el parametro fuente', 400), res, 400);
-            }
 
             // Revisar por quien se hara la busqueda
             if(req.query.fuente == 'Licenciatura'){
