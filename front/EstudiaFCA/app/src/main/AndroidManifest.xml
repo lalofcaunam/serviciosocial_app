@@ -27,6 +27,14 @@
             android:label="Cuestionarios"
             android:theme="@style/ThemeActionBar"/>
 
+        <activity android:name=".Alumno.CuestionariosAlumno"
+            android:label="Cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.CuestionariosProfesor"
+            android:label="Cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
         <activity android:name=".Profesor.AddCuestionario"
             android:parentActivityName=".Alumno.Cuestionarios"
             android:label="Crear cuestionario"

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.lalofcaunam.estudiafca.Alumno.Cuestionarios;
+import com.lalofcaunam.estudiafca.Alumno.CuestionariosAlumno;
+import com.lalofcaunam.estudiafca.Profesor.CuestionariosProfesor;
 import com.lalofcaunam.estudiafca.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -51,12 +53,10 @@ public class LoginActivity extends AppCompatActivity {
                 password = editTextPassword.getText().toString();
                 if(validacionesLogin(correo, password)) {
                     if(correo.equals("profesor") && password.equals("profesor")){
-                        Intent cuestionariosProfesor=new Intent(LoginActivity.this,Cuestionarios.class);
-                        cuestionariosProfesor.putExtra("rol", "profesor");
+                        Intent cuestionariosProfesor=new Intent(LoginActivity.this, CuestionariosProfesor.class);
                         startActivity(cuestionariosProfesor);
                     } else if (correo.equals("alumno") && password.equals("alumno")) {
-                        Intent cuestionariosAlumno=new Intent(LoginActivity.this,Cuestionarios.class);
-                        cuestionariosAlumno.putExtra("rol", "alumno");
+                        Intent cuestionariosAlumno=new Intent(LoginActivity.this, CuestionariosAlumno.class);
                         startActivity(cuestionariosAlumno);
                     } else {
                         mostrarAlertaSimple("Usuario no encontrado", "No se encuentra el usuario favor de intentar nuevamente, o registrarse");

@@ -7,6 +7,14 @@
         <item name="android:fontFamily">@font/lato_regular</item>
     </style>
 
+    <style name="subtitle">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+    </style>
+
     <style name="labelText">
         <item name="android:textColor">@color/colorTitle</item>
         <item name="android:fontFamily">@font/lato_bold</item>
