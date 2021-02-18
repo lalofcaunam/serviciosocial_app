@@ -1,0 +1,5 @@
+applications:
+- name: serviciosocial-backend
+  random-route: true
+  memory: 256M
+  command: npm start
