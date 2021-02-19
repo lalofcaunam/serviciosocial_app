@@ -27,10 +27,7 @@
             android:label="Cuestionarios"
             android:theme="@style/ThemeActionBar"/>
 
-        <activity android:name=".Alumno.CuestionariosAlumno"
-            android:label="Cuestionarios"
-            android:theme="@style/ThemeActionBar"/>
-
+        <!--Profesor-->
         <activity android:name=".Profesor.CuestionariosProfesor"
             android:label="Cuestionarios"
             android:theme="@style/ThemeActionBar"/>
@@ -38,6 +35,23 @@
         <activity android:name=".Profesor.AddCuestionario"
             android:parentActivityName=".Alumno.Cuestionarios"
             android:label="Crear cuestionario"
+            android:theme="@style/ThemeActionBar"/>
+
+        <!--Alumno-->
+        <activity android:name=".Alumno.CuestionariosAlumno"
+            android:label="Cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.ResultadosCuestionarioAlumno"
+            android:label="Cuestionario Resultados"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.AddResultadoCuestionario"
+            android:label="Respuesta"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.ResultadoFinalAlumno"
+            android:label="Resultado"
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".SplashActivity">

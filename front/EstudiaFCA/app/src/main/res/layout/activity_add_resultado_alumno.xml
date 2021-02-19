@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:paddingTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/scorePregunta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00 / 00"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            style="@style/generalText"
+            />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textPregunta"
+            android:text="Texto de la pregunta"
+            style="@style/labelText"
+            android:paddingVertical="20dp"
+            android:textSize="28dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp">
+
+            <CheckBox
+                android:id="@+id/checkRespuesta1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/textRespuesta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Respuesta 1"
+                style="@style/generalText"
+                android:textSize="25dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp">
+
+            <CheckBox
+                android:id="@+id/checkRespuesta2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/textRespuesta2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Respuesta 2"
+                style="@style/generalText"
+                android:textSize="25dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp">
+
+            <CheckBox
+                android:id="@+id/checkRespuesta3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/textRespuesta3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Respuesta 3"
+                style="@style/generalText"
+                android:textSize="25dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp">
+
+            <CheckBox
+                android:id="@+id/checkRespuesta4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/textRespuesta4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Respuesta 4"
+                style="@style/generalText"
+                android:textSize="25dp"
+                />
+
+        </LinearLayout>
+
+        
+    </LinearLayout>
+    
+    
+    <Button
+        android:id="@+id/btnConfirmarRespuesta"
+        android:text="Confirmar"
+        style="@style/btnMedium"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        />
+
+</FrameLayout>
