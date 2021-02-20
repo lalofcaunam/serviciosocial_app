@@ -11,6 +11,12 @@ const Codigo = Object.freeze({
             detail: "Created",
         }
     },
+    204: {
+        http: {
+            code: 204,
+            detail: "No Content",
+        }
+    },
     400: {
         http: {
             code: 400,
@@ -42,6 +48,11 @@ const Message = (msg, code) => {
         case 201:
             return {
                 message: 'La creación se ha realizado con exito',
+                description: msg,
+            }
+        case 204:
+            return {
+                message: 'La petición se ha completado con éxito pero su respuesta no tiene ningún contenido',
                 description: msg,
             }
         case 400:
