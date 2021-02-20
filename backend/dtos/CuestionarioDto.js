@@ -16,7 +16,7 @@ module.exports = {
     }),
 
     // Leer todas los cuestionarios
-    leerTodos: () => Usuario.find().catch((err) => {
+    leerTodos: () => Cuestionario.find().catch((err) => {
         logger.error(err);
         return 'Error'
     }),
