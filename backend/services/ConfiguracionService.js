@@ -1,26 +1,26 @@
 const logger = require('log4js').getLogger('ConfiguracionService');
 const { ConfiguracionDto } = require('../dtos');
+const moment = require('moment-business-days');
 
 module.exports = {
 
     // Crear una configuracion
-    crearUno: async (res) => {
+    crearUno: async () => {
 
         try {
             logger.info('> Inicia servicio crearUno');
 
             // Inicializar timestamp
-            const timestamp = new Date().toISOString();
             const configuracion = {
-                fechaCreacion: timestamp
+                fechaCreacion: moment().format('L')
             }
 
             // Llamar al dto ConfiguracionDTO.crearUno
             logger.debug('ConfiguracionService - crearUno: Realizando creación de configuración');
             const configuracionCreada = await ConfiguracionDto.crearUno(configuracion);
-            
+
             // Validar que no haya sucedido un error en el dto
-            if(configuracionCreada == 'Error'){
+            if(configuracionCreada === 'Error'){
                 logger.debug('ConfiguracionService - crearUno: Ocurrio un error al tratar de crear la configuracion');
                 logger.info('< Termina servicio createOne');
                 return 'Error';
@@ -31,7 +31,7 @@ module.exports = {
             return true;
 
         } catch (error) {
-            
+
             // Si existe un error en la creación, devolver el error
             logger.error('Error en controller createOne: ', error);
             return 'Error';
@@ -40,7 +40,7 @@ module.exports = {
     },
 
     // Leer todas las configuraciones
-    leerTodos: async (res) => {
+    leerTodos: async () => {
 
         try {
             logger.info('> Inicia servicio leerTodos');
@@ -50,14 +50,14 @@ module.exports = {
             const configuraciones = await ConfiguracionDto.leerTodos();
 
             // Validar que no haya sucedido un error en el dto
-            if(configuraciones == 'Error'){
+            if(configuraciones === 'Error'){
                 logger.debug('ConfiguracionService - leerTodos: Ocurrio un error en el servicio leerTodos');
                 logger.info('< Termina servicio leerTodos');
                 return 'Error';
             }
 
             // Validar que no haya sucedido un error en el dto
-            if(configuraciones.length != 0){
+            if(configuraciones.length !== 0){
                 logger.debug('ConfiguracionService - leerTodos: Ya existe una configuracion, no se puede seguir con el proceso');
                 logger.info('< Termina servicio leerTodos');
                 return false;
