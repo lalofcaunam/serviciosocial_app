@@ -253,7 +253,7 @@ const asignaturas = [
     },
     {
         nombre: 'Servicios de Tecnología',
-        clave: '1767',
+        clave: '1768',
         claveLicenciatura: ['308'],
         claveSemestre: ['008']
     },
