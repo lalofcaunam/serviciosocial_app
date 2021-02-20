@@ -13,13 +13,13 @@ module.exports = {
             const usuarios = await UsuarioDto.leerTodos();
 
             // Si no regresa [], ya existe al menos un usuario
-            if(usuarios.length != 0 ){
+            if(usuarios.length !== 0 ){
                 // Llamar al dto UsuarioDto.leerUno
                 logger.debug('UsuarioService - leerUnoPorEmail: Realizando lectura de un usuario por email');
                 const usuarioEncontrado = await UsuarioDto.leerUno({ correo: req });
 
                 // Validar que no haya sucedido un error en el dto
-                if(usuarioEncontrado == 'Error') {
+                if(usuarioEncontrado === 'Error') {
                     logger.debug('UsuarioService - leerUnoPorEmail: Ocurrio un error al tratar de leer un usuario por email');
                     logger.info('< Termina servicio leerUnoPorEmail');
                     return 'Error';
@@ -83,7 +83,7 @@ module.exports = {
             const usuarioEncontrado = await UsuarioDto.leerUno({ _id: req})
 
             // Validar que no haya sucedido un error en el dto
-            if(usuarioEncontrado == 'Error'){
+            if(usuarioEncontrado === 'Error'){
                 logger.debug('UsuarioService - leerUno: Ocurrio un error al tratar de leer un usuario');
                 logger.info('< Termina servicio leerUno');
                 return 'Error';
@@ -119,7 +119,7 @@ module.exports = {
             const usuarioActualizado = await UsuarioDto.updateOne(req._id, req.body);
 
             // Validar que no haya sucedido un error en el dto
-            if(usuarioActualizado == 'Error'){
+            if(usuarioActualizado === 'Error'){
                 logger.debug('UsuarioService - actualizarUno: Ocurrio un error al tratar de actualizar un usuario');
                 logger.info('< Termina servicio actualizarUno');
                 return 'Error';
@@ -155,7 +155,7 @@ module.exports = {
             const usuarioBorrado = await UsuarioDto.deleteOne(req);
 
             // Validar que no haya sucedido un error en el dto
-            if(usuarioBorrado == 'Error'){
+            if(usuarioBorrado === 'Error'){
                 logger.debug('UsuarioService - borrarUno: Ocurrio un error al tratar de borrar un usuario');
                 logger.info('< Termina servicio borrarUno');
                 return 'Error';

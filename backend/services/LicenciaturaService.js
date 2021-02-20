@@ -45,14 +45,14 @@ module.exports = {
             const licenciaturasEncontradas = await FcaDto.leerTodos(Licenciatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(licenciaturasEncontradas == 'Error'){
+            if(licenciaturasEncontradas === 'Error'){
                 logger.debug('LicenciaturaService - creacionMasiva: Ocurrio un error al tratar de leer las licenciaturas');
                 logger.info('< Termina servicio leerTodos');
                 return 'Error';
             }
 
             // Validar que exista al menos una licenciatura
-            if(licenciaturasEncontradas.length == 0){
+            if(licenciaturasEncontradas.length === 0){
                 logger.debug('LicenciaturaService - creacionMasiva: No existe ninguna licenciatura');
                 logger.info('< Termina servicio leerTodos');
                 return false;
@@ -81,7 +81,7 @@ module.exports = {
             const licenciaturaEncontrada = await FcaDto.leerUno(req, Licenciatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(licenciaturaEncontrada == 'Error'){
+            if(licenciaturaEncontrada === 'Error'){
                 logger.debug('LicenciaturaService - leerUno: Ocurrio un error al tratar de leer una licenciatura');
                 logger.info('< Termina servicio leerUno');
                 return 'Error';

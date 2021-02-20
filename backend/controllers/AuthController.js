@@ -16,13 +16,13 @@ module.exports = {
             const correoExiste = await UsuarioService.leerUnoPorEmail(req.body.correo);
 
             // Si no regresa true o null, significa que ya existe un usuario con ese correo
-            if(correoExiste.length != 0 || correoExiste[0] != null) {
+            if(correoExiste.length !== 0 || correoExiste[0] != null) {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Ya existe un usuario con ese correo', 400), res, 400);
             }
 
             // Si regresa false, significa que hubo un error en el servicio
-            if(correoExiste == 'Error') {
+            if(correoExiste === 'Error') {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
             }
@@ -32,7 +32,7 @@ module.exports = {
             const usuarioCreado = await UsuarioService.crearUno(req.body);
 
             // Si regresa false, significa que hubo un error en el servicio
-            if(usuarioCreado == 'Error') {
+            if(usuarioCreado === 'Error') {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
             }
@@ -49,7 +49,7 @@ module.exports = {
                 const usuarioEliminado = await UsuarioService.borrarUno(usuarioCreado._id);
 
                 // Si regresa false, significa que hubo un error en el servicio
-                if(usuarioEliminado == 'Error') {
+                if(usuarioEliminado === 'Error') {
                     logger.info('<< Termina controller signup');
                     return handler(Message('Hubo un error en el servicio borrarUno', 500), res, 500);
                 }
@@ -87,7 +87,7 @@ module.exports = {
             }
 
             // Si regresa 'Error', significa que hubo un error en el servicio
-            if(usuarioEncontrado == 'Error') {
+            if(usuarioEncontrado === 'Error') {
                 logger.debug('Hubo un error en el servicio leerUnoPorEmail');
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
@@ -108,7 +108,7 @@ module.exports = {
             const token = crearToken(usuarioEncontrado);
 
             // Si regresa undefined, significa que hubo un error en la utilidad
-            if (token == undefined) {
+            if (token === undefined) {
                 logger.debug('Hubo un error en la utilidad crearToken');
                 logger.info('<< Termina controller login');
                 return handler(Message('Hubo un error en la utilidad crearToken', 500), res, 500);

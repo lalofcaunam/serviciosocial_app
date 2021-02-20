@@ -8,7 +8,7 @@ module.exports = {
     try {
 
       // Validar que el header no venga vacio
-      if(req.headers.idusuario == null || req.headers.idusuario == undefined){
+      if(req.headers.idusuario == null){
         logger.error('No viene el header idUsuario');
         return handler(Message('No viene el header idUsuario', 400), res, 400);
       }
@@ -25,14 +25,14 @@ module.exports = {
       }
 
       // Si regresa false, significa que hubo un error en el servicio
-      if(usuarioEncontrado == 'Error') {
+      if(usuarioEncontrado === 'Error') {
           logger.debug('Hubo un error en el servicio leerUno');
           logger.info('<< Termina middleware usuarioExiste');
           return handler(Message('Hubo un error en el servicio leerUno', 500), res, 500);
       }
 
       // Validar el rol del usuario
-      if(usuarioEncontrado.rol != validar){
+      if(usuarioEncontrado.rol !== validar){
         logger.error(`El usuario no tiene el rol de ${validar}`);
         return handler(Message(`El usuario no tiene el rol de ${validar}`, 401), res, 401);
       }

@@ -9,13 +9,11 @@ module.exports = {
 
             // Si el valor es nulo o indefinido, agregar al arreglo de valores nulos o indefinidos
             valores.filter((valor, index) => {
-                if(valor == null || valor == undefined){
-                    valoresNulosIndefinidos.push({parametro: parametro[index], valor: valor});
-                }
+                if(valor == null) valoresNulosIndefinidos.push({parametro: parametro[index], valor: valor});
             });
 
             // Si el arreglo de nulos o indefinidos al menos tiene un valor, regresar el error
-            if(valoresNulosIndefinidos.length != 0){
+            if(valoresNulosIndefinidos.length !== 0){
                 logger.debug(`Los siguientes parametros son nulos o indefinidos: ${valoresNulosIndefinidos}`);
                 logger.info(`<< Termina controller ${origen}`);
                 return handler(Message(`Los siguientes parametros son nulos o indefinidos: ${valoresNulosIndefinidos}`, 400), res, 400);

@@ -6,6 +6,8 @@ module.exports = {
             idusuario: Joi.string().required(),
             authorization: Joi.string().regex(/^Bearer [A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required(),
             accept: Joi.string().required(),
+            'content-type': Joi.string(),
+            'content-length': Joi.string(),
         }),
     }),
 }

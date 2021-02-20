@@ -44,7 +44,7 @@ module.exports = {
             const cuestionarioEncontrado = await CuestionarioDto.leerUno({ _id: req});
 
             // Validar que no haya sucedido un error en el dto
-            if(cuestionarioEncontrado == 'Error'){
+            if(cuestionarioEncontrado === 'Error'){
                 logger.debug('CuestionarioService - leerUno: Ocurrio un error al tratar de leer un cuestionario');
                 logger.info('< Termina servicio leerUno');
                 return 'Error';
@@ -70,7 +70,7 @@ module.exports = {
     },
 
     // Leer todos los cuestionarios
-    leerTodos: async (req) => {
+    leerTodos: async () => {
 
         try {
             logger.info('> Inicia servicio leerTodos');
@@ -80,14 +80,14 @@ module.exports = {
             const cuestionariosEncontrados = await CuestionarioDto.leerTodos();
 
             // Validar que no haya sucedido un error en el dto
-            if(cuestionariosEncontrados == 'Error'){
+            if(cuestionariosEncontrados === 'Error'){
                 logger.debug('CuestionarioService - leerTodos: Ocurrio un error al tratar de leer todos los cuestionarios');
                 logger.info('< Termina servicio leerTodos');
                 return 'Error';
             }
 
             // Validar que exista al menos un cuestionario
-            if(cuestionariosEncontrados.length == 0){
+            if(cuestionariosEncontrados.length === 0){
                 logger.debug('CuestionarioService - leerTodos: No existe ningun cuestionario');
                 logger.info('< Termina servicio leerTodos');
                 return false;
@@ -116,14 +116,14 @@ module.exports = {
             const cuestionariosEncontrados = await CuestionarioDto.leerTodosConFiltro({ idProfesor: req });
 
             // Validar que no haya sucedido un error en el dto
-            if(cuestionariosEncontrados == 'Error'){
+            if(cuestionariosEncontrados === 'Error'){
                 logger.debug('CuestionarioService - leerTodosPorProfesor: Ocurrio un error al tratar de leer todos los cuestionarios por profesor');
                 logger.info('< Termina servicio leerTodosPorProfesor');
                 return 'Error';
             }
 
             // Validar que exista al menos un cuestionario
-            if(cuestionariosEncontrados.length == 0){
+            if(cuestionariosEncontrados.length === 0){
                 logger.debug('CuestionarioService - leerTodos: No existe ningun cuestionario para ese profesor');
                 logger.info('< Termina servicio leerTodos');
                 return false;
@@ -152,7 +152,7 @@ module.exports = {
             const cuestionarioActualizado = await CuestionarioDto.updateOne(req._id, req.body);
 
             // Validar que no haya sucedido un error en el dto
-            if(cuestionarioActualizado == 'Error'){
+            if(cuestionarioActualizado === 'Error'){
                 logger.debug('CuestionarioService - actualizarUno: Ocurrio un error al tratar de actualizar un cuestionario');
                 logger.info('< Termina servicio actualizarUno');
                 return 'Error';
@@ -188,7 +188,7 @@ module.exports = {
             const cuestionarioBorrado = await CuestionarioDto.deleteOne(req);
 
             // Validar que no haya sucedido un error en el dto
-            if(cuestionarioBorrado == 'Error'){
+            if(cuestionarioBorrado === 'Error'){
                 logger.debug('CuestionarioService - borrarUno: Ocurrio un error al tratar de borrar un cuestionario');
                 logger.info('< Termina servicio borrarUno');
                 return 'Error';

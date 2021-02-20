@@ -45,14 +45,14 @@ module.exports = {
             const asignaturasEncontradas = await FcaDto.leerTodos(Asignatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(asignaturasEncontradas == 'Error'){
+            if(asignaturasEncontradas === 'Error'){
                 logger.debug('AsignaturaService - leerTodos: Ocurrio un error al tratar de leer las asignaturas');
                 logger.info('< Termina servicio leerTodos');
                 return 'Error';
             }
 
             // Validar que exista al menos una asignatura
-            if(asignaturasEncontradas.length == 0){
+            if(asignaturasEncontradas.length === 0){
                 logger.debug('AsignaturaService - leerTodos: No existe ninguna asignatura');
                 logger.info('< Termina servicio leerTodos');
                 return false;
@@ -81,7 +81,7 @@ module.exports = {
             const asignaturaEncontrada = await FcaDto.leerUno(req, Asignatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(asignaturaEncontrada == 'Error'){
+            if(asignaturaEncontrada === 'Error'){
                 logger.debug('AsignaturaService - leerUno: Ocurrio un error al tratar de leer una asignatura');
                 logger.info('< Termina servicio leerUno');
                 return 'Error';
@@ -117,14 +117,14 @@ module.exports = {
             const asignaturasEncontradas = await FcaDto.leerMuchosPorFiltro(req, Asignatura);
 
             // Validar que no haya sucedido un error en el dto
-            if(asignaturasEncontradas == 'Error'){
+            if(asignaturasEncontradas === 'Error'){
                 logger.debug('AsignaturaService - leerMuchasLicenciaturasPorFiltro: Ocurrio un error al tratar de leer las asignatura');
                 logger.info('< Termina servicio leerMuchasLicenciaturasPorFiltro');
                 return 'Error';
             }
 
             // Validar que exista al menos una asignatura
-            if(asignaturasEncontradas.length == 0){
+            if(asignaturasEncontradas.length === 0){
                 logger.debug('AsignaturaService - leerTodos: No existe ninguna asignatura con esas condiciones');
                 logger.info('< Termina servicio leerTodos');
                 return false;

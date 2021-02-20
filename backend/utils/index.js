@@ -1,6 +1,5 @@
 const logger = require('log4js').getLogger('index');
 const { Codigo } = require('../enum');
-const { buscarUno } = require('./BusquedaUtil')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendgrid = require("@sendgrid/mail");
@@ -11,12 +10,9 @@ module.exports = {
         res.status(code).json(Object.assign(Codigo[code], doc));
     },
     compararContrasenias: (userPassword, reqPassword) => {
-
         return bcrypt.compare(reqPassword, userPassword);
-
     },
     crearToken: (usuario) => {
-
         const payload = {
             id: usuario._id,
             nombre: usuario.nombre,
@@ -26,14 +22,9 @@ module.exports = {
         };
 
         try {
-
-            const token = jwt.sign(payload, process.env.JWT_SECRET);
-            return token;
-
+            return jwt.sign(payload, process.env.JWT_SECRET);
         } catch (error) {
-
             return undefined;
-            
         }
     },
     enviarCorreo: async (usuario) => {
@@ -50,7 +41,7 @@ module.exports = {
             }
         };
 
-        const correoEnviado = await sendgrid.send(msg, (error, result) => {
+        return await sendgrid.send(msg, (error, result) => {
             if (error) {
                 logger.error("Ocurrio un error al enviar el correo: ", error);
                 return false;
@@ -60,8 +51,5 @@ module.exports = {
                 return true;
             }
         });
-
-        return correoEnviado;
     },
-    buscarUno,
 };

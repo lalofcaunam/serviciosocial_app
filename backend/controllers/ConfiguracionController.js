@@ -19,7 +19,7 @@ module.exports = {
             const configuraciones = await ConfiguracionService.leerTodos(res);
 
             // Si regresa 'Error', significa que hubo un error en el servicio
-            if(configuraciones == 'Error') {
+            if(configuraciones === 'Error') {
                 logger.info('<< Termina controller crearUno');
                 return handler(Message('Ocurrio un error en el servicio leerTodos de Configuracion', 500), res, 500);
             }
@@ -35,7 +35,7 @@ module.exports = {
             const configuracionCreada = await ConfiguracionService.crearUno(res);
 
             // Si regresa false, significa que hubo un error en el servicio ConfiguracionService.crearUno
-            if(configuracionCreada == 'Error') {
+            if(configuracionCreada === 'Error') {
                 logger.info('<< Termina controller crearUno');
                 return handler(Message('Ocurrio un error al tratar de crear la configuracion', 500), res, 500);
             }
@@ -45,7 +45,7 @@ module.exports = {
             const licenciaturasCreadas = await LicenciaturaService.creacionMasiva(licenciaturas);
 
             // Si regresa false, significa que hubo un error en el servicio LicenciaturaService.creacionMasiva
-            if(licenciaturasCreadas == 'Error') {
+            if(licenciaturasCreadas === 'Error') {
                 logger.info('<< Termina controller crearUno');
                 return handler(Message('Ocurrio un error al tratar de crear las licenciaturas', 500), res, 500);
             }
@@ -55,7 +55,7 @@ module.exports = {
             const semestresCreados = await SemestreService.creacionMasiva(semestres);
 
             // Si regresa false, significa que hubo un error en el servicio SemestreService.creacionMasiva
-            if(semestresCreados == 'Error') {
+            if(semestresCreados === 'Error') {
                 logger.info('<< Termina controller crearUno');
                 return handler(Message('Ocurrio un error al tratar de crear los semestres', 500), res, 500);
             }
@@ -65,7 +65,7 @@ module.exports = {
             const asignaturasCreadas = await AsignaturaService.creacionMasiva(asignaturas);
 
             // Si regresa false, significa que hubo un error en el servicio AsignaturaService.creacionMasiva
-            if(asignaturasCreadas == 'Error') {
+            if(asignaturasCreadas === 'Error') {
                 logger.info('<< Termina controller crearUno');
                 return handler(Message('Ocurrio un error al tratar de crear las asignaturas', 500), res, 500);
             }

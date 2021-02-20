@@ -45,14 +45,14 @@ module.exports = {
             const semestresEncontrados = await FcaDto.leerTodos(Semestre);
 
             // Validar que no haya sucedido un error en el dto
-            if(semestresEncontrados == 'Error'){
+            if(semestresEncontrados === 'Error'){
                 logger.debug('SemestreService - creacionMasiva: Ocurrio un error al tratar de leer los semestres');
                 logger.info('< Termina servicio leerTodos');
                 return 'Error';
             }
 
             // Validar que exista al menos una licenciatura
-            if(semestresEncontrados.length == 0){
+            if(semestresEncontrados.length === 0){
                 logger.debug('SemestreService - creacionMasiva: No existe ninguna licenciatura');
                 logger.info('< Termina servicio leerTodos');
                 return false;
@@ -81,7 +81,7 @@ module.exports = {
             const semestreEncontrado = await FcaDto.leerUno(req, Semestre);
 
             // Validar que no haya sucedido un error en el dto
-            if(semestreEncontrado == 'Error'){
+            if(semestreEncontrado === 'Error'){
                 logger.debug('SemestreService - leerUno: Ocurrio un error al tratar de leer un semestre');
                 logger.info('< Termina servicio leerUno');
                 return 'Error';
