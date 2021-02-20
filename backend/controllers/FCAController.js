@@ -1,6 +1,7 @@
 const logger = require('log4js').getLogger('FCAController');
-const { handler, buscarUno } = require('../utils');
+const { handler } = require('../utils');
 const { Message } = require('../enum');
+const { BusquedaValidator } = require('../validators');
 const { LicenciaturaService, SemestreService, AsignaturaService } = require('../services');
 const { HeaderMiddleware } = require('../middlewares');
 
@@ -18,8 +19,8 @@ module.exports = {
             if(!validarUsuario) return logger.info('<< Termina controller leerTodasAsignaturasFiltro');
 
             // Validar que existan la Licenciatura y el Semestre
-            await buscarUno('Licenciatura', req.query.claveLicenciatura, 'FCA - leerTodasAsignaturasFiltro');
-            await buscarUno('Semestre', req.query.claveSemestre, 'FCA - leerTodasAsignaturasFiltro');
+            await BusquedaValidator.buscarUno('Licenciatura', req.query.claveLicenciatura);
+            await BusquedaValidator.buscarUno('Semestre', req.query.claveSemestre);
 
             const filtro = {
                 claveLicenciatura: req.query.claveLicenciatura,
@@ -32,7 +33,7 @@ module.exports = {
             logger.debug('asignaturas: ', asignaturas);
 
             // Si regresa 'Error', significa que ocurrio un error en el servicio
-            if(asignaturas == 'Error') {
+            if(asignaturas === 'Error') {
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
                 return handler(Message('Ocurrio un error en el servicio AsignaturaService', 500), res, 500);
             }
@@ -63,7 +64,7 @@ module.exports = {
             logger.debug('Req Query: ', req.query);
 
             // Revisar por quien se hara la busqueda
-            if(req.query.fuente == 'Licenciatura'){
+            if(req.query.fuente === 'Licenciatura'){
                 const licenciaturasEncontradas = await LicenciaturaService.leerTodos();
 
                 if(!licenciaturasEncontradas){
@@ -76,7 +77,7 @@ module.exports = {
                 return handler(Message(licenciaturasEncontradas, 200), res, 200);
             } 
 
-            else if (req.query.fuente == 'Semestre'){
+            else if (req.query.fuente === 'Semestre'){
                 const semestresEncontrados = await SemestreService.leerTodos();
 
                 if(!semestresEncontrados){
