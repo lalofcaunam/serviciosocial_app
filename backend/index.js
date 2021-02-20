@@ -3,6 +3,8 @@ require('dotenv').config();
 const logger = require('log4js').getLogger('index');
 const mongoose = require('mongoose');
 
+process.env.TZ = 'America/Mexico_City';
+
 // Importamos las constantes del archivo index que se encuentra en la carpeta ./api y ./mongo
 const { api, PORT } = require('./api');
 const { MONGO_URI } = require('./mongo');
