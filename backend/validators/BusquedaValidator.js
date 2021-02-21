@@ -3,6 +3,7 @@ const {
     LicenciaturaService,
     SemestreService,
     AsignaturaService,
+    UsuarioService,
     CuestionarioService,
  } = require('../services');
 
@@ -23,6 +24,11 @@ const validarModelo = async (modelo, id) => {
         case 'Asignatura':
             consulta = await AsignaturaService.leerUno({clave: id});
             logger.debug('asignaturaEncontrada: ', consulta);
+            return consulta;
+
+        case 'Usuario':
+            consulta = await UsuarioService.leerUno(id);
+            logger.debug('usuarioEncontrado: ', consulta);
             return consulta;
         
         case 'Cuestionario':
@@ -60,7 +66,6 @@ module.exports = {
                 return { error: true, message: `Hubo un error al consultar el servicio leerUno de ${modelo}`, code: 500 };
             }
 
-            logger.debug(`Objeto encontrado ${consulta}`);
             return consulta;
 
         } catch (error) {
