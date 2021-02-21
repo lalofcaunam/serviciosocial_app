@@ -4,7 +4,7 @@ const { UsuarioDto } = require('../dtos');
 module.exports = {
 
     // Leer un usuario por email
-    leerUnoPorEmail: async (req) => {
+    leerUnoPorEmail: async (req, response = false) => {
 
         try {
             logger.info('> Inicia servicio leerUnoPorEmail');
@@ -25,13 +25,28 @@ module.exports = {
                     return 'Error';
                 }
 
+                // Si se necesita respuesta
+                if(response){
+
+                }
+
+                // Si existe el usuario
+                if(usuarioEncontrado != null) {
+                    logger.debug('UsuarioService - leerUnoPorEmail: El usuario existe');
+                    logger.info('< Termina servicio leerUnoPorEmail');
+                    if(response){
+                        return usuarioEncontrado;
+                    }
+                    return false;
+                }
+
                 logger.debug('usuarioEncontrado: ', usuarioEncontrado);
                 logger.info('< Termina servicio leerUnoPorEmail');
-                return usuarioEncontrado;
+                return true;
             }
 
             logger.info('< Termina servicio leerUnoPorEmail');
-            return usuarios;
+            return false;
 
         } catch (error) {
             
