@@ -16,12 +16,12 @@ module.exports = {
             const correoExiste = await UsuarioService.leerUnoPorEmail(req.body.correo);
 
             // Si no regresa true o null, significa que ya existe un usuario con ese correo
-            if(correoExiste.length !== 0 || correoExiste[0] != null) {
+            if(!correoExiste || correoExiste[0] != null) {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Ya existe un usuario con ese correo', 400), res, 400);
             }
 
-            // Si regresa false, significa que hubo un error en el servicio
+            // Si regresa 'Error', significa que hubo un error en el servicio
             if(correoExiste === 'Error') {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
@@ -31,7 +31,7 @@ module.exports = {
             logger.debug('AuthController - signup: Mandar a llamar al servicio crearUno de Usuario');
             const usuarioCreado = await UsuarioService.crearUno(req.body);
 
-            // Si regresa false, significa que hubo un error en el servicio
+            // Si regresa 'Error', significa que hubo un error en el servicio
             if(usuarioCreado === 'Error') {
                 logger.info('<< Termina controller signup');
                 return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
@@ -77,7 +77,7 @@ module.exports = {
 
             // Buscar al usuario por correo
             logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
-            const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.body.correo);
+            const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.body.correo, true);
 
             // Si regresa false, significa que el usuario no existe
             if(!usuarioEncontrado) {
@@ -95,7 +95,7 @@ module.exports = {
 
             // Comparar la contraseña del usuario
             logger.debug('AuthController - signup: Mandar a llamar a la utilidad de comparar contraseñas');
-            const contraseniaCorrecta = await compararContrasenias(usuarioEncontrado.contrasenia, req.body.contrasenia);
+            const contraseniaCorrecta = compararContrasenias(usuarioEncontrado.contrasenia, req.body.contrasenia);
 
             // Si regresa false, significa que la constraseña es incorrecta
             if (!contraseniaCorrecta) {
@@ -104,8 +104,20 @@ module.exports = {
                 return handler(Message('La contraseña del usuario es incorrecta', 404), res, 404);
             }
 
+            // Si el correo no esta activado
+            if(!usuarioEncontrado.correoActivado){
+                logger.debug('El correo no ha sido activado');
+                logger.info('<< Termina controller login');
+                return handler(Message('El correo no ha sido activado', 400), res, 400);
+            }
+
             logger.debug('AuthController - signup: Mandar a llamar a la utilidad para crear el token');
-            const token = crearToken(usuarioEncontrado);
+            const token = crearToken({
+                id: usuarioEncontrado._id,
+                nombre: usuarioEncontrado.nombre,
+                correo: usuarioEncontrado.correo,
+                rol: usuarioEncontrado.rol
+            }, '365d');
 
             // Si regresa undefined, significa que hubo un error en la utilidad
             if (token === undefined) {
