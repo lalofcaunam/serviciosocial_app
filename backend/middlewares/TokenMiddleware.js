@@ -19,13 +19,11 @@ module.exports = {
         logger.error('Hubo un error en la decodificación');
         return handler(Message('Hubo un error en la decodificación', 401), res, 401);
       }
- 
-      // Verificar que el correo este activado
-      const correoValido = decoded.correoActivado;
 
-      if(correoValido) next();
+      // Verificar que el header idUsuario y el valor del token id sean iguales
+      if(decoded.id !== req.headers.idusuario) return handler(Message('El header no coincide con el token', 401), res, 401);
      
-      else return handler(Message('El correo no ha sido activado', 400), res, 400);
+      else next();
 
    } catch (error) {
      logger.error('Error en middleware verifyToken: ', error);
