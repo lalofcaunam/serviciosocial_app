@@ -28,7 +28,7 @@ module.exports = {
             const actualizacion = {
                 _id: usuarioEncontrado._id,
                 body: {
-                    emailActivado: true
+                    correoActivado: true
                 }
             };
 
