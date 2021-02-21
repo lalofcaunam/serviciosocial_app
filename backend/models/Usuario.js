@@ -38,7 +38,7 @@ const usuarioSchema = new Schema({
         required: true
     },
     // Campo para activación de email
-    emailActivado: {
+    correoActivado: {
         type: Boolean,
         default: false
     },
