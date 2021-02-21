@@ -1,9 +1,8 @@
 const logger = require('log4js').getLogger('FCAController');
 const { handler } = require('../utils');
 const { Message } = require('../enum');
-const { BusquedaValidator } = require('../validators');
+const { HeaderValidator } = require('../validators');
 const { LicenciaturaService, SemestreService, AsignaturaService } = require('../services');
-const { HeaderMiddleware } = require('../middlewares');
 
 module.exports = {
 
@@ -14,22 +13,20 @@ module.exports = {
             logger.info('>> Inicia controller leerTodasAsignaturasFiltro');
             logger.debug('Req Query: ', req.query);
 
-            const validarUsuario = await HeaderMiddleware.validar('Profesor', res, req);
-
-            if(!validarUsuario) return logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-
-            // Validar que existan la Licenciatura y el Semestre
-            await BusquedaValidator.buscarUno('Licenciatura', req.query.claveLicenciatura);
-            await BusquedaValidator.buscarUno('Semestre', req.query.claveSemestre);
-
-            const filtro = {
-                claveLicenciatura: req.query.claveLicenciatura,
-                claveSemestre: req.query.claveSemestre,
+            // Validar rol del usuario
+            const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
+            if(validarUsuario.error) {
+                logger.debug('FCAController - leerTodasAsignaturasFiltro: Hubo un error en el validador buscarUno');
+                logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
             // Llamar al servicio AsignaturaService.leerMuchasLicenciaturasPorFiltro
             logger.debug('FCAController - leerTodasAsignaturasFiltro: Mandar a llamar al servicio leerMuchasLicenciaturasPorFiltro de Asignatura');
-            const asignaturas = await AsignaturaService.leerMuchasAsignaturasPorFiltro(filtro);
+            const asignaturas = await AsignaturaService.leerMuchasAsignaturasPorFiltro({
+                claveLicenciatura: req.query.claveLicenciatura,
+                claveSemestre: req.query.claveSemestre,
+            });
             logger.debug('asignaturas: ', asignaturas);
 
             // Si regresa 'Error', significa que ocurrio un error en el servicio
