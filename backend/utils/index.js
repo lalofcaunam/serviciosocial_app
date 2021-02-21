@@ -12,17 +12,9 @@ module.exports = {
     compararContrasenias: (userPassword, reqPassword) => {
         return bcrypt.compare(reqPassword, userPassword);
     },
-    crearToken: (usuario) => {
-        const payload = {
-            id: usuario._id,
-            nombre: usuario.nombre,
-            correo: usuario.correo,
-            rol: usuario.rol,
-            correoActivado: usuario.emailActivado,
-        };
-
+    crearToken: (payload, tiempoExpiracion) => {
         try {
-            return jwt.sign(payload, process.env.JWT_SECRET);
+            return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: tiempoExpiracion });
         } catch (error) {
             return undefined;
         }
@@ -51,5 +43,28 @@ module.exports = {
                 return true;
             }
         });
+    },
+    esNuloIndefinido: (valores, parametro) => {
+        try {
+            const valoresNulosIndefinidos = [];
+
+            // Si el valor es nulo o indefinido, agregar al arreglo de valores nulos o indefinidos
+            valores.filter((valor, index) => {
+                if(valor == null) valoresNulosIndefinidos.push({parametro: parametro[index], valor: valor});
+            });
+
+            // Si el arreglo de nulos o indefinidos al menos tiene un valor, regresar el error
+            if(valoresNulosIndefinidos.length !== 0){
+                logger.debug(`Los siguientes parametros son nulos o indefinidos: ${valoresNulosIndefinidos}`);
+                return { error: true, message: `Los siguientes parametros son nulos o indefinidos: ${valoresNulosIndefinidos}`, code: 400 };
+            }
+
+            return true;
+
+        } catch (error) {
+            // Si existe un error , devolver el error
+            logger.error('Error en en la utilidad esNullUndefined: ', error);
+            return { error: true, message: `Ocurrio un error en la utilidad esNullUndefined`, code: 500 };
+        }
     },
 };
