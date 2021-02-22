@@ -14,10 +14,7 @@ public class AddCuestionario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_cuestionario);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Intent cuestionariosProfesor=new Intent(AddCuestionario.this, Cuestionarios.class);
-        cuestionariosProfesor.putExtra("rol", "profesor");
-        startActivity(cuestionariosProfesor);
+
     }
 }

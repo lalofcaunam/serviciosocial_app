@@ -5,13 +5,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textAdd"
-        android:text="Vista para agregar cuestionario"
+    <LinearLayout
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="55dp"
-        android:gravity="center" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona una licenciatura:"
+            style="@style/labelText" />
+
+        <Spinner
+            android:id="@+id/cmbLicenciaturas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
+            style="@style/generalText"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona un semestre:"
+            style="@style/labelText" />
+
+        <Spinner
+            android:id="@+id/cmbSemestres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
+            style="@style/generalText"/>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnConfirmarRespuesta"
+        android:text="Confirmar"
+        style="@style/btnMedium"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        />
 
 
 </FrameLayout>

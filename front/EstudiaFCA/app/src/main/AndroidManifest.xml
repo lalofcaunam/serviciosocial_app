@@ -33,8 +33,8 @@
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".Profesor.AddCuestionario"
-            android:parentActivityName=".Alumno.Cuestionarios"
-            android:label="Crear cuestionario"
+            android:parentActivityName=".Profesor.CuestionariosProfesor"
+            android:label="Creación de cuestionarios"
             android:theme="@style/ThemeActionBar"/>
 
         <!--Alumno-->
