@@ -40,97 +40,46 @@
             android:textSize="20dp"
             />
 
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="15dp">
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
-            <CheckBox
-                android:id="@+id/checkRespuesta1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
+            <RadioButton
                 android:id="@+id/textRespuesta1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Respuesta 1"
                 style="@style/generalText"
-                android:textSize="25dp"
-                />
+                android:textSize="22sp"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="15dp">
-
-            <CheckBox
-                android:id="@+id/checkRespuesta2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
+            <RadioButton
                 android:id="@+id/textRespuesta2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Respuesta 2"
                 style="@style/generalText"
-                android:textSize="25dp"
-                />
+                android:textSize="22sp"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="15dp">
-
-            <CheckBox
-                android:id="@+id/checkRespuesta3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
+            <RadioButton
                 android:id="@+id/textRespuesta3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Respuesta 3"
                 style="@style/generalText"
-                android:textSize="25dp"
-                />
+                android:textSize="22sp"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="15dp">
-
-            <CheckBox
-                android:id="@+id/checkRespuesta4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
+            <RadioButton
                 android:id="@+id/textRespuesta4"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Respuesta 4"
                 style="@style/generalText"
-                android:textSize="25dp"
-                />
+                android:textSize="22sp"/>
 
-        </LinearLayout>
+        </RadioGroup>
+
 
     </LinearLayout>
 

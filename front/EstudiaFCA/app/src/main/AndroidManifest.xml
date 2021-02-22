@@ -51,7 +51,8 @@
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".Alumno.ResultadoFinalAlumno"
-            android:label="Resultado"
+            android:parentActivityName=".Alumno.CuestionariosAlumno"
+            android:label="Resultado Final"
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".SplashActivity">

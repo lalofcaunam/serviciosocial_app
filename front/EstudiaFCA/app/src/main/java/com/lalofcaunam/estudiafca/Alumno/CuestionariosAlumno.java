@@ -50,9 +50,16 @@ public class CuestionariosAlumno extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(CuestionariosAlumno.this, mTitulo[position], Toast.LENGTH_SHORT).show();
-                    Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadosCuestionarioAlumno.class);
-                    resultadosCuestionarioAlumno.putExtra("tituloCuestionario", mTitulo[position]);
-                    startActivity(resultadosCuestionarioAlumno);
+                    if (mTitulo[position].equals("Cuestionario 1")){
+                        Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadosCuestionarioAlumno.class);
+                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", mTitulo[position]);
+                        startActivity(resultadosCuestionarioAlumno);
+                    } else {
+                        Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadoFinalAlumno.class);
+                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", mTitulo[position]);
+                        startActivity(resultadosCuestionarioAlumno);
+                    }
+
                 }
             });
         } else {
