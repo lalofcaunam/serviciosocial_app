@@ -1,6 +1,7 @@
 // Usamos la dependencias instaladas y las guardamos en una constante 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const log4js = require('log4js');
 const logger = require('log4js').getLogger('index');
 const { isCelebrateError } = require('celebrate');
@@ -16,13 +17,18 @@ const PORT = process.env.PORT || 3000;
 // Disable the fingerprinting of this web technology
 api.disable("x-powered-by");
 
+// Configuramos el motor de vistas
+api.set('views', path.join(__dirname, '../views'));
+api.set('view engine', 'pug');
+
 // Definimos los siguientes middlewares para utilizar morgan y evitar que nos salgan los warnings en consola de Express
 // Agregamos el middleware de cors para permitir peticiones (en nuestro caso no definiremos permisos de IP)
 api.use(cors());
 api.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 api.use(express.urlencoded({ extended: true }));
 api.use(express.json({ express: true }));
-api.use('/ssfca/api/v1', require('../routes'));
+api.use(express.static(path.join(__dirname, '../public')));
+api.use(process.env.BASE_PATH, require('../routes'));
 
 // Handler errors de validaciones celebrate
 api.use(((err, req, res, next) => {
