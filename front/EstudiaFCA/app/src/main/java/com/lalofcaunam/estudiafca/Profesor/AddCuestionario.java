@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ public class AddCuestionario extends AppCompatActivity implements AdapterView.On
     String licenciaturas[] = {"Informatica", "Contaduria", "Administracion"};
     String semestres[] = {"Primero", "Segundo", "Tercero"};
     Spinner cmbLicenciaturas, cmbSemestres;
+    String licenciatura, semestre;
+    Button btnConfirmarRespuesta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +44,13 @@ public class AddCuestionario extends AppCompatActivity implements AdapterView.On
         cmbSemestres.setAdapter(adapterSemestres);
         cmbSemestres.setOnItemSelectedListener(this);
 
+        btnConfirmarRespuesta = findViewById(R.id.btnConfirmarRespuesta);
+
+        listeners();
     }
 
+
+    // OPCIONES SPINNER
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Spinner cmbLicenciaturas = (Spinner)parent;
@@ -50,10 +58,12 @@ public class AddCuestionario extends AppCompatActivity implements AdapterView.On
         if(cmbLicenciaturas.getId() == R.id.cmbLicenciaturas)
         {
             Toast.makeText(this, "Your choose :" + licenciaturas[position],Toast.LENGTH_SHORT).show();
+            licenciatura = licenciaturas[position];
         }
         if(cmbSemestres.getId() == R.id.cmbSemestres)
         {
             Toast.makeText(this, "Your choose :" + semestres[position],Toast.LENGTH_SHORT).show();
+            semestre = semestres[position];
         }
     }
 
@@ -61,4 +71,17 @@ public class AddCuestionario extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    // EVENTOS BOTON CONFIRMAR
+    public void listeners(){
+        btnConfirmarRespuesta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addNewInfoCuestionario=new Intent(AddCuestionario.this, AddInfoCuestionario.class);
+                startActivity(addNewInfoCuestionario);
+            }
+        });
+    }
+
+
 }
