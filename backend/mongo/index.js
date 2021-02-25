@@ -10,10 +10,10 @@ const {
 
 const config = {
   PRODUCTION: {
-    MONGO_URI: `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB_NAME}`,
+      MONGO_URI: `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB_NAME}`,
   },
-  TEST: {
-    MONGO_URI: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_DB_NAME}`,
+  LOCAL: {
+      MONGO_URI: `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB_NAME}`,
   },
 };
 
