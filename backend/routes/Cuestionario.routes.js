@@ -28,5 +28,13 @@ router.get(
     CuestionarioController.leerUno,
 );
 
+router.put(
+    '/cuestionarios/:idCuestionario',
+    HeaderValidator.general,
+    CuestionarioValidator.actualizarUno,
+    TokenMiddleware.verifyToken,
+    CuestionarioController.actualizarUno,
+);
+
 
 module.exports = router;
