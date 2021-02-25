@@ -41,7 +41,7 @@ module.exports = {
 
             // Llamar al dto CuestionarioDto.leerUno
             logger.debug('CuestionarioService - leerUno: Realizando lectura de un cuestionario');
-            const cuestionarioEncontrado = await CuestionarioDto.leerUno({ _id: req});
+            const cuestionarioEncontrado = await CuestionarioDto.leerUno(req);
 
             // Validar que no haya sucedido un error en el dto
             if(cuestionarioEncontrado === 'Error'){
@@ -149,7 +149,7 @@ module.exports = {
 
             // Llamar al dto CuestionarioDto.updateOne
             logger.debug('CuestionarioService - actualizarUno: Realizando actualización de un cuestionario');
-            const cuestionarioActualizado = await CuestionarioDto.updateOne(req._id, req.body);
+            const cuestionarioActualizado = await CuestionarioDto.updateOne(req.filtro, req.body);
 
             // Validar que no haya sucedido un error en el dto
             if(cuestionarioActualizado === 'Error'){
