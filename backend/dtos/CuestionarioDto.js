@@ -28,13 +28,13 @@ module.exports = {
     }),
 
     // Actualizar un cuestionario
-    updateOne: (idCuestionario, body) => Cuestionario.findByIdAndUpdate({_id: idCuestionario}, body, { new: true }).catch((err) => {
+    updateOne: (filtro, body) => Cuestionario.findOneAndUpdate(filtro, body, { new: true }).catch((err) => {
         logger.error(err);
         return 'Error'
     }),
 
     // Borrar un cuestionario
-    deleteOne: (idCuestionario) => Cuestionario.findByIdAndRemove({_id: idCuestionario}).catch((err) => {
+    deleteOne: (idCuestionario) => Cuestionario.findOneAndRemove({_id: idCuestionario}).catch((err) => {
         logger.error(err);
         return 'Error'
     }),
