@@ -12,26 +12,14 @@ module.exports = {
     compararContrasenias: (userPassword, reqPassword) => {
         return bcrypt.compare(reqPassword, userPassword);
     },
-    crearToken: (payload, tiempoExpiracion) => {
+    crearToken: (payload, tiempoExpiracion, secret = process.env.JWT_SECRET) => {
         try {
-            return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: tiempoExpiracion });
+            return jwt.sign(payload, secret, { expiresIn: tiempoExpiracion });
         } catch (error) {
             return undefined;
         }
     },
-    enviarCorreo: async (usuario) => {
-
-        const url = `${process.env.PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT}/ssfca/api/v1/usuarios/${usuario._id}/verificar`
-
-        const msg = {
-            to: usuario.correo,
-            from: process.env.SENDER_SENDGRID,
-            templateId: process.env.TEMPLATE_SENDGRID,
-            dynamic_template_data: {
-                urlVerificacion: url,
-                nombreUsuario: usuario.nombre,
-            }
-        };
+    enviarCorreo: async (msg) => {
 
         return await sendgrid.send(msg, (error, result) => {
             if (error) {
@@ -67,4 +55,9 @@ module.exports = {
             return { error: true, message: `Ocurrio un error en la utilidad esNullUndefined`, code: 500 };
         }
     },
+    crearUrl: () => {
+        return process.env.NODE_ENV === 'PRODUCTION' ?
+            `${process.env.URL}${process.env.BASE_PATH}` :
+            `${process.env.URL}${process.env.PORT}${process.env.BASE_PATH}`;
+    }
 };
