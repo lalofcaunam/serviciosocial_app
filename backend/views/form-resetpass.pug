@@ -1,0 +1,13 @@
+extends layout.pug
+
+block contenido
+    div.row
+        div.col.s12
+            h3.center-align Cambiar contraseña
+        div.col.s12
+            form(action=endpoint method="post")
+                div.col.s12
+                    label(for="password") Por favor ingresa tu nueva contraseña #{nombre}:
+                    input#password(type="password" name="contrasenia")
+                div.col.s12.center-align
+                    button.waves-effect.btn-large(type="submit") Cambiar contraseña

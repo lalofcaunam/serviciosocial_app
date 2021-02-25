@@ -1,0 +1,14 @@
+extends layout.pug
+
+block contenido
+    div.row
+        div.col.s12
+            h3.center-align Solicitud para cambio de contraseña
+        div.col.s12
+            form(action=endpoint method="post")
+                div.col.s12
+                    label(for="input-email") Por favor ingresa tu correo:
+                    input#input-email(type="email" name="correo")
+                div.col.s12.center-align
+                    button.waves-effect.btn-large(type="submit") Solicitar
+    
