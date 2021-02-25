@@ -11,4 +11,11 @@ module.exports = {
             tiempo: Joi.string(),
         }),
     }),
+    actualizarUno: celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            nombre: Joi.string(),
+            tema: Joi.string(),
+            tiempo: Joi.string(),
+        }),
+    }),
 }
