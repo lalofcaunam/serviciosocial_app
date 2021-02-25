@@ -32,7 +32,7 @@ const validarModelo = async (modelo, id) => {
             return consulta;
         
         case 'Cuestionario':
-            consulta = await CuestionarioService.leerUno(id);
+            consulta = await CuestionarioService.leerUno({_id: id});
             logger.debug('cuestionarioEncontrado: ', consulta);
             return consulta;
     
