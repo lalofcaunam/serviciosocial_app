@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+html, body {
+    background: #eceff1;
+    font-family: 'Lato', sans-serif;
+    height: 100%;
+    padding-bottom: 5%;
+}
+
+label {
+    font-size: 1em;
+}
+
+input[type=email]:focus {
+    font-size: 1em !important;
+    border-bottom: 1px solid #b64273 !important;
+    box-shadow: 0 1px 0 0 #b64273 !important;
+}
+
+.btn-large {
+    padding-left: 6em;
+    padding-right: 6em;
+    background: #b64273;
+}
+
+.btn-large:hover{
+    background: #b75f84;
+}
+
+.page-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding-top: 0px;
+}
+
+.page-footer {
+    background: #3e4d6a;
+}
