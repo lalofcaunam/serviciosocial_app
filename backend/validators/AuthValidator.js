@@ -17,5 +17,15 @@ module.exports = {
       correo: Joi.string().required(),
       contrasenia: Joi.string().required(),
     }),
-  })
+  }),
+  enviarCorreoReset: celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      correo: Joi.string().required(),
+    }),
+  }),
+  reset: celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      contrasenia: Joi.string().required(),
+    }),
+  }),
 }
