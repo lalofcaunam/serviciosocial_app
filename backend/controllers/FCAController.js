@@ -60,6 +60,14 @@ module.exports = {
             logger.info('>> Inicia controller leerTodasLicenciaturasOSemestres');
             logger.debug('Req Query: ', req.query);
 
+            // Validar rol del usuario
+            const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
+            if(validarUsuario.error) {
+                logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Hubo un error en el validador buscarUno');
+                logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
+                return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
+            }
+
             // Revisar por quien se hara la busqueda
             if(req.query.fuente === 'Licenciatura'){
                 const licenciaturasEncontradas = await LicenciaturaService.leerTodos();
