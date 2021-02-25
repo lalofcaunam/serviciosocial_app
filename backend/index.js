@@ -2,8 +2,12 @@
 require('dotenv').config();
 const logger = require('log4js').getLogger('index');
 const mongoose = require('mongoose');
+const moment = require('moment');
+const { crearUrl } = require('./utils')
 
+// Definir Zona Horaria
 process.env.TZ = 'America/Mexico_City';
+moment.locale('es-mx');
 
 // Importamos las constantes del archivo index que se encuentra en la carpeta ./api y ./mongo
 const { api, PORT } = require('./api');
@@ -19,5 +23,5 @@ mongoose.connect(
 
 // Ponemos a escuchar al servidor en el puerto definido y mostramos en consola un mensaje para conocer esto
 api.listen(PORT, () => {
-  logger.info(`Ruta levantada: ${process.env.PROTOCOL}://${process.env.HOSTNAME}:${PORT}/ssfca/api/v1`);
+  logger.info(`Ruta levantada: ${crearUrl()}`);
 });
