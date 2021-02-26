@@ -5,6 +5,7 @@ const {
     AsignaturaService,
     UsuarioService,
     CuestionarioService,
+    PreguntaService,
  } = require('../services');
 
 
@@ -34,6 +35,11 @@ const validarModelo = async (modelo, id) => {
         case 'Cuestionario':
             consulta = await CuestionarioService.leerUno({_id: id});
             logger.debug('cuestionarioEncontrado: ', consulta);
+            return consulta;
+
+        case 'Pregunta':
+            consulta = await PreguntaService.leerUno({id});
+            logger.debug('preguntaEncontrado: ', consulta);
             return consulta;
     
         default:
