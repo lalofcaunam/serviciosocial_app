@@ -2,19 +2,19 @@ const express = require('express');
 
 const router = express.Router();
 
-const { CuestionarioController } = require('../controllers');
+const { PreguntaController } = require('../controllers');
 const { TokenMiddleware } = require('../middlewares');
-const { HeaderValidator, CuestionarioValidator } = require('../validators');
+const { HeaderValidator, PreguntaValidor } = require('../validators');
 
 router.post(
-    '/cuestionarios',
+    '/preguntas',
     HeaderValidator.general,
-    CuestionarioValidator.crearUno,
+    PreguntaValidor.crearUno,
     TokenMiddleware.verifyToken,
-    CuestionarioController.crearUno,
+    PreguntaController.crearUno,
 );
 
-router.get(
+/*router.get(
     '/cuestionarios',
     HeaderValidator.general,
     TokenMiddleware.verifyToken,
@@ -34,7 +34,7 @@ router.put(
     CuestionarioValidator.actualizarUno,
     TokenMiddleware.verifyToken,
     CuestionarioController.actualizarUno,
-);
+);*/
 
 
 module.exports = router;
