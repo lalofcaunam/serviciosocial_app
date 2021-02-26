@@ -13,6 +13,23 @@ const preguntaSchema = new Schema({
         required: true,
         ref: 'Cuestionario'
     },
+    respuestas: [{
+        // Texto de la respuesta
+        texto: {
+            type: String,
+            required: true
+        },
+        // Es la respuesta correcta
+        esCorrecta: {
+            type: Boolean,
+            required: true
+        },
+        // Comentario (solo si la respuesta no es la correcta)
+        comentario: {
+            type: String,
+            required: false
+        },
+    }]
 }, { versionKey: false });
 
 const Pregunta = mongoose.model('Pregunta', preguntaSchema);
