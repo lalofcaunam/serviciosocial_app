@@ -5,7 +5,6 @@ const {Config} = require('./Config');
 const {Usuario} = require('./Usuario');
 const {Cuestionario} = require('./Cuestionario');
 const {Pregunta} = require('./Pregunta');
-const {Respuesta} = require('./Respuesta');
 
 module.exports = {
     Asignatura,
@@ -15,5 +14,4 @@ module.exports = {
     Usuario,
     Cuestionario,
     Pregunta,
-    Respuesta,
 };
