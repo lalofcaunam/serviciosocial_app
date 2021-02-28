@@ -6,15 +6,15 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textCuestionariosProfesor"
-        android:text="En este momento no cuentas con cuestionarios disponibles"
+        android:id="@+id/textListaPreguntas"
+        android:text="En este momento el cuestionario no cuenta con preguntas, selecciona el botón flotante para crear una."
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="55dp"
         android:gravity="center" />
 
     <ListView
-        android:id="@+id/listview_cuestionarios_profesor"
+        android:id="@+id/list_preguntas_cuestionario"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
@@ -23,7 +23,7 @@
 
 
     <Button
-        android:id="@+id/btnAddCuestionario"
+        android:id="@+id/btnAddPregunta"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|right"
