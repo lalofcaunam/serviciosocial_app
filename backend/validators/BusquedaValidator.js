@@ -57,7 +57,7 @@ module.exports = {
             // Validar que exista el valor mandado a buscar
             if ( consulta === false){
                 logger.debug(`No existe ningun elemento de ${modelo}`);
-                return { error: true, message: `No existe ningun elemento de ${modelo}`, code: 204 };
+                return { error: true, message: `No existe ningun elemento de ${modelo}`, code: 404 };
             }
 
             // Validar que se realizo alguna operación
