@@ -8,7 +8,24 @@ const { isCelebrateError } = require('celebrate');
 const { handler } = require('../utils')
 
 // Configuración de logger
-log4js.configure('./config/log4js.json');
+log4js.configure({
+    appenders: {
+        consoleAppender: {
+            type: "console",
+            layout: {
+                type: "pattern",
+                pattern: "%d{yyyy/MM/dd - hh:mm:ss} | [%p] | %z | %f{2}[%l] | %m"
+            }
+        }
+    },
+    categories: {
+        default: {
+            appenders: ["consoleAppender"],
+            level: process.env.LOG_LEVEL,
+            enableCallStack: true
+        }
+    }
+});
 
 // Definimos una constante para utilizar las funciones de Express y definimos el puerto donde se levantara el servidor
 const api = express();
