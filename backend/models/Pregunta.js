@@ -27,7 +27,7 @@ const preguntaSchema = new Schema({
         // Comentario (solo si la respuesta no es la correcta)
         comentario: {
             type: String,
-            required: false
+            required: true
         },
     }]
 }, { versionKey: false });
