@@ -15,18 +15,19 @@ module.exports = {
             logger.debug('Req Body: ', req.body);
 
             // Validar rol del usuario
+            logger.debug('CuestionarioController - crearUno: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
-                logger.debug('CuestionarioController - crearUno: Hubo un error en el validador buscarUno');
+                logger.debug('CuestionarioController - crearUno: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller crearUno');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
             // Validar que la asignatura exista y de la asignatura encontrada, agregar los campos claveLicenciatura y claveSemestre
-            logger.debug('CuestionarioController - crearUno: Mandar a llamar al validador buscarUno');
+            logger.debug('CuestionarioController - crearUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
             const asignaturaEncontrada = await BusquedaValidator.buscarUno('Asignatura', req.body.claveAsignatura);
             if( asignaturaEncontrada.error ) {
-                logger.debug('CuestionarioController - crearUno: Hubo un error en el validador buscarUno');
+                logger.debug('CuestionarioController - crearUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                 logger.info('<< Termina controller crearUno');
                 return handler(Message(asignaturaEncontrada.message, asignaturaEncontrada.code), res, asignaturaEncontrada.code);
             }
@@ -55,14 +56,14 @@ module.exports = {
             });
 
             // Crear el cuestionario
-            logger.debug('CuestionarioController - crearUno: Mandar a llamar al servicio crearUno de Cuestionario');
+            logger.debug('CuestionarioController - crearUno: Mandar a llamar al servicio CuestionarioService.crearUno');
             const cuestionarioCreado = await CuestionarioService.crearUno(body);
 
             // Si regresa false, significa que hubo un error en el servicio
             if(cuestionarioCreado === 'Error') {
-                logger.debug('CuestionarioController - crearUno: Hubo un error en el servicio crearUno');
+                logger.debug('CuestionarioController - crearUno: Hubo un error en el servicio CuestionarioService.crearUno');
                 logger.info('<< Termina controller crearUno');
-                return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
+                return handler(Message('Hubo un error en el servicio CuestionarioService.crearUno', 500), res, 500);
             }
 
             logger.info('<< Termina controller crearUno');
@@ -85,14 +86,16 @@ module.exports = {
             logger.debug('Req Params: ', req.params);
 
             // Validar rol del usuario
+            logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario(null, req);
             if(validarUsuario.error) {
-                logger.debug('CuestionarioController - leerUno: Hubo un error en el validador buscarUno');
+                logger.debug('CuestionarioController - leerUno: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller leerUno');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
             // Validar que no venga nulo el parametro idCuestionario
+            logger.debug('CuestionarioController - leerUno: Mandar a llamar a la utilidad esNuloIndefinido');
             const idCuestionarioNuloIndefinido = esNuloIndefinido([req.params.idCuestionario], ['ParamIdCuestionario']);
             if(idCuestionarioNuloIndefinido.error){
                 logger.debug('CuestionarioController - leerUno: Hubo un error en la utilidad esNuloIndefinido');
@@ -105,28 +108,28 @@ module.exports = {
             // Si el usuario es Profesor
             if(validarUsuario.rol === 'Profesor'){
                 // Validar que el cuestionario exista
-                logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio leerUno');
+                logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio CuestionarioService.leerUno');
                 cuestionarioEncontrado = await CuestionarioService.leerUno({_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
 
                 // Validar que no regrese 'Error'
                 if(cuestionarioEncontrado === 'Error') {
-                    logger.debug('CuestionarioController - leerUno: Ocurrio un error en servicio leerUno');
+                    logger.debug('CuestionarioController - leerUno: Ocurrio un error en servicio CuestionarioService.leerUno');
                     logger.info('<< Termina controller leerUno');
-                    return handler(Message('Ocurrio un error en servicio leerUno', 500), res, 500);
+                    return handler(Message('Ocurrio un error en servicio CuestionarioService.leerUno', 500), res, 500);
                 }
 
                 // Validar que no regresa false
                 if(!cuestionarioEncontrado) {
                     logger.debug('CuestionarioController - leerUno: El cuestionario no existe');
                     logger.info('<< Termina controller leerUno');
-                    return handler(Message('El cuestionario no existe', 400), res, 400);
+                    return handler(Message('El cuestionario no existe', 404), res, 404);
                 }
             } else {
                 // Validar que el cuestionario exista
-                logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador buscarUno');
+                logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
                 cuestionarioEncontrado = await BusquedaValidator.buscarUno('Cuestionario', req.params.idCuestionario);
                 if( cuestionarioEncontrado.error ) {
-                    logger.debug('CuestionarioController - leerUno: Hubo un error en el validador buscarUno');
+                    logger.debug('CuestionarioController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                     logger.info('<< Termina controller leerUno');
                     return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
                 }
@@ -151,9 +154,10 @@ module.exports = {
             logger.info('>> Inicia controller leerTodos');
 
             // Validar rol del usuario
+            logger.debug('CuestionarioController - leerTodos: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario(null, req);
             if(validarUsuario.error) {
-                logger.debug('CuestionarioController - leerTodos: Hubo un error en el validador buscarUno');
+                logger.debug('CuestionarioController - leerTodos: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller leerTodos');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
@@ -163,11 +167,11 @@ module.exports = {
             // Si el rol del usuario es Profesor
             if(validarUsuario.rol === 'Profesor'){
                 // Buscar todos los cuestionarios por profesor
-                logger.debug('CuestionarioController - leerTodos: Mandar a llamar al servicio leerTodosPorProfesor de Cuestionario');
+                logger.debug('CuestionarioController - leerTodos: Mandar a llamar al servicio CuestionarioService.leerTodosPorProfesor');
                 cuestionariosEncontrados = await CuestionarioService.leerTodosPorProfesor(validarUsuario._id);
             } else {
                 // Buscar todos los cuestionarios
-                logger.debug('CuestionarioController - leerTodos: Mandar a llamar al servicio leerTodos de Cuestionario');
+                logger.debug('CuestionarioController - leerTodos: Mandar a llamar al servicio CuestionarioService.leerTodos');
                 cuestionariosEncontrados = await CuestionarioService.leerTodos();
             }
 
@@ -206,14 +210,16 @@ module.exports = {
             logger.debug('Req Body: ', req.body);
 
             // Validar rol del usuario
+            logger.debug('CuestionarioController - actualizarUno: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
-                logger.debug('CuestionarioController - actualizarUno: Hubo un error en el validador buscarUno');
+                logger.debug('CuestionarioController - actualizarUno: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller actualizarUno');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
             // Validar que no venga nulo el parametro idCuestionario
+            logger.debug('CuestionarioController - actualizarUno: Mandar a llamar a la utilidad esNuloIndefinido');
             const idCuestionarioNuloIndefinido = esNuloIndefinido([req.params.idCuestionario], ['ParamIdCuestionario']);
             if(idCuestionarioNuloIndefinido.error){
                 logger.debug('CuestionarioController - actualizarUno: Hubo un error en la utilidad esNuloIndefinido');
@@ -222,7 +228,7 @@ module.exports = {
             }
 
             // Actualizar el cuestionario
-            logger.debug('CuestionarioController - actualizarUno: Mandar a llamar al servicio actualizarUno de Cuestionario');
+            logger.debug('CuestionarioController - actualizarUno: Mandar a llamar al servicio CuestionarioService.actualizarUno');
             const cuestionarioActualizado = await CuestionarioService.actualizarUno({
                 filtro: {
                     _id: req.params.idCuestionario,
@@ -233,16 +239,16 @@ module.exports = {
 
             // Validar que no regrese 'Error'
             if(cuestionarioActualizado === 'Error') {
-                logger.debug('CuestionarioController - actualizarUno: Ocurrio un error en servicio actualizarUno');
+                logger.debug('CuestionarioController - actualizarUno: Ocurrio un error en servicio CuestionarioService.actualizarUno');
                 logger.info('<< Termina controller actualizarUno');
-                return handler(Message('Ocurrio un error en servicio actualizarUno', 500), res, 500);
+                return handler(Message('Ocurrio un error en servicio CuestionarioService.actualizarUno', 500), res, 500);
             }
 
             // Validar que no regresa false
             if(!cuestionarioActualizado) {
                 logger.debug('CuestionarioController - actualizarUno: El cuestionario no existe');
                 logger.info('<< Termina controller actualizarUno');
-                return handler(Message('El cuestionario no existe', 400), res, 400);
+                return handler(Message('El cuestionario no existe', 404), res, 404);
             }
 
             logger.info('<< Termina controller actualizarUno');

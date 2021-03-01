@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const moment = require('moment');
 const logger = require('log4js').getLogger('UsuarioController');
-const { handler, enviarCorreo, crearToken, esNuloIndefinido, crearUrl } = require('../utils');
-const { Message } = require('../enum');
+const { enviarCorreo, crearToken, esNuloIndefinido, crearUrl } = require('../utils');
 const { UsuarioService } = require('../services');
 
 module.exports = {
@@ -15,11 +14,39 @@ module.exports = {
             logger.debug('Req Params: ', req.params);
 
             // Validar que no venga nulo el parametro idUsuario
+            logger.debug('UsuarioController - validarCorreo: Mandara a llamar a la utilidad esNuloIndefinido');
             const tokenNuloIndefinido = esNuloIndefinido([req.params.token], ['ParamToken']);
             if(tokenNuloIndefinido.error){
                 logger.debug('UsuarioController - validarCorreo: Hubo un error en la utilidad esNuloIndefinido');
                 logger.info('<< Termina controller validarCorreo');
-                return handler(Message(tokenNuloIndefinido.message, tokenNuloIndefinido.code), res, tokenNuloIndefinido.code);
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'El token enviado esta vacio'
+                });
+            }
+
+            // Buscar al usuario por id
+            logger.debug('UsuarioController - validarCorreo: Mandar a llamar al servicio UsuarioService.leerUno');
+            const usuarioEncontrado = await UsuarioService.leerUno(jwt.decode(req.params.token).idUsuario);
+
+            // Si regresa 'Error', significa que hubo un error en el servicio
+            if(usuarioEncontrado === 'Error') {
+                logger.debug('UsuarioController - validarCorreo: Hubo un error en el servicio UsuarioService.leerUno');
+                logger.info('<< Termina controller validarCorreo');
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'Hubo un error en el servicio'
+                });
+            }
+
+            // Si regresa false, significa que no existe el usuario
+            if(!usuarioEncontrado) {
+                logger.debug('UsuarioController - validarCorreo: El usuario no existe');
+                logger.info('<< Termina controller validarCorreo');
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'El usuario no existe'
+                });
             }
 
             let decode = null;
@@ -28,11 +55,21 @@ module.exports = {
             jwt.verify(req.params.token, process.env.JWT_SECRET, function (err, decoded){
                 if(err){
                     if(err.name === 'TokenExpiredError'){
-                        logger.debug('El token a expirado');
-                        logger.info('<< Termina controller validarCorreo');
+                        logger.debug('UsuarioController - validarCorreo: El token a expirado');
+                        logger.info('<< Termina controller enviarPantallaReset');
                         return decode = {
                             error: true,
+                            type: err.name,
                             message: `El token expiro el día ${moment(err.expiredAt).format('LLL')}`,
+                            code: 500
+                        }
+                    } else {
+                        logger.debug('UsuarioController - validarCorreo: El token es invalido');
+                        logger.info('<< Termina controller enviarPantallaReset');
+                        return decode = {
+                            error: true,
+                            type: err.name,
+                            message: `El token es invalido`,
                             code: 500
                         }
                     }
@@ -40,18 +77,22 @@ module.exports = {
             });
 
             if(decode.error){
-                return handler(Message(decode.message, decode.code), res, decode.code);
-            }
-
-            // Buscar al usuario por id
-            logger.debug('UsuarioController - validarCorreo: Mandar a llamar al servicio leerUno de Usuario');
-            const usuarioEncontrado = await UsuarioService.leerUno(decoded.idUsuario);
-
-            // Si regresa false, significa que hubo un error en el servicio
-            if(!usuarioEncontrado) {
-                logger.debug('Hubo un error en el servicio leerUno');
-                logger.info('<< Termina controller validarCorreo');
-                return handler(Message('Hubo un error en el servicio leerUno', 500), res, 500);
+                // Si el error es por expiracion del token, mandar pantalla para reenviar correo
+                if(decode.type === 'TokenExpiredError'){
+                    return res.render('tokenexp', {
+                        titulo: 'Token Expirado',
+                        expiracion: decode.message,
+                        correo: usuarioEncontrado.correo,
+                        endpoint:`${crearUrl()}/usuarios/reset`
+                    });
+                }
+                // Si el error es por que el token es invalido, mandar pantalla de error
+                else{
+                    return res.render('error', {
+                        titulo: 'Ups',
+                        error: 'Ocurrio un error inesperado en el servicio'
+                    });
+                }
             }
 
             const actualizacion = {
@@ -62,24 +103,34 @@ module.exports = {
             };
 
             // Actualizar el campo correoActivado a true
-            logger.debug('UsuarioController - validarCorreo: Mandar a llamar al servicio actualizarUno de Usuario');
+            logger.debug('UsuarioController - validarCorreo: Mandar a llamar al servicio UsuarioService.actualizarUno');
             const usuarioActualizado = await UsuarioService.actualizarUno(actualizacion);
 
             // Si regresa false, significa que hubo un error en el servicio
             if(!usuarioActualizado) {
-                logger.debug('Hubo un error en el servicio actualizarUno');
+                logger.debug('Hubo un error en el servicio UsuarioService.actualizarUno');
                 logger.info('<< Termina controller validarCorreo');
-                return handler(Message('Hubo un error en el servicio actualizarUno', 500), res, 500);
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'Ocurrio un error inesperado en el servicio'
+                });
             }
 
             logger.info('<< Termina controller validarCorreo');
-            return handler(Message('Correo validado exitosamente', 200), res, 200);
+            res.render('success', {
+                titulo: 'Exitoso',
+                nombre: usuarioActualizado.nombre,
+                mensaje: 'tu correo ha sido validado exitosamente'
+            });
 
         } catch (error) {
             
             // Si existe un error en la creación, devolver el error
             logger.error('Error en controller validarCorreo: ', error);
-            return handler(Message('Ocurrio un error en el controller validarCorreo', 500), res, 500);
+            return res.render('error', {
+                titulo: 'Ups',
+                error: 'Hubo un error en el servicio'
+            });
         }
     },
 
@@ -91,22 +142,39 @@ module.exports = {
             logger.debug('Req Params: ', req.params);
 
             // Validar que no venga nulo el parametro idUsuario
+            logger.debug('UsuarioController - reenviarCorreo: Mandara a llamar a la utilidad esNuloIndefinido');
             const idUsuarioNuloIndefinido = esNuloIndefinido([req.params.idUsuario], ['ParamIdUsuario']);
             if(idUsuarioNuloIndefinido.error){
                 logger.debug('UsuarioController - reenviarCorreo: Hubo un error en la utilidad esNuloIndefinido');
                 logger.info('<< Termina controller reenviarCorreo');
-                return handler(Message(idUsuarioNuloIndefinido.message, idUsuarioNuloIndefinido.code), res, idUsuarioNuloIndefinido.code);
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'El parametro del usuario esta vacio'
+                });
             }
 
             // Buscar al usuario por id
-            logger.debug('UsuarioController - reenviarCorreo: Mandar a llamar al servicio leerUno de Usuario');
+            logger.debug('UsuarioController - reenviarCorreo: Mandar a llamar al servicio UsuarioService.leerUno');
             const usuarioEncontrado = await UsuarioService.leerUno(req.params.idUsuario);
 
-            // Si regresa false, significa que hubo un error en el servicio
+            // Si regresa 'Error', significa que hubo un error en el servicio
+            if(usuarioEncontrado === 'Error') {
+                logger.debug('UsuarioController - reenviarCorreo: Hubo un error en el servicio UsuarioService.leerUno');
+                logger.info('<< Termina controller reenviarCorreo');
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'Hubo un error en el servicio'
+                });
+            }
+
+            // Si regresa false, significa que no existe el usuario
             if(!usuarioEncontrado) {
-                logger.debug('Hubo un error en el servicio leerUno');
-                logger.info('<< Termina controller validarCorreo');
-                return handler(Message('Hubo un error en el servicio leerUno', 500), res, 500);
+                logger.debug('UsuarioController - reenviarCorreo: El usuario no existe');
+                logger.info('<< Termina controller reenviarCorreo');
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'El usuario no existe'
+                });
             }
 
             const token = crearToken({idUsuario:usuarioEncontrado._id}, '20min');
@@ -123,24 +191,34 @@ module.exports = {
             };
 
             // Mandar correo de validacion de email
-            logger.debug('UsuarioController - reenviarCorreo: Mandar a llamar a la utilidad de envio el correo de verificacion');
+            logger.debug('UsuarioController - reenviarCorreo: Mandar a llamar a la utilidad enviarCorreo');
             const envioCorreo = await enviarCorreo(msg);
 
             // Si regresa false, significa que hubo un error en la utilidad
             if(!envioCorreo) {
-                logger.debug('Hubo un error en la utilidad enviarCorreo');
+                logger.debug('UsuarioController - reenviarCorreo: Hubo un error en la utilidad enviarCorreo');
                 logger.info('<< Termina controller reenviarCorreo');
-                return handler(Message('Hubo un error en la utilidad enviarCorreo', 500), res, 500);
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'Hubo un error en el servicio'
+                });
             }
 
             logger.info('<< Termina controller reenviarCorreo');
-            return handler(Message('Tu correo se reenvio exitosamente', 200), res, 200);
+            res.render('success', {
+                titulo: 'Exitoso',
+                nombre: usuarioEncontrado.nombre,
+                mensaje: 'tu correo ha reenvio exitosamente'
+            });
          
         } catch (error) {
 
             // Si existe un error en el login, devolver el error
             logger.error('Error en controller reenviarCorreo: ', error);
-            return handler(Message('Ocurrio un error en el controller reenviarCorreo', 500), res, 500);
+            return res.render('error', {
+                titulo: 'Ups',
+                error: 'Hubo un error en el servicio'
+            });
 
         }
 

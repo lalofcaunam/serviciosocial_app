@@ -14,31 +14,33 @@ module.exports = {
             logger.debug('Req Query: ', req.query);
 
             // Validar rol del usuario
+            logger.debug('FCAController - leerTodasAsignaturasFiltro: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
-                logger.debug('FCAController - leerTodasAsignaturasFiltro: Hubo un error en el validador buscarUno');
+                logger.debug('FCAController - leerTodasAsignaturasFiltro: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
             // Llamar al servicio AsignaturaService.leerMuchasLicenciaturasPorFiltro
-            logger.debug('FCAController - leerTodasAsignaturasFiltro: Mandar a llamar al servicio leerMuchasLicenciaturasPorFiltro de Asignatura');
+            logger.debug('FCAController - leerTodasAsignaturasFiltro: Mandar a llamar al servicio AsignaturaService.leerMuchasAsignaturasPorFiltro');
             const asignaturas = await AsignaturaService.leerMuchasAsignaturasPorFiltro({
                 claveLicenciatura: req.query.claveLicenciatura,
                 claveSemestre: req.query.claveSemestre,
             });
-            logger.debug('asignaturas: ', asignaturas);
 
             // Si regresa 'Error', significa que ocurrio un error en el servicio
             if(asignaturas === 'Error') {
+                logger.debug('FCAController - leerTodasAsignaturasFiltro: Ocurrio un error en el servicio AsignaturaService.leerMuchasAsignaturasPorFiltro');
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('Ocurrio un error en el servicio AsignaturaService', 500), res, 500);
+                return handler(Message('currio un error en el servicio AsignaturaService.leerMuchasAsignaturasPorFiltro', 500), res, 500);
             }
 
             // Si regresa false, significa que no existe ninguna asignatura
             if(!asignaturas) {
+                logger.debug('FCAController - leerTodasAsignaturasFiltro: No existe ninguna asignatura');
                 logger.info('<< Termina controller leerTodasAsignaturasFiltro');
-                return handler(Message('No existe ninguna asignatura', 204), res, 204);
+                return handler(Message('No existe ninguna asignatura', 404), res, 404);
             }
 
             logger.info('<< Termina controller leerTodasAsignaturasFiltro');
@@ -61,21 +63,30 @@ module.exports = {
             logger.debug('Req Query: ', req.query);
 
             // Validar rol del usuario
+            logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
-                logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Hubo un error en el validador buscarUno');
+                logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
             // Revisar por quien se hara la busqueda
             if(req.query.fuente === 'Licenciatura'){
+                logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Mandar a llamar al servicio LicenciaturaService.leerTodos');
                 const licenciaturasEncontradas = await LicenciaturaService.leerTodos();
 
+                // Si regresa 'Error', significa que ocurrio un error en el servicio
+                if(licenciaturasEncontradas === 'Error') {
+                    logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Ocurrio un error en el servicio LicenciaturaService.leerTodos');
+                    logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                    return handler(Message('Ocurrio un error en el servicio LicenciaturaService.leerTodos', 500), res, 500);
+                }
+
                 if(!licenciaturasEncontradas){
-                    logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Ocurrio un error en el servicio LicenciaturaService');
+                    logger.debug('FCAController - leerTodasLicenciaturasOSemestres: No existe ninguna Licenciatura');
                     logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
-                    return handler(Message('Ocurrio un error en el servicio LicenciaturaService', 500), res, 500);
+                    return handler(Message('No existe ninguna Licenciatura', 204), res, 204);
                 }
 
                 logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
@@ -83,12 +94,20 @@ module.exports = {
             } 
 
             else if (req.query.fuente === 'Semestre'){
+                logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Mandar a llamar al servicio SemestreService.leerTodos');
                 const semestresEncontrados = await SemestreService.leerTodos();
 
+                // Si regresa 'Error', significa que ocurrio un error en el servicio
+                if(semestresEncontrados === 'Error') {
+                    logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Ocurrio un error en el servicio SemestreService.leerTodos');
+                    logger.info('<< Termina controller leerTodasAsignaturasFiltro');
+                    return handler(Message('Ocurrio un error en el servicio SemestreService.leerTodos', 500), res, 500);
+                }
+
                 if(!semestresEncontrados){
-                    logger.debug('FCAController - leerTodasLicenciaturasOSemestres: Ocurrio un error en el servicio SemestreService');
+                    logger.debug('FCAController - leerTodasLicenciaturasOSemestres: No existe ningun semestre');
                     logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');
-                    return handler(Message('Ocurrio un error en el servicio SemestreService', 500), res, 500);
+                    return handler(Message('No existe ningun semestre', 204), res, 204);
                 }
 
                 logger.info('<< Termina controller leerTodasLicenciaturasOSemestres');

@@ -17,7 +17,7 @@ module.exports = {
             logger.debug('PreguntaController - crearUno: Mandar a llamar al validador HeaderValidator.idUsuario');
             const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
-                logger.debug('PreguntaController - crearUno: Hubo un error en el validador buscarUno');
+                logger.debug('PreguntaController - crearUno: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller crearUno');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
@@ -28,9 +28,9 @@ module.exports = {
 
             // Validar que no regrese 'Error'
             if(cuestionarioEncontrado === 'Error') {
-                logger.debug('PreguntaController - crearUno: Ocurrio un error en servicio leerUno');
+                logger.debug('PreguntaController - crearUno: Ocurrio un error en servicio CuestionarioService.leerUno');
                 logger.info('<< Termina controller crearUno');
-                return handler(Message('Ocurrio un error en servicio crearUno', 500), res, 500);
+                return handler(Message('Ocurrio un error en servicio CuestionarioService.leerUno', 500), res, 500);
             }
 
             // Validar que no regresa false
@@ -52,9 +52,9 @@ module.exports = {
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(preguntaCreada === 'Error') {
-                logger.debug('PreguntaController - crearUno: Hubo un error en el servicio crearUno');
+                logger.debug('PreguntaController - crearUno: Hubo un error en el servicio PreguntaService.crearUno');
                 logger.info('<< Termina controller crearUno');
-                return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
+                return handler(Message('Hubo un error en el servicio PreguntaService.crearUno', 500), res, 500);
             }
 
             logger.info('<< Termina controller crearUno');
@@ -77,52 +77,27 @@ module.exports = {
             logger.debug('Req Params: ', req.params);
 
             // Validar rol del usuario
-            const validarUsuario = await HeaderValidator.idUsuario(null, req);
+            logger.debug('PreguntaController - leerUno: Mandar a llamar al validador HeaderValidator.idUsuario');
+            const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
-                logger.debug('CuestionarioController - leerUno: Hubo un error en el validador buscarUno');
+                logger.debug('PreguntaController - leerUno: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller leerUno');
                 return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
             }
 
-            // Validar que no venga nulo el parametro idCuestionario
-            const idCuestionarioNuloIndefinido = esNuloIndefinido([req.params.idCuestionario], ['ParamIdCuestionario']);
-            if(idCuestionarioNuloIndefinido.error){
-                logger.debug('CuestionarioController - leerUno: Hubo un error en la utilidad esNuloIndefinido');
+            // Validar que no venga nulo el parametro idPregunta
+            const idPreguntaNuloIndefinido = esNuloIndefinido([req.params.idPregunta], ['ParamIdPregunta']);
+            if(idPreguntaNuloIndefinido.error){
+                logger.debug('PreguntaController - leerUno: Hubo un error en la utilidad esNuloIndefinido');
                 logger.info('<< Termina controller leerUno');
-                return handler(Message(idCuestionarioNuloIndefinido.message, idCuestionarioNuloIndefinido.code), res, idCuestionarioNuloIndefinido.code);
+                return handler(Message(idPreguntaNuloIndefinido.message, idPreguntaNuloIndefinido.code), res, idPreguntaNuloIndefinido.code);
             }
 
-            let cuestionarioEncontrado;
-
-            // Si el usuario es Profesor
-            if(validarUsuario.rol === 'Profesor'){
-                // Validar que el cuestionario exista
-                logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio leerUno');
-                cuestionarioEncontrado = await CuestionarioService.leerUno({_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
-
-                // Validar que no regrese 'Error'
-                if(cuestionarioEncontrado === 'Error') {
-                    logger.debug('CuestionarioController - leerUno: Ocurrio un error en servicio leerUno');
-                    logger.info('<< Termina controller leerUno');
-                    return handler(Message('Ocurrio un error en servicio leerUno', 500), res, 500);
-                }
-
-                // Validar que no regresa false
-                if(!cuestionarioEncontrado) {
-                    logger.debug('CuestionarioController - leerUno: El cuestionario no existe');
-                    logger.info('<< Termina controller leerUno');
-                    return handler(Message('El cuestionario no existe', 400), res, 400);
-                }
-            } else {
-                // Validar que el cuestionario exista
-                logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador buscarUno');
-                cuestionarioEncontrado = await BusquedaValidator.buscarUno('Cuestionario', req.params.idCuestionario);
-                if( cuestionarioEncontrado.error ) {
-                    logger.debug('CuestionarioController - leerUno: Hubo un error en el validador buscarUno');
-                    logger.info('<< Termina controller leerUno');
-                    return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
-                }
-            }
+            /**
+             * 1. Buscar a la pregunta
+             * 2. Validar que no venga 'Error'
+             * 3. Validar que no venga false
+             */
 
             logger.info('<< Termina controller leerUno');
             return handler(Message(cuestionarioEncontrado, 200), res, 200);

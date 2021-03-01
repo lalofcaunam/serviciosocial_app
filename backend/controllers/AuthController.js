@@ -17,30 +17,35 @@ module.exports = {
             logger.info('>> Inicia controller signup');
 
             // Revisar si ya existe un usuario con ese correo
-            logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
+            logger.debug('AuthController - signup: Mandar a llamar al servicio UsuarioService.leerUnoPorEmail');
             const correoExiste = await UsuarioService.leerUnoPorEmail(req.body.correo);
 
             // Si no regresa true o null, significa que ya existe un usuario con ese correo
             if(!correoExiste || correoExiste[0] != null) {
+                logger.debug('AuthController - signup: Ya existe un usuario con ese correo');
                 logger.info('<< Termina controller signup');
                 return handler(Message('Ya existe un usuario con ese correo', 400), res, 400);
             }
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(correoExiste === 'Error') {
+                logger.debug('AuthController - signup: Hubo un error en el servicio leerUnoPorEmail');
                 logger.info('<< Termina controller signup');
-                return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
+                return handler(Message('Hubo un error en el servicio UsuarioService.leerUnoPorEmail', 500), res, 500);
             }
 
             // Crear el usuario
-            logger.debug('AuthController - signup: Mandar a llamar al servicio crearUno de Usuario');
+            logger.debug('AuthController - signup: Mandar a llamar al servicio UsuarioService.crearUno');
             const usuarioCreado = await UsuarioService.crearUno(req.body);
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(usuarioCreado === 'Error') {
+                logger.debug('AuthController - signup: Hubo un error en el servicio UsuarioService.crearUno');
                 logger.info('<< Termina controller signup');
-                return handler(Message('Hubo un error en el servicio crearUno', 500), res, 500);
+                return handler(Message('Hubo un error en el servicio UsuarioService.crearUno', 500), res, 500);
             }
+
+            const token = crearToken({idUsuario:usuarioCreado._id}, '20min');
 
             // Mandar correo de validacion de email
             logger.debug('AuthController - signup: Mandar a llamar a la utilidad de envio el correo de verificacion');
@@ -49,7 +54,7 @@ module.exports = {
                 from: process.env.SENDER_SENDGRID, // email de rfl
                 templateId: process.env.TEMPLATE_VERIFIEDEMAIL_SENDGRID,
                 dynamic_template_data: {
-                    nombreUsuario: usuarioEncontrado.nombre, ///usuarios/:token/verificar
+                    nombreUsuario: usuarioCreado.nombre,
                     urlVerificacion: `${url}/usuarios/${token}/verificar`,
                     expiracion: moment().add(20, 'minutes').format('LLL'),
                 }
@@ -57,15 +62,15 @@ module.exports = {
 
             // Si regresa false, significa que hubo un error en la utilidad
             if(!envioCorreo) {
-                logger.debug('Hubo un error en la utilidad enviarCorreo');
-
-                logger.debug('AuthController - signup: Mandar a llamar al servicio borrarUno de Usuario');
+                logger.debug('AuthController - signup: Hubo un error en la utilidad enviarCorreo');
+                logger.debug('AuthController - signup: Mandar a llamar al servicio UsuarioService.borrarUno');
                 const usuarioEliminado = await UsuarioService.borrarUno(usuarioCreado._id);
 
                 // Si regresa false, significa que hubo un error en el servicio
                 if(usuarioEliminado === 'Error') {
+                    logger.debug('AuthController - signup: Hubo un error en el servicio UsuarioService.borrarUno');
                     logger.info('<< Termina controller signup');
-                    return handler(Message('Hubo un error en el servicio borrarUno', 500), res, 500);
+                    return handler(Message('Hubo un error en el servicio UsuarioService.borrarUno', 500), res, 500);
                 }
 
                 logger.info('<< Termina controller signup');
@@ -90,42 +95,42 @@ module.exports = {
             logger.info('>> Inicia controller login');
 
             // Buscar al usuario por correo
-            logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
+            logger.debug('AuthController - login: Mandar a llamar al servicio UsuarioService.leerUnoPorEmail');
             const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.body.correo, true);
 
             // Si regresa false, significa que el usuario no existe
             if(!usuarioEncontrado) {
-                logger.debug('El usuario no existe');
-                logger.info('<< Termina controller signup');
+                logger.debug('AuthController - login: El usuario no existe');
+                logger.info('<< Termina controller login');
                 return handler(Message('El usuario no existe', 404), res, 404);
             }
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(usuarioEncontrado === 'Error') {
-                logger.debug('Hubo un error en el servicio leerUnoPorEmail');
-                logger.info('<< Termina controller signup');
-                return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 500), res, 500);
+                logger.debug('AuthController - login: Hubo un error en el servicio UsuarioService.leerUnoPorEmail');
+                logger.info('<< Termina controller login');
+                return handler(Message('Hubo un error en el servicio UsuarioService.leerUnoPorEmail', 500), res, 500);
             }
 
             // Comparar la contraseña del usuario
-            logger.debug('AuthController - signup: Mandar a llamar a la utilidad de comparar contraseñas');
+            logger.debug('AuthController - signup: Mandar a llamar a la utilidad compararContrasenias');
             const contraseniaCorrecta = compararContrasenias(usuarioEncontrado.contrasenia, req.body.contrasenia);
 
             // Si regresa false, significa que la constraseña es incorrecta
             if (!contraseniaCorrecta) {
-                logger.debug('La contraseña del usuario es incorrecta');
+                logger.debug('AuthController - signup: La contraseña del usuario es incorrecta');
                 logger.info('<< Termina controller login');
                 return handler(Message('La contraseña del usuario es incorrecta', 404), res, 404);
             }
 
             // Si el correo no esta activado
             if(!usuarioEncontrado.correoActivado){
-                logger.debug('El correo no ha sido activado');
+                logger.debug('AuthController - signup: El correo no ha sido activado');
                 logger.info('<< Termina controller login');
                 return handler(Message('El correo no ha sido activado', 400), res, 400);
             }
 
-            logger.debug('AuthController - signup: Mandar a llamar a la utilidad para crear el token');
+            logger.debug('AuthController - signup: Mandar a llamar a la utilidad crearToken');
             const token = crearToken({
                 id: usuarioEncontrado._id,
                 nombre: usuarioEncontrado.nombre,
@@ -135,7 +140,7 @@ module.exports = {
 
             // Si regresa undefined, significa que hubo un error en la utilidad
             if (token === undefined) {
-                logger.debug('Hubo un error en la utilidad crearToken');
+                logger.debug('AuthController - signup: Hubo un error en la utilidad crearToken');
                 logger.info('<< Termina controller login');
                 return handler(Message('Hubo un error en la utilidad crearToken', 500), res, 500);
             }
@@ -153,14 +158,6 @@ module.exports = {
 
     },
 
-    // Enviar la vista 'enviar-email-resetpass'
-    pantallaCorreoReset: (req, res) => {
-        res.render('enviar-email-resetpass', {
-            titulo: 'enviar-email-resetpass',
-            endpoint:`${url}/usuarios/reset`
-        });
-    },
-
     // Enviar correo para cambio de contraseña
     enviarCorreoReset: async (req, res) => {
         try {
@@ -168,27 +165,21 @@ module.exports = {
             logger.debug('Req Body: ', req.body);
 
             // Buscar al usuario por correo
-            logger.debug('AuthController - signup: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
+            logger.debug('AuthController - enviarCorreoReset: Mandar a llamar al servicio UsuarioService.leerUnoPorEmail');
             const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(req.body.correo, true);
 
             // Si regresa false, significa que el usuario no existe
             if(!usuarioEncontrado) {
                 logger.debug('AuthController - enviarCorreoReset: El usuario no existe');
                 logger.info('<< Termina controller enviarCorreoReset');
-                return res.render('error', {
-                    titulo: 'Ups',
-                    error: 'Este usuario no existe'
-                });
+                return handler(Message('El usuario no existe', 204), res, 204);
             }
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(usuarioEncontrado === 'Error') {
                 logger.debug('AuthController - enviarCorreoReset: Hubo un error en el servicio leerUnoPorEmail');
-                logger.info('<< Termina controller signup');
-                return res.render('error', {
-                    titulo: 'Ups',
-                    error: 'Ocurrio un error inesperado en el servicio'
-                });
+                logger.info('<< Termina controller enviarCorreoReset');
+                return handler(Message('Hubo un error en el servicio leerUnoPorEmail', 204), res, 204);
             }
 
             // Generar token para link del correo
@@ -198,7 +189,7 @@ module.exports = {
             }, '20min', usuarioEncontrado.contrasenia);
 
             // Mandar correo para cambiar la contraseña
-            logger.debug('AuthController - enviarCorreoReset: Mandar a llamar a la utilidad de envio de correo');
+            logger.debug('AuthController - enviarCorreoReset: Mandar a llamar a la utilidad enviarCorreo');
             const envioCorreo = await enviarCorreo({
                 to: usuarioEncontrado.correo,
                 from: process.env.SENDER_SENDGRID,
@@ -212,27 +203,19 @@ module.exports = {
 
             // Si regresa false, significa que hubo un error en la utilidad
             if(!envioCorreo) {
-                logger.debug('Hubo un error en la utilidad enviarCorreo');
+                logger.debug('AuthController - enviarCorreoReset: Hubo un error en la utilidad enviarCorreo');
                 logger.info('<< Termina controller signup');
-                return res.render('error', {
-                    titulo: 'Ups',
-                    error: 'Ocurrio un error inesperado en el servicio'
-                });
+                return handler(Message('Hubo un error en la utilidad enviarCorreo', 204), res, 204);
             }
 
             logger.info('<< Termina controller enviarCorreoReset');
-            return res.render('respuesta-sicorreoexiste-resetpass', {
-                titulo: 'Si el correo existe'
-            });
+            return handler(Message('Termina controller enviarCorreoReset', 204), res, 204);
 
         } catch (error) {
 
             // Si existe un error en el envio, devolver el error
             logger.error(error);
-            return res.render('error', {
-                titulo: 'Ups',
-                error: 'Ocurrio un error inesperado en el servicio'
-            });
+            return handler(Message('Ocurrio un error en el controller enviarCorreoReset', 500), res, 500);
 
         }
     },
@@ -244,6 +227,7 @@ module.exports = {
             logger.debug('Req Params: ', req.params);
 
             // Validar que no venga nulo el parametro token
+            logger.debug('AuthController - enviarPantallaReset: Mandar a llamar a la utilidad esNuloIndefinido');
             const tokenNuloIndefinido = esNuloIndefinido([req.params.token], ['ParamToken']);
             if(tokenNuloIndefinido.error){
                 logger.debug('AuthController - enviarPantallaReset: Hubo un error en la utilidad esNuloIndefinido');
@@ -255,13 +239,13 @@ module.exports = {
             }
 
             // Buscar al usuario por correo
-            logger.debug('AuthController - enviarPantallaReset: Mandar a llamar al servicio leerUnoPorEmail de Usuario');
+            logger.debug('AuthController - enviarPantallaReset: Mandar a llamar al servicio UsuarioService.leerUnoPorEmail');
             const usuarioEncontrado = await UsuarioService.leerUnoPorEmail(jwt.decode(req.params.token).correo, true);
 
             // Si regresa false, significa que el usuario no existe
             if(!usuarioEncontrado) {
                 logger.debug('AuthController - enviarPantallaReset: El usuario no existe');
-                logger.info('<< Termina controller signup');
+                logger.info('<< Termina controller enviarPantallaReset');
                 return res.render('error', {
                     titulo: 'Ups',
                     error: 'Este usuario no existe'
@@ -270,7 +254,7 @@ module.exports = {
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(usuarioEncontrado === 'Error') {
-                logger.debug('AuthController - enviarPantallaReset: Hubo un error en el servicio leerUnoPorEmail');
+                logger.debug('AuthController - enviarPantallaReset: Hubo un error en el servicio UsuarioService.leerUnoPorEmail');
                 logger.info('<< Termina controller enviarPantallaReset');
                 return res.render('error', {
                     titulo: 'Ups',
@@ -283,9 +267,8 @@ module.exports = {
             // Decodificar el token con la llave
             jwt.verify(req.params.token, usuarioEncontrado.contrasenia, function (err, decoded){
                 if(err){
-                    console.log(err)
                     if(err.name === 'TokenExpiredError'){
-                        logger.debug('El token a expirado');
+                        logger.debug('AuthController - enviarPantallaReset: El token a expirado');
                         logger.info('<< Termina controller enviarPantallaReset');
                         return decode = {
                             error: true,
@@ -294,7 +277,7 @@ module.exports = {
                             code: 500
                         }
                     } else {
-                        logger.debug('El token es invalido');
+                        logger.debug('AuthController - enviarPantallaReset: El token es invalido');
                         logger.info('<< Termina controller enviarPantallaReset');
                         return decode = {
                             error: true,
@@ -309,7 +292,7 @@ module.exports = {
             if(decode.error){
                 // Si el error es por expiracion del token, mandar pantalla para reenviar correo
                 if(decode.type === 'TokenExpiredError'){
-                    return res.render('tokenexp-resetpass', {
+                    return res.render('tokenexp', {
                         titulo: 'Token Expirado',
                         expiracion: decode.message,
                         correo: usuarioEncontrado.correo,
@@ -327,7 +310,7 @@ module.exports = {
 
             logger.info('<< Termina controller enviarPantallaReset');
             // Enviar la pantalla para el cambio de contraseña
-            return res.render('form-resetpass', {
+            return res.render('resetpass_form', {
                 titulo: 'Cambio de contraseña',
                 nombre: usuarioEncontrado.nombre,
                 endpoint:`${url}/usuarios/reset/${usuarioEncontrado.id}`
@@ -353,12 +336,23 @@ module.exports = {
             logger.debug('Req Body: ', req.body);
             logger.debug('Req Params: ', req.params);
 
-            // TODO: validar que los params no vengan nulos "idUsuario"
+            // Validar que no venga nulo el parametro idUsuario
+            logger.debug('AuthController - reset: Mandar a llamar a la utilidad esNuloIndefinido');
+            const idUsuarioNuloIndefinido = esNuloIndefinido([req.params.idusuario], ['ParamIdUsuario']);
+            if(idUsuarioNuloIndefinido.error){
+                logger.debug('AuthController - reset: Hubo un error en la utilidad esNuloIndefinido');
+                logger.info('<< Termina controller reset');
+                return res.render('error', {
+                    titulo: 'Ups',
+                    error: 'Ocurrio un error inesperado en el servicio'
+                });
+            }
 
             // Encriptar contraseña del usuario
             const hashPassword = bcrypt.hashSync(req.body.contrasenia, SALT_WORK_FACTOR);
 
             // Actualizar la contraseña del usuario
+            logger.debug('AuthController - reset: Mandar a llamar al servicio UsuarioService.actualizarUno');
             const usuarioActualizado = await UsuarioService.actualizarUno({_id: req.params.idUsuario, body: {contrasenia: hashPassword} });
 
             // Si regresa false, significa que el usuario no existe
@@ -373,7 +367,7 @@ module.exports = {
 
             // Si regresa 'Error', significa que hubo un error en el servicio
             if(usuarioActualizado === 'Error') {
-                logger.debug('AuthController - reset: Hubo un error en el servicio actualizarUno');
+                logger.debug('AuthController - reset: Hubo un error en el servicio UsuarioService.actualizarUno');
                 logger.info('<< Termina controller reset');
                 return res.render('error', {
                     titulo: 'Ups',
@@ -382,7 +376,7 @@ module.exports = {
             }
 
             // Mandar correo para cambiar la contraseña
-            logger.debug('AuthController - reset: Mandar a llamar a la utilidad de envio de correo');
+            logger.debug('AuthController - reset: Mandar a llamar a la utilidad enviarCorreo');
             const envioCorreo = await enviarCorreo({
                 to: usuarioActualizado.correo,
                 from: process.env.SENDER_SENDGRID,
@@ -399,9 +393,10 @@ module.exports = {
             }
 
             logger.info('<< Termina Controller reset');
-            res.render('success-resetpass', {
+            res.render('success', {
                 titulo: 'Exitoso',
-                nombre: usuarioActualizado.nombre
+                nombre: usuarioActualizado.nombre,
+                mensaje: 'tu contraseña a sido cambiada exitosamente'
             });
 
         } catch (error) {
