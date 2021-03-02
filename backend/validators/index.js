@@ -3,7 +3,7 @@ const AuthValidator = require('./AuthValidator');
 const HeaderValidator = require('./HeaderValidator');
 const BusquedaValidator = require('./BusquedaValidator');
 const CuestionarioValidator = require('./CuestionarioValidator');
-const PreguntaValidor = require('./PreguntaValidor');
+const PreguntaValidator = require('./PreguntaValidator');
 
 module.exports = {
     FCAValidator,
@@ -11,5 +11,5 @@ module.exports = {
     HeaderValidator,
     BusquedaValidator,
     CuestionarioValidator,
-    PreguntaValidor,
+    PreguntaValidator,
 };
