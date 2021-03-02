@@ -59,5 +59,9 @@ module.exports = {
         return process.env.NODE_ENV === 'PRODUCTION' ?
             `${process.env.URL}${process.env.BASE_PATH}` :
             `${process.env.URL}${process.env.PORT}${process.env.BASE_PATH}`;
+    },
+    formatearJson: (json) => {
+        const jsonStringify = JSON.stringify(json);
+        return JSON.parse(jsonStringify);
     }
 };
