@@ -4,37 +4,36 @@ const router = express.Router();
 
 const { PreguntaController } = require('../controllers');
 const { TokenMiddleware } = require('../middlewares');
-const { HeaderValidator, PreguntaValidor } = require('../validators');
+const { HeaderValidator, PreguntaValidator } = require('../validators');
 
 router.post(
-    '/preguntas',
+    '/cuestionarios/:idCuestionario/preguntas',
     HeaderValidator.general,
-    PreguntaValidor.crearUno,
+    PreguntaValidator.crearUno,
     TokenMiddleware.verifyToken,
-    PreguntaController.crearUno,
-);
-
-/*router.get(
-    '/cuestionarios',
-    HeaderValidator.general,
-    TokenMiddleware.verifyToken,
-    CuestionarioController.leerTodos,
+    PreguntaController.crearUno
 );
 
 router.get(
-    '/cuestionarios/:idCuestionario',
+    '/cuestionarios/:idCuestionario/preguntas',
     HeaderValidator.general,
     TokenMiddleware.verifyToken,
-    CuestionarioController.leerUno,
+    PreguntaController.leerTodos
+);
+
+router.get(
+    '/cuestionarios/:idCuestionario/preguntas/:idPregunta',
+    HeaderValidator.general,
+    TokenMiddleware.verifyToken,
+    PreguntaController.leerUno
 );
 
 router.put(
-    '/cuestionarios/:idCuestionario',
+    '/cuestionarios/:idCuestionario/preguntas/:idPregunta',
     HeaderValidator.general,
-    CuestionarioValidator.actualizarUno,
+    PreguntaValidator.actualizarUno,
     TokenMiddleware.verifyToken,
-    CuestionarioController.actualizarUno,
-);*/
-
+    PreguntaController.actualizarUno
+);
 
 module.exports = router;
