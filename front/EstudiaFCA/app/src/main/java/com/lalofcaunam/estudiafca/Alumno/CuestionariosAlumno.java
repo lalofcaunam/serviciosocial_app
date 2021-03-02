@@ -1,13 +1,17 @@
 package com.lalofcaunam.estudiafca.Alumno;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +28,7 @@ public class CuestionariosAlumno extends AppCompatActivity {
     TextView textCuestionariosAlumno;
     String mTitulo[] = {"Cuestionario 1", "Cuestionario 2"};
     String mTema[] = {"Tema 1", "Tema 2"};
+    Button btnInfoPregunta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class CuestionariosAlumno extends AppCompatActivity {
     public void getData() {
         if (mTitulo.length > 0){
             textCuestionariosAlumno.setVisibility(View.GONE);
-            MyAdapter adapter = new MyAdapter(this, mTitulo, mTema);
+            MyAdapter adapter = new MyAdapter(this, mTitulo, mTema, btnInfoPregunta);
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,12 +79,16 @@ public class CuestionariosAlumno extends AppCompatActivity {
         Context context;
         String rTitulo[];
         String rTema[];
+        Button rInfo;
+        Dialog dialog;
 
-        MyAdapter(Context c, String titulo[], String tema[]){
+        MyAdapter(Context c, String titulo[], String tema[], Button info){
             super(c, R.layout.row_cuestionarios_alumno, R.id.titulo_cuestionario, titulo);
             this.context = c;
             this.rTitulo = titulo;
             this.rTema = tema;
+            this.rInfo = info;
+            this.dialog = new Dialog(CuestionariosAlumno.this);
         }
 
         @NonNull
@@ -89,11 +98,31 @@ public class CuestionariosAlumno extends AppCompatActivity {
             View row = layoutInflater.inflate(R.layout.row_cuestionarios_alumno, parent, false);
             TextView tituloCuestionario = row.findViewById(R.id.titulo_cuestionario);
             TextView temaCuestionario = row.findViewById(R.id.tema_cuestionario);
+            Button btnItemInfo = row.findViewById(R.id.btnInfoPregunta);
 
             tituloCuestionario.setText(rTitulo[position]);
             temaCuestionario.setText(rTema[position]);
+            btnItemInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showInfoPregunta();
+                }
+            });
 
             return row;
+        }
+
+        private void showInfoPregunta(){
+            dialog.setContentView(R.layout.info_pregunta_dialog);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            TextView nameCuestionario = findViewById(R.id.nameCuestionario);
+            TextView tema_cuestionario = findViewById(R.id.tema_cuestionario);
+
+            Button ok = findViewById(R.id.btnOkInfoPregunta);
+
+            dialog.show();
+
         }
     }
 

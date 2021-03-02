@@ -34,10 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_baseline_info_24"
+        <Button
+            android:id="@+id/btnInfoPregunta"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_baseline_info_24"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="end"/>
