@@ -1,5 +1,6 @@
 const logger = require('log4js').getLogger('PreguntaService');
 const { PreguntaDto } = require('../dtos');
+const { formatearJson } = require('../utils');
 
 module.exports = {
 
@@ -95,11 +96,11 @@ module.exports = {
 
             // Si no se requiere que las preguntas traigan sus respuestas
             if(!conRespuestas){
-                //const jsonStringify = JSON.stringify(preguntasEncontradas);
-                const jsonParse = JSON.parse(preguntasEncontradas);
-                const preguntasSinRespuestas = jsonParse.forEach(pregunta => delete pregunta.respuestas);
+                const jsonParse = formatearJson(preguntasEncontradas);
+                jsonParse.forEach(pregunta => delete pregunta.respuestas);
+
                 logger.info('< Termina servicio leerTodos');
-                return preguntasSinRespuestas;
+                return jsonParse;
             }
 
             logger.info('< Termina servicio leerTodos');
