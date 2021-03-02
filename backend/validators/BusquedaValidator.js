@@ -37,8 +37,13 @@ const validarModelo = async (modelo, id) => {
             logger.debug('cuestionarioEncontrado: ', consulta);
             return consulta;
 
+        case 'CuestionarioProfesor':
+            consulta = await CuestionarioService.leerUno(id);
+            logger.debug('cuestionarioEncontrado: ', consulta);
+            return consulta;
+
         case 'Pregunta':
-            consulta = await PreguntaService.leerUno({id});
+            consulta = await PreguntaService.leerUno(id);
             logger.debug('preguntaEncontrado: ', consulta);
             return consulta;
     
