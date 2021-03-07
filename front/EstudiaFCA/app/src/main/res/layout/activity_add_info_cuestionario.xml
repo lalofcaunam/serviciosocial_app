@@ -90,9 +90,9 @@
 
     <Button
         android:id="@+id/confirmInfoCuestionario"
-        android:text="Aceptar"
         style="@style/btnSimple"
         android:layout_gravity="bottom|right"
-        android:layout_margin="20dp" />
+        android:layout_margin="20dp"
+        android:text="Aceptar" />
 
 </FrameLayout>

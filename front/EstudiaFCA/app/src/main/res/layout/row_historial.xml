@@ -2,8 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,37 +19,22 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/titulo_cuestionario_profesor"
+                android:id="@+id/intentos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cuestionario 1"
+                android:text="# Intentos"
                 style="@style/labelText"
                 android:layout_marginLeft="0dp"/>
 
             <TextView
-                android:id="@+id/tema_cuestionario_profesor"
+                android:id="@+id/fecha_intento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tema"
+                android:text="Fecha de Realizacion"
                 style="@style/subtitle"
                 />
 
         </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/btnOptionsCuestionarioAlumno"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_baseline_more_vert_24"
-                android:layout_marginRight="5dp"
-                android:background="@null"
-                android:layout_gravity="end"/>
-
-        </FrameLayout>
 
     </LinearLayout>
 

@@ -52,6 +52,16 @@
             android:label="Creacion de Pregunta"
             android:theme="@style/ThemeActionBar"/>
 
+        <activity android:name=".Profesor.HistorialCuestionario"
+            android:parentActivityName=".Profesor.CuestionariosProfesor"
+            android:label="Historial de Cuestionario"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.InfoHistorial"
+            android:parentActivityName=".Profesor.HistorialCuestionario"
+            android:label="Información de Historial"
+            android:theme="@style/ThemeActionBar"/>
+
         <!--Alumno-->
         <activity android:name=".Alumno.CuestionariosAlumno"
             android:label="Cuestionarios"

@@ -151,17 +151,19 @@
                     android:hint="Comentario al alumno para que sepa por que no era la respuesta correcta *"
                     style="@style/inputText"/>
 
+                <Button
+                    android:id="@+id/btnConfirmarPregunta"
+                    android:text="Aceptar"
+                    style="@style/btnSimple"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="20dp" />
+
             </LinearLayout>
 
         </ScrollView>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnConfirmarPregunta"
-        android:text="Aceptar"
-        style="@style/btnSimple"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="20dp" />
+
 
 </FrameLayout>
