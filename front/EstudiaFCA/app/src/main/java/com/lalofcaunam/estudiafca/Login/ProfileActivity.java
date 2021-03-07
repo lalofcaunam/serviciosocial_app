@@ -7,11 +7,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lalofcaunam.estudiafca.Alumno.CuestionariosAlumno;
+import com.lalofcaunam.estudiafca.Alumno.ResultadosCuestionarioAlumno;
 import com.lalofcaunam.estudiafca.R;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    Button btnProfesor, btnEstudiante;
+    Button btnProfesor, btnAlumno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,20 +22,24 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnProfesor = findViewById(R.id.btnProfesor);
-        btnEstudiante = findViewById(R.id.btnEstudiante);
+        btnAlumno = findViewById(R.id.btnAlumno);
 
         btnProfesor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, SignupActivity.class));
+                Intent registraProfesor = new Intent(ProfileActivity.this, SignupActivity.class);
+                registraProfesor.putExtra("rol", "profesor");
+                startActivity(registraProfesor);
             }
         });
 
 
-        btnEstudiante.setOnClickListener(new View.OnClickListener() {
+        btnAlumno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, SignupActivity.class));
+                Intent registraAlumno = new Intent(ProfileActivity.this, SignupActivity.class);
+                registraAlumno.putExtra("rol", "alumno");
+                startActivity(registraAlumno);
             }
         });
 

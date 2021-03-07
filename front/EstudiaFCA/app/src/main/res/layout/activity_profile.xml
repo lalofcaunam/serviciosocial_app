@@ -17,9 +17,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnEstudiante"
+        android:id="@+id/btnAlumno"
         style="@style/btnMedium"
-        android:text="Estudiante"
+        android:text="Alumno"
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

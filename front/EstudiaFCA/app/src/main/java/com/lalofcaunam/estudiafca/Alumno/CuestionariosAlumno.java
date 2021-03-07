@@ -20,21 +20,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lalofcaunam.estudiafca.Profesor.CuestionariosProfesor;
 import com.lalofcaunam.estudiafca.R;
 
-public class CuestionariosAlumno extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class CuestionariosAlumno extends AppCompatActivity implements DialogInfoCuestionario.InfoCuestionario {
+
+    DialogInfoCuestionario cuadroDialogoInfoCuestionario;
     ListView listView;
     TextView textCuestionariosAlumno;
-    String mTitulo[] = {"Cuestionario 1", "Cuestionario 2"};
-    String mTema[] = {"Tema 1", "Tema 2"};
-    Button btnInfoPregunta;
+    private ArrayList<String> tituloC = new ArrayList<String>();
+    private ArrayList<String> temaC = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuestionarios_alumno);
-
         initComponents();
     }
 
@@ -42,53 +45,59 @@ public class CuestionariosAlumno extends AppCompatActivity {
         textCuestionariosAlumno = findViewById(R.id.textCuestionariosAlumno);
         listView = findViewById(R.id.listview_cuestionarios_alumno);
 
+        tituloC.add("Cuestionario 1");
+        tituloC.add("Cuestionario 2");
+
+        temaC.add("Tema 1");
+        temaC.add("Tema 2");
+
         getData();
     }
 
     public void getData() {
-        if (mTitulo.length > 0){
+        if (tituloC.isEmpty()){
+            textCuestionariosAlumno.setVisibility(View.VISIBLE);
+        } else {
             textCuestionariosAlumno.setVisibility(View.GONE);
-            MyAdapter adapter = new MyAdapter(this, mTitulo, mTema, btnInfoPregunta);
-            listView.setAdapter(adapter);
+
+            CuestionariosAlumno.AdapterCuestionariosAlumno adapterCA = new CuestionariosAlumno.AdapterCuestionariosAlumno(this, tituloC, temaC);
+            listView.setAdapter(adapterCA);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(CuestionariosAlumno.this, mTitulo[position], Toast.LENGTH_SHORT).show();
-                    if (mTitulo[position].equals("Cuestionario 1")){
+                    Toast.makeText(CuestionariosAlumno.this, tituloC.get(position), Toast.LENGTH_SHORT).show();
+                    if (tituloC.get(position).equals("Cuestionario 1")){
                         Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadosCuestionarioAlumno.class);
-                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", mTitulo[position]);
+                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", tituloC.get(position));
                         startActivity(resultadosCuestionarioAlumno);
                     } else {
                         Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadoFinalAlumno.class);
-                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", mTitulo[position]);
+                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", tituloC.get(position));
                         startActivity(resultadosCuestionarioAlumno);
                     }
-
                 }
             });
-        } else {
-            textCuestionariosAlumno.setVisibility(View.VISIBLE);
         }
 
     }
 
+    @Override
+    public void infoCuestionario() {
+    }
+
     // Adaptador de ListView
 
-    class MyAdapter extends ArrayAdapter<String> {
+    class AdapterCuestionariosAlumno extends ArrayAdapter<String> {
         Context context;
-        String rTitulo[];
-        String rTema[];
-        Button rInfo;
-        Dialog dialog;
+        ArrayList<String> rTitulo = new ArrayList<String>();
+        ArrayList<String> rTema = new ArrayList<String>();
 
-        MyAdapter(Context c, String titulo[], String tema[], Button info){
+        AdapterCuestionariosAlumno(Context c, List<String> titulo, List<String> tema){
             super(c, R.layout.row_cuestionarios_alumno, R.id.titulo_cuestionario, titulo);
             this.context = c;
-            this.rTitulo = titulo;
-            this.rTema = tema;
-            this.rInfo = info;
-            this.dialog = new Dialog(CuestionariosAlumno.this);
+            this.rTitulo = (ArrayList<String>) titulo;
+            this.rTema = (ArrayList<String>) tema;
         }
 
         @NonNull
@@ -98,32 +107,24 @@ public class CuestionariosAlumno extends AppCompatActivity {
             View row = layoutInflater.inflate(R.layout.row_cuestionarios_alumno, parent, false);
             TextView tituloCuestionario = row.findViewById(R.id.titulo_cuestionario);
             TextView temaCuestionario = row.findViewById(R.id.tema_cuestionario);
-            Button btnItemInfo = row.findViewById(R.id.btnInfoPregunta);
+            Button btnInfoCuestionario = row.findViewById(R.id.btnInfoCuestionario);
 
-            tituloCuestionario.setText(rTitulo[position]);
-            temaCuestionario.setText(rTema[position]);
-            btnItemInfo.setOnClickListener(new View.OnClickListener() {
+            tituloCuestionario.setText(rTitulo.get(position));
+            temaCuestionario.setText(rTema.get(position));
+
+            btnInfoCuestionario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showInfoPregunta();
+                    info(rTitulo.get(position), rTema.get(position));
                 }
             });
 
             return row;
         }
+    }
 
-        private void showInfoPregunta(){
-            dialog.setContentView(R.layout.info_pregunta_dialog);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            TextView nameCuestionario = findViewById(R.id.nameCuestionario);
-            TextView tema_cuestionario = findViewById(R.id.tema_cuestionario);
-
-            Button ok = findViewById(R.id.btnOkInfoPregunta);
-
-            dialog.show();
-
-        }
+    private void info(String titulo, String tema) {
+        cuadroDialogoInfoCuestionario = new DialogInfoCuestionario(this, CuestionariosAlumno.this, titulo, tema);
     }
 
 }
