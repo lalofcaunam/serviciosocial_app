@@ -6,6 +6,7 @@ const {
     UsuarioService,
     CuestionarioService,
     PreguntaService,
+    HistorialService
  } = require('../services');
 
 
@@ -33,7 +34,7 @@ const validarModelo = async (modelo, id) => {
             return consulta;
         
         case 'Cuestionario':
-            consulta = await CuestionarioService.leerUno({_id: id});
+            consulta = await CuestionarioService.leerUno(id);
             logger.debug('cuestionarioEncontrado: ', consulta);
             return consulta;
 
@@ -45,6 +46,11 @@ const validarModelo = async (modelo, id) => {
         case 'Pregunta':
             consulta = await PreguntaService.leerUno(id);
             logger.debug('preguntaEncontrado: ', consulta);
+            return consulta;
+
+        case 'Historial':
+            consulta = await HistorialService.leerUno(id);
+            logger.debug('historialEncontrado: ', consulta);
             return consulta;
     
         default:
