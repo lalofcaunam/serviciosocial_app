@@ -151,4 +151,40 @@ module.exports = {
         }
     },
 
+    // Borrar una pregunta
+    borrarUno: async (req) => {
+
+        try {
+            logger.info('> Inicia servicio borrarUno');
+
+            // Llamar al dto PreguntaDto.deleteOne
+            logger.debug('PreguntaService - leerUno: Realizando el borrado de una pregunta');
+            const preguntaBorrada = await PreguntaDto.deleteOne(req);
+
+            // Validar que no haya sucedido un error en el dto
+            if(preguntaBorrada === 'Error'){
+                logger.debug('PreguntaService - borrarUno: Ocurrio un error al tratar de borrar una pregunta');
+                logger.info('< Termina servicio borrarUno');
+                return 'Error';
+            }
+
+            // Validar que exista el cuestionario
+            if(preguntaBorrada == null){
+                logger.debug('PreguntaService - borrarUno: No existe ninguna pregunta con ese id');
+                logger.info('< Termina servicio borrarUno');
+                return false;
+            }
+
+            logger.info('< Termina servicio borrarUno');
+            return preguntaBorrada;
+
+        } catch (error) {
+
+            // Si existe un error en el borrado, devolver el error
+            logger.error('Error en servicio borrarUno: ', error);
+            return 'Error';
+
+        }
+    },
+
 };

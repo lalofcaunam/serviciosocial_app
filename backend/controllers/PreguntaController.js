@@ -1,4 +1,4 @@
-const { handler, esNuloIndefinido } = require('../utils');
+const { handler, esNuloIndefinido, formatearJson } = require('../utils');
 const { Message } = require('../enum');
 const { BusquedaValidator, HeaderValidator } = require('../validators');
 const { PreguntaService } = require('../services');
@@ -33,9 +33,9 @@ module.exports = {
 
             // Validar que el cuestionario exista
             logger.debug('PreguntaController - crearUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
-            const cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
+            const cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id, estatus: false});
             if( cuestionarioEncontrado.error ) {
-                logger.debug('PreguntaController - crearUno:: Hubo un error en el validador BusquedaValidator.buscarUno');
+                logger.debug('PreguntaController - crearUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                 logger.info('<< Termina controller crearUno');
                 return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
             }
@@ -98,7 +98,7 @@ module.exports = {
             logger.debug('PreguntaController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
             const cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
             if( cuestionarioEncontrado.error ) {
-                logger.debug('PreguntaController - leerUno:: Hubo un error en el validador BusquedaValidator.buscarUno');
+                logger.debug('PreguntaController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                 logger.info('<< Termina controller leerUno');
                 return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
             }
@@ -107,13 +107,17 @@ module.exports = {
             logger.debug('PreguntaController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
             const preguntaEncontrada = await BusquedaValidator.buscarUno('Pregunta', req.params.idPregunta);
             if( preguntaEncontrada.error ) {
-                logger.debug('PreguntaController - leerUno:: Hubo un error en el validador BusquedaValidator.buscarUno');
+                logger.debug('PreguntaController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                 logger.info('<< Termina controller leerUno');
                 return handler(Message(preguntaEncontrada.message, preguntaEncontrada.code), res, preguntaEncontrada.code);
             }
 
+            // Agregar a la pregunta encontrada, el estatus del cuestionario para que el front pueda validar
+            const preguntas = formatearJson(preguntaEncontrada);
+            Object.assign(preguntas, { estatusCuestionario: cuestionarioEncontrado.estatus });
+
             logger.info('<< Termina controller leerUno');
-            return handler(Message(preguntaEncontrada, 200), res, 200);
+            return handler(Message(preguntas, 200), res, 200);
 
         } catch (error) {
 
@@ -124,7 +128,7 @@ module.exports = {
         }
     },
 
-    // Leer todos los cuestionarios
+    // Leer todos las preguntas de un cuestionario
     leerTodos: async (req, res) => {
 
         try {
@@ -157,7 +161,7 @@ module.exports = {
                 logger.debug('PreguntaController - leerTodos: Mandar a llamar al validador BusquedaValidator.buscarUno');
                 cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
                 if( cuestionarioEncontrado.error ) {
-                    logger.debug('PreguntaController - leerTodos:: Hubo un error en el validador BusquedaValidator.buscarUno');
+                    logger.debug('PreguntaController - leerTodos: Hubo un error en el validador BusquedaValidator.buscarUno');
                     logger.info('<< Termina controller leerTodos');
                     return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
                 }
@@ -165,9 +169,9 @@ module.exports = {
             } else {
                 // Validar que el cuestionario exista
                 logger.debug('PreguntaController - leerTodos: Mandar a llamar al validador BusquedaValidator.buscarUno');
-                cuestionarioEncontrado = await BusquedaValidator.buscarUno('Cuestionario', {_id: req.params.idCuestionario});
+                cuestionarioEncontrado = await BusquedaValidator.buscarUno('Cuestionario', { _id: req.params.idCuestionario, estatus: true });
                 if( cuestionarioEncontrado.error ) {
-                    logger.debug('PreguntaController - leerTodos:: Hubo un error en el validador BusquedaValidator.buscarUno');
+                    logger.debug('PreguntaController - leerTodos: Hubo un error en el validador BusquedaValidator.buscarUno');
                     logger.info('<< Termina controller leerTodos');
                     return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
                 }
@@ -192,8 +196,23 @@ module.exports = {
                 return handler(Message('No existe ninguna pregunta de ese cuestionario', 204), res, 204);
             }
 
+            let preguntas;
+
+            // Agregar a la pregunta encontrada, el estatus del cuestionario para que el front pueda validar si el usuario es el profesor
+            if(validarUsuario.rol === 'Profesor'){
+                preguntas = {
+                    preguntas: preguntasEncontradas,
+                    estatusCuestionario: cuestionarioEncontrado.estatus
+                }
+            } else {
+                preguntas = {
+                    preguntas: preguntasEncontradas,
+                    numeroPreguntas: preguntasEncontradas.length
+                }
+            }
+
             logger.info('<< Termina controller leerUno');
-            return handler(Message(preguntasEncontradas, 200), res, 200);
+            return handler(Message(preguntas, 200), res, 200);
 
         } catch (error) {
 
@@ -204,7 +223,7 @@ module.exports = {
         }
     },
 
-    // Actualizar un cuestionario
+    // Actualizar una pregunta
     actualizarUno: async (req, res) => {
 
         try {
@@ -231,7 +250,7 @@ module.exports = {
 
             // Validar que el cuestionario exista
             logger.debug('PreguntaController - actualizarUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
-            const cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
+            const cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id, estatus: false });
             if( cuestionarioEncontrado.error ) {
                 logger.debug('PreguntaController - actualizarUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                 logger.info('<< Termina controller actualizarUno');
@@ -274,6 +293,69 @@ module.exports = {
             // Si existe un error en la actualización, devolver el error
             logger.error('Error en controller actualizarUno: ', error);
             return handler(Message('Ocurrio un error en el controller actualizarUno', 500), res, 500);
+
+        }
+    },
+
+    // Borrar una pregunta
+    borrarUno: async (req, res) => {
+
+        try {
+            logger.info('>> Inicia controller borrarUno');
+            logger.debug('Req Params: ', req.params);
+
+            // Validar rol del usuario
+            logger.debug('PreguntaController - borrarUno: Mandar a llamar al validador HeaderValidator.idUsuario');
+            const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
+            if(validarUsuario.error) {
+                logger.debug('PreguntaController - borrarUno: Hubo un error en el validador HeaderValidator.idUsuario');
+                logger.info('<< Termina controller borrarUno');
+                return handler(Message(validarUsuario.message, validarUsuario.code), res, validarUsuario.code);
+            }
+
+            // Validar que no venga nulo el parametro idPregunta y idCuestionario
+            const paramsNuloIndefinido = esNuloIndefinido([req.params.idPregunta, req.params.idCuestionario], ['ParamIdPregunta', 'ParamIdCuestionario']);
+            if(paramsNuloIndefinido.error){
+                logger.debug('PreguntaController - borrarUno: Hubo un error en la utilidad esNuloIndefinido');
+                logger.info('<< Termina controller borrarUno');
+                return handler(Message(paramsNuloIndefinido.message, paramsNuloIndefinido.code), res, paramsNuloIndefinido.code);
+            }
+
+            // Validar que el cuestionario exista
+            logger.debug('PreguntaController - borrarUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
+            const cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id, estatus: false });
+            if( cuestionarioEncontrado.error ) {
+                logger.debug('PreguntaController - borrarUno: Hubo un error en el validador BusquedaValidator.buscarUno');
+                logger.info('<< Termina controller borrarUno');
+                return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
+            }
+
+            // Borrar la pregunta
+            logger.debug('PreguntaController - leerUno: Mandar a llamar al servicio PreguntaService.borrarUno');
+            const preguntaBorrada = await PreguntaService.borrarUno(req.params.idPregunta);
+
+            // Validar que no regrese 'Error'
+            if(preguntaBorrada === 'Error') {
+                logger.debug('PreguntaController - borrarUno: Ocurrio un error en servicio PreguntaService.borrarUno');
+                logger.info('<< Termina controller borrarUno');
+                return handler(Message('Ocurrio un error en servicio PreguntaService.borrarUno', 500), res, 500);
+            }
+
+            // Validar que no regresa false
+            if(!preguntaBorrada) {
+                logger.debug('PreguntaController - borrarUno: La pregunta no existe');
+                logger.info('<< Termina controller borrarUno');
+                return handler(Message('La pregunta no existe', 404), res, 404);
+            }
+
+            logger.info('<< Termina controller borrarUno');
+            return handler(Message('La pregunta se actualizo exitosamente', 200), res, 200);
+
+        } catch (error) {
+
+            // Si existe un error en la actualización, devolver el error
+            logger.error('Error en controller borrarUno: ', error);
+            return handler(Message('Ocurrio un error en el controller borrarUno', 500), res, 500);
 
         }
     },
