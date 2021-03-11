@@ -5,6 +5,7 @@ const AsignaturaService = require('./AsignaturaService');
 const UsuarioService = require('./UsuarioService');
 const CuestionarioService = require('./CuestionarioService');
 const PreguntaService = require('./PreguntaService');
+const HistorialService = require('./HistorialService');
 
 module.exports = {
     ConfiguracionService,
@@ -14,4 +15,5 @@ module.exports = {
     UsuarioService,
     CuestionarioService,
     PreguntaService,
+    HistorialService
 };
