@@ -4,6 +4,7 @@ const AuthController = require('./AuthController');
 const UsuarioController = require('./UsuarioController');
 const CuestionarioController = require('./CuestionarioController');
 const PreguntaController = require('./PreguntaController');
+const HistorialController = require('./HistorialController');
 
 module.exports = {
     ConfiguracionController,
@@ -12,4 +13,5 @@ module.exports = {
     UsuarioController,
     CuestionarioController,
     PreguntaController,
+    HistorialController,
 };
