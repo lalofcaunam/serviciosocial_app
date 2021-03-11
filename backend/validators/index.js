@@ -4,6 +4,7 @@ const HeaderValidator = require('./HeaderValidator');
 const BusquedaValidator = require('./BusquedaValidator');
 const CuestionarioValidator = require('./CuestionarioValidator');
 const PreguntaValidator = require('./PreguntaValidator');
+const HistorialValidator = require('./HistorialValidator');
 
 module.exports = {
     FCAValidator,
@@ -12,4 +13,5 @@ module.exports = {
     BusquedaValidator,
     CuestionarioValidator,
     PreguntaValidator,
+    HistorialValidator
 };
