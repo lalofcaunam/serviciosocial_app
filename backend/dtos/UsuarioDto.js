@@ -10,7 +10,8 @@ module.exports = {
     }),
 
     // Leer un usuario
-    leerUno: (filtro) => Usuario.findOne(filtro).catch((err) => {
+    leerUno: (filtro) => Usuario.findOne(filtro)
+        .catch((err) => {
         logger.error(err);
         return 'Error'
     }),

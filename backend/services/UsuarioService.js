@@ -95,7 +95,7 @@ module.exports = {
 
             // Llamar al dto UsuarioDto.leerUno
             logger.debug('UsuarioService - leerUno: Realizando lectura de un usuario');
-            const usuarioEncontrado = await UsuarioDto.leerUno({ _id: req})
+            const usuarioEncontrado = await UsuarioDto.leerUno({ _id: req});
 
             // Validar que no haya sucedido un error en el dto
             if(usuarioEncontrado === 'Error'){
