@@ -34,7 +34,7 @@ module.exports = {
     }),
 
     // Borrar un cuestionario
-    deleteOne: (idCuestionario) => Cuestionario.findOneAndRemove({_id: idCuestionario}).catch((err) => {
+    deleteOne: (idCuestionario, idProfesor) => Cuestionario.findOneAndRemove({ _id: idCuestionario, estatus: false, idProfesor: idProfesor }).catch((err) => {
         logger.error(err);
         return 'Error'
     }),

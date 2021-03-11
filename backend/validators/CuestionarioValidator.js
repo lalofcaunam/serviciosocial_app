@@ -16,6 +16,7 @@ module.exports = {
             nombre: Joi.string(),
             tema: Joi.string(),
             tiempo: Joi.string(),
+            estatus: Joi.boolean()
         }),
     }),
 }

@@ -43,6 +43,11 @@ const cuestionarioSchema = new Schema({
     required: true,
     ref: 'Usuario'
   },
+  // Activo: Listo para que los alumnos lo vean, Inactivo: solo el profesor lo ve y esta editando
+  estatus: {
+    type: Boolean,
+    required: true
+  }
 }, { versionKey: false });
 
 const Cuestionario = mongoose.model('Cuestionario', cuestionarioSchema);

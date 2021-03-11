@@ -77,7 +77,7 @@ module.exports = {
 
             // Llamar al dto CuestionarioDto.leerTodos
             logger.debug('CuestionarioService - leerTodos: Realizando lectura de todos los cuestionarios');
-            const cuestionariosEncontrados = await CuestionarioDto.leerTodos();
+            const cuestionariosEncontrados = await CuestionarioDto.leerTodosConFiltro({ estatus: true });
 
             // Validar que no haya sucedido un error en el dto
             if(cuestionariosEncontrados === 'Error'){
@@ -185,7 +185,7 @@ module.exports = {
 
             // Llamar al dto CuestionarioDto.deleteOne
             logger.debug('CuestionarioService - leerUno: Realizando el borrado de un cuestionario');
-            const cuestionarioBorrado = await CuestionarioDto.deleteOne(req);
+            const cuestionarioBorrado = await CuestionarioDto.deleteOne(req.idCuestionario, req.idProfesor);
 
             // Validar que no haya sucedido un error en el dto
             if(cuestionarioBorrado === 'Error'){

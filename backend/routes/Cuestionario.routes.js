@@ -36,5 +36,12 @@ router.put(
     CuestionarioController.actualizarUno,
 );
 
+router.delete(
+    '/cuestionarios/:idCuestionario',
+    HeaderValidator.general,
+    TokenMiddleware.verifyToken,
+    CuestionarioController.borrarUno,
+);
+
 
 module.exports = router;
