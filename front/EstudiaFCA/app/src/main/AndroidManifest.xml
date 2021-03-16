@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lalofcaunam.estudiafca">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,9 +25,6 @@
         <activity android:name=".OnBoarding.MainActivity" />
 
         <!--Cuestionarios-->
-        <activity android:name=".Alumno.Cuestionarios"
-            android:label="Cuestionarios"
-            android:theme="@style/ThemeActionBar"/>
 
         <!--Profesor-->
         <activity android:name=".Profesor.CuestionariosProfesor"
@@ -78,6 +77,12 @@
         <activity android:name=".Alumno.ResultadoFinalAlumno"
             android:parentActivityName=".Alumno.CuestionariosAlumno"
             android:label="Resultado Final"
+            android:theme="@style/ThemeActionBar"/>
+
+        <!--Login Reset Password-->
+        <activity android:name=".Login.ResetPassword"
+            android:parentActivityName=".Login.LoginActivity"
+            android:label="Restablecer contraseña"
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".SplashActivity">

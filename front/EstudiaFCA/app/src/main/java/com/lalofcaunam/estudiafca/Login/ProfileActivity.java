@@ -28,8 +28,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent registraProfesor = new Intent(ProfileActivity.this, SignupActivity.class);
-                registraProfesor.putExtra("rol", "profesor");
+                registraProfesor.putExtra("rol", "Profesor");
                 startActivity(registraProfesor);
+                finish();
             }
         });
 
@@ -38,8 +39,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent registraAlumno = new Intent(ProfileActivity.this, SignupActivity.class);
-                registraAlumno.putExtra("rol", "alumno");
+                registraAlumno.putExtra("rol", "Alumno");
                 startActivity(registraAlumno);
+                finish();
             }
         });
 

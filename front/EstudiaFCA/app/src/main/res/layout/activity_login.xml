@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Login.LoginActivity">
 
-
     <TextView
         android:id="@+id/textCorreo"
         android:layout_width="wrap_content"
@@ -69,6 +68,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnIniciarSesion"
         style="@style/btnSimple"
+        />
+
+    <Button
+        android:id="@+id/btnOlvidoContraseña"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Olvidé mi contraseña"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse"
         />
 
 

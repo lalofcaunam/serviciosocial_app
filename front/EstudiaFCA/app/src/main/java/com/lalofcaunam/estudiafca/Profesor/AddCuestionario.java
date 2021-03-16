@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lalofcaunam.estudiafca.Alumno.Cuestionarios;
-import com.lalofcaunam.estudiafca.Login.LoginActivity;
 import com.lalofcaunam.estudiafca.R;
 
 public class AddCuestionario extends AppCompatActivity implements AdapterView.OnItemSelectedListener {

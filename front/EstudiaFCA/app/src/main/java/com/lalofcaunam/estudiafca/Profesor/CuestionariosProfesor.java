@@ -20,10 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lalofcaunam.estudiafca.Alumno.Cuestionarios;
-import com.lalofcaunam.estudiafca.Alumno.CuestionariosAlumno;
-import com.lalofcaunam.estudiafca.Alumno.ResultadoFinalAlumno;
-import com.lalofcaunam.estudiafca.Alumno.ResultadosCuestionarioAlumno;
 import com.lalofcaunam.estudiafca.R;
 
 public class CuestionariosProfesor extends AppCompatActivity {
