@@ -5,7 +5,7 @@ module.exports = {
     [Segments.BODY]: Joi.object().keys({
       nombre: Joi.string().required(),
       apellidoPaterno: Joi.string().required(),
-      apellidoMaterno: Joi.string(),
+      apellidoMaterno: Joi.string().allow(''),
       correo: Joi.string().required(),
       contrasenia: Joi.string().required(),
       clave: Joi.string().required(),
