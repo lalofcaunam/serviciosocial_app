@@ -233,10 +233,11 @@ module.exports = {
                 return handler(Message('No existe ningun historial de ese cuestionario', 204), res, 204);
             }
 
-            if(validarUsuario.rol === 'Profesor'){
-                historialesEncontrados = formatearJson(historialesEncontrados);
-                historialesEncontrados.forEach(historial => delete historial.idAlumno);
-            }
+            historialesEncontrados = formatearJson(historialesEncontrados);
+            historialesEncontrados.forEach(historial => {
+                delete historial.idAlumno
+                delete historial.respuestas
+            });
 
             logger.info('<< Termina controller leerTodos');
             return handler(Message(historialesEncontrados, 200), res, 200);

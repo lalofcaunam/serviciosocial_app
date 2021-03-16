@@ -88,7 +88,7 @@ module.exports = {
 
             // Validar rol del usuario
             logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador HeaderValidator.idUsuario');
-            const validarUsuario = await HeaderValidator.idUsuario(null, req);
+            const validarUsuario = await HeaderValidator.idUsuario('Profesor', req);
             if(validarUsuario.error) {
                 logger.debug('CuestionarioController - leerUno: Hubo un error en el validador HeaderValidator.idUsuario');
                 logger.info('<< Termina controller leerUno');
@@ -106,76 +106,64 @@ module.exports = {
 
             let cuestionarioEncontrado;
 
-            // Si el usuario es Profesor
-            if(validarUsuario.rol === 'Profesor'){
-                // Validar si se esta consultando la validación de borrado
-                if(req.headers.validarborrado){
-                    // Validar que el cuestionario exista
-                    logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
-                    cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id, estatus: false});
-                    if( cuestionarioEncontrado.error ) {
-                        logger.debug('CuestionarioController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
-                        logger.info('<< Termina controller leerUno');
-                        return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
-                    }
-
-                    // Validar que no existan preguntas de este cuestionario
-                    logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio PreguntaService.leerTodos');
-                    const preguntasEncontradas = await PreguntaService.leerTodos(cuestionarioEncontrado._id, false);
-
-                    // Si regresa 'Error', significa que ocurrio un error en el servicio
-                    if(preguntasEncontradas === 'Error') {
-                        logger.debug('CuestionarioController - leerUno: Ocurrio un error en el servicio PreguntaService.leerTodos');
-                        logger.info('<< Termina controller leerUno');
-                        return handler(Message('Ocurrio un error en el servicio PreguntaService.leerTodos', 500), res, 500);
-                    }
-
-                    // Si regresa true, significa que existen preguntas de ese cuestionario
-                    if(preguntasEncontradas) {
-                        logger.debug('CuestionarioController - leerUno: Existen preguntas de este cuestionario');
-                        logger.info('<< Termina controller leerUno');
-                        return handler(Message({ delete: false, reason: 'Existen preguntas de este cuestionario' }, 200), res, 200);
-                    }
-
-                    // Validar que no existan historiales de este cuestionario
-                    logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio HistorialService.leerTodos');
-                    const historialesEncontrados = await HistorialService.leerTodos({ idCuestionario: cuestionarioEncontrado._id });
-
-                    // Si regresa 'Error', significa que ocurrio un error en el servicio
-                    if(historialesEncontrados === 'Error') {
-                        logger.debug('CuestionarioController - leerUno: Ocurrio un error en el servicio HistorialService.leerTodos');
-                        logger.info('<< Termina controller leerUno');
-                        return handler(Message('Ocurrio un error en el servicio HistorialService.leerTodos', 500), res, 500);
-                    }
-
-                    // Si regresa false, significa que no existe ningun historial
-                    if(historialesEncontrados) {
-                        logger.debug('CuestionarioController - leerUno: Existen historiales de este cuestionario');
-                        logger.info('<< Termina controller leerUno');
-                        return handler(Message({ delete: false, reason: 'Existen historiales de este cuestionario' }, 200), res, 200);
-                    }
-
-                    logger.info('<< Termina controller leerUno');
-                    return handler(Message({ delete: true }, 200), res, 200);
-                }
-
+            // Validar si se esta consultando la validación de borrado
+            if(req.headers.validarborrado){
                 // Validar que el cuestionario exista
                 logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
-                cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
+                cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id, estatus: false});
                 if( cuestionarioEncontrado.error ) {
                     logger.debug('CuestionarioController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
                     logger.info('<< Termina controller leerUno');
                     return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
                 }
-            } else {
-                // Validar que el cuestionario exista
-                logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
-                cuestionarioEncontrado = await BusquedaValidator.buscarUno('Cuestionario', { _id: req.params.idCuestionario, estatus: true });
-                if( cuestionarioEncontrado.error ) {
-                    logger.debug('CuestionarioController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
+
+                // Validar que no existan preguntas de este cuestionario
+                logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio PreguntaService.leerTodos');
+                const preguntasEncontradas = await PreguntaService.leerTodos(cuestionarioEncontrado._id, false);
+
+                // Si regresa 'Error', significa que ocurrio un error en el servicio
+                if(preguntasEncontradas === 'Error') {
+                    logger.debug('CuestionarioController - leerUno: Ocurrio un error en el servicio PreguntaService.leerTodos');
                     logger.info('<< Termina controller leerUno');
-                    return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
+                    return handler(Message('Ocurrio un error en el servicio PreguntaService.leerTodos', 500), res, 500);
                 }
+
+                // Si regresa true, significa que existen preguntas de ese cuestionario
+                if(preguntasEncontradas) {
+                    logger.debug('CuestionarioController - leerUno: Existen preguntas de este cuestionario');
+                    logger.info('<< Termina controller leerUno');
+                    return handler(Message({ delete: false, reason: 'Existen preguntas de este cuestionario' }, 200), res, 200);
+                }
+
+                // Validar que no existan historiales de este cuestionario
+                logger.debug('CuestionarioController - leerUno: Mandar a llamar al servicio HistorialService.leerTodos');
+                const historialesEncontrados = await HistorialService.leerTodos({ idCuestionario: cuestionarioEncontrado._id });
+
+                // Si regresa 'Error', significa que ocurrio un error en el servicio
+                if(historialesEncontrados === 'Error') {
+                    logger.debug('CuestionarioController - leerUno: Ocurrio un error en el servicio HistorialService.leerTodos');
+                    logger.info('<< Termina controller leerUno');
+                    return handler(Message('Ocurrio un error en el servicio HistorialService.leerTodos', 500), res, 500);
+                }
+
+                // Si regresa false, significa que no existe ningun historial
+                if(historialesEncontrados) {
+                    logger.debug('CuestionarioController - leerUno: Existen historiales de este cuestionario');
+                    logger.info('<< Termina controller leerUno');
+                    return handler(Message({ delete: false, reason: 'Existen historiales de este cuestionario' }, 200), res, 200);
+                }
+
+                logger.info('<< Termina controller leerUno');
+                return handler(Message({ delete: true }, 200), res, 200);
+            }
+
+            // Validar que el cuestionario exista
+            logger.debug('CuestionarioController - leerUno: Mandar a llamar al validador BusquedaValidator.buscarUno');
+            cuestionarioEncontrado = await BusquedaValidator.buscarUno('CuestionarioProfesor', {_id: req.params.idCuestionario, idProfesor: validarUsuario._id});
+            if( cuestionarioEncontrado.error ) {
+                logger.debug('CuestionarioController - leerUno: Hubo un error en el validador BusquedaValidator.buscarUno');
+                logger.info('<< Termina controller leerUno');
+                return handler(Message(cuestionarioEncontrado.message, cuestionarioEncontrado.code), res, cuestionarioEncontrado.code);
             }
 
             // Buscar a la Licenciatura de este cuestionario
@@ -416,7 +404,10 @@ module.exports = {
 
             // Borrar el cuestionario
             logger.debug('CuestionarioController - borrarUno: Mandar a llamar al servicio CuestionarioService.borrarUno');
-            const cuestionarioBorrado = await CuestionarioService.borrarUno(req.params.idCuestionario, validarUsuario._id);
+            const cuestionarioBorrado = await CuestionarioService.borrarUno({
+                idCuestionario: req.params.idCuestionario,
+                idProfesor: validarUsuario._id
+            });
 
             // Validar que no regrese 'Error'
             if(cuestionarioBorrado === 'Error') {

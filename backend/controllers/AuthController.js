@@ -21,7 +21,7 @@ module.exports = {
             const correoExiste = await UsuarioService.leerUnoPorEmail(req.body.correo);
 
             // Si no regresa true o null, significa que ya existe un usuario con ese correo
-            if(!correoExiste || correoExiste[0] != null) {
+            if(correoExiste) {
                 logger.debug('AuthController - signup: Ya existe un usuario con ese correo');
                 logger.info('<< Termina controller signup');
                 return handler(Message('Ya existe un usuario con ese correo', 400), res, 400);
@@ -338,7 +338,7 @@ module.exports = {
 
             // Validar que no venga nulo el parametro idUsuario
             logger.debug('AuthController - reset: Mandar a llamar a la utilidad esNuloIndefinido');
-            const idUsuarioNuloIndefinido = esNuloIndefinido([req.params.idusuario], ['ParamIdUsuario']);
+            const idUsuarioNuloIndefinido = esNuloIndefinido([req.params.idUsuario], ['ParamIdUsuario']);
             if(idUsuarioNuloIndefinido.error){
                 logger.debug('AuthController - reset: Hubo un error en la utilidad esNuloIndefinido');
                 logger.info('<< Termina controller reset');

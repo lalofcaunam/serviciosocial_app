@@ -25,11 +25,6 @@ module.exports = {
                     return 'Error';
                 }
 
-                // Si se necesita respuesta
-                if(response){
-
-                }
-
                 // Si existe el usuario
                 if(usuarioEncontrado != null) {
                     logger.debug('UsuarioService - leerUnoPorEmail: El usuario existe');
@@ -37,12 +32,19 @@ module.exports = {
                     if(response){
                         return usuarioEncontrado;
                     }
-                    return false;
+                    return true;
+                }
+
+                // Si se necesita respuesta
+                if(response){
+                    logger.debug('usuarioEncontrado: ', usuarioEncontrado);
+                    logger.info('< Termina servicio leerUnoPorEmail');
+                    return usuarioEncontrado;
                 }
 
                 logger.debug('usuarioEncontrado: ', usuarioEncontrado);
                 logger.info('< Termina servicio leerUnoPorEmail');
-                return true;
+                return false;
             }
 
             logger.info('< Termina servicio leerUnoPorEmail');
