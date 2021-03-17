@@ -1,0 +1,257 @@
+openapi: 3.0.3
+
+info:
+    version: '1.0.0'
+    title: 'Servicio Social App'
+    description: '...'
+    termsOfService: ...
+    contact:
+        name: Eduardo Rodriguez Ricardez
+        email: lalo.fca.unam@gmail.com
+
+servers:
+    - url: http://localhost:8090
+      description: Dev Enviroment
+
+    - url: https://www.example.com
+      description: Prod Enviroment
+      
+    - url: https://virtserver.swaggerhub.com/ERR/API_FCA_SS/1.0.0 
+      description: SwaggerHub API Auto Mocking
+      
+
+tags:
+- name: Users
+  description: Everything about Users
+
+paths:
+    /users:
+      get:
+        security:
+          - Bearer_Auth: []
+        tags:
+          - Users
+        description: Returns all the users
+        summary: Find all the users
+        operationId: getUsers
+        responses:
+            '200':
+              description: Successful operation
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Get_User'
+            '400':
+               $ref: '#/components/responses/Bad_Request'
+            '401':
+              $ref: '#/components/responses/Unauthorized'
+            '404':
+              $ref: '#/components/responses/Not_Found'
+            '5XX':
+              $ref: '#/components/responses/Unexpected'
+      post:
+        tags:
+          - Users
+        description: Create a single user
+        summary: Add a user
+        operationId: createUser
+        responses:
+            '201':
+              description: Successful operation
+              content:
+                application/json:
+                  schema:
+                    items:
+                      $ref: '#/components/schemas/Post_User'
+            '400':
+               $ref: '#/components/responses/Bad_Request'
+            '5XX':
+              $ref: '#/components/responses/Unexpected'
+    /users/{id_user}:
+      get:
+        security:
+          - Bearer_Auth: []
+        tags:
+          - Users
+        description: Returns a single user
+        summary: Find user by ID
+        operationId: getUser
+        parameters:
+        - in: path
+          name: id_user
+          schema:
+            type: string
+          description: ID of user to return
+          required: true
+        responses:
+            '200':
+              description: Successful operation
+              content:
+                application/json:
+                  schema:
+                    items:
+                      $ref: '#/components/schemas/Get_User'
+            '400':
+               $ref: '#/components/responses/Bad_Request'
+            '401':
+              $ref: '#/components/responses/Unauthorized'
+            '404':
+              $ref: '#/components/responses/Not_Found'
+            '5XX':
+              $ref: '#/components/responses/Unexpected'
+      put:
+        security:
+          - Bearer_Auth: []
+        tags:
+          - Users
+        description: Returns a single user with the ... usuario actualizado
+        summary: Update user by ID
+        operationId: updateUser
+        parameters:
+        - in: path
+          name: id_user
+          schema:
+            type: string
+          description: ID of user to update
+          required: true
+        responses:
+            '200':
+              description: Successful operation
+              content:
+                application/json:
+                  schema:
+                    items:
+                      $ref: '#/components/schemas/Get_User'
+            '400':
+               $ref: '#/components/responses/Bad_Request'
+            '401':
+              $ref: '#/components/responses/Unauthorized'
+            '404':
+              $ref: '#/components/responses/Not_Found'
+            '5XX':
+              $ref: '#/components/responses/Unexpected'
+      delete:
+        security:
+          - Bearer_Auth: []
+        tags:
+          - Users
+        description: Delete a single user
+        summary: Delete user by ID
+        operationId: deleteUser
+        parameters:
+        - in: path
+          name: id_user
+          schema:
+            type: string
+          description: ID of user to delete
+          required: true
+        responses:
+            '200':
+              description: Successful operation
+              content:
+                application/json:
+                  schema:
+                    items:
+                      $ref: '#/components/schemas/Get_User'
+            '400':
+               $ref: '#/components/responses/Bad_Request'
+            '401':
+              $ref: '#/components/responses/Unauthorized'
+            '404':
+              $ref: '#/components/responses/Not_Found'
+            '5XX':
+              $ref: '#/components/responses/Unexpected'
+
+components:
+    schemas:
+      Get_User:
+        type: object
+        additionalProperties: false
+        properties:
+          _id:
+            type: string
+          name:
+            type: string
+          apellido_materno:
+            type: string
+          apellido_paterno:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+          code:
+            type: string
+          type: 
+            type: string
+      Post_User:
+        type: object
+        additionalProperties: false
+        properties:
+          name:
+            type: string
+          apellido_materno:
+            type: string
+          apellido_paterno:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+          code:
+            type: string
+          type: 
+            type: string
+        required:
+            - name
+            - apellido_materno
+            - apellido_paterno
+            - email
+            - password
+            - code
+            - type
+      Error:
+        type: object
+        properties:
+          code:
+            type: string
+          message:
+            type: string
+        required:
+          - code
+          - message
+        
+    responses:
+      Not_Found:
+        description: The specified resource was not found.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      Bad_Request:
+        description: Bad request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      Unauthorized:
+        description: Access token is missing or invalid
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      Unexpected:
+        description: Unexpected error.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+    securitySchemes:
+      Bearer_Auth:            # arbitrary name for the security scheme
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+security:
+  - Bearer_Auth: []

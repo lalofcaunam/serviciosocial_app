@@ -1,0 +1,13 @@
+extends layout.pug
+
+block contenido
+    div.row
+        div.col.s12
+            h3.center-align #{expiracion}
+        div.col.s12
+            form(action=endpoint method="post")
+                div.col.s12
+                    label Si quieres que te enviemos un nuevo token, seleccionar "Enviar"
+                    input.hide(type="email" name="correo", value=correo)
+                div.col.s12.center-align
+                    button.waves-effect.btn-large(type="submit") Enviar
