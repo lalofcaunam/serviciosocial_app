@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Login.SignupActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:textSize="15sp"
+                android:layout_marginBottom="15dp"
+                android:text="Información Personal"
+                style="@style/labelText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre: *"
+                style="@style/labelText"/>
+
+            <EditText
+                android:id="@+id/editTextNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa nombre"
+                style="@style/inputText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apellido Paterno: *"
+                style="@style/labelText"/>
+
+            <EditText
+                android:id="@+id/editTextAPaterno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa apellido paterno"
+                style="@style/inputText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apellido Materno:"
+                style="@style/labelText"/>
+
+            <EditText
+                android:id="@+id/editTextAMaterno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa apellido materno"
+                style="@style/inputText"/>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:textSize="15sp"
+                android:layout_marginBottom="15dp"
+                android:text="Información Escolar"
+                style="@style/labelText"/>
+
+            <TextView
+                android:id="@+id/labelClave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Número de Cuenta: *"
+                style="@style/labelText"/>
+
+            <EditText
+                android:id="@+id/editTextClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa numero"
+                style="@style/inputText"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:textSize="15sp"
+                android:layout_marginBottom="15dp"
+                android:text="Información Cuenta"
+                style="@style/labelText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correo Electónico: *"
+                style="@style/labelText"/>
+
+            <EditText
+                android:id="@+id/editTextCorreoCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa correo electrónico"
+                style="@style/inputEmail"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contraseña: *"
+                android:paddingTop="20dp"
+                style="@style/labelText" />
+
+            <EditText
+                android:id="@+id/editTextPasswordCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa contraseña"
+                style="@style/inputPassword"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirma Contraseña: *"
+                android:paddingTop="20dp"
+                style="@style/labelText" />
+
+            <EditText
+                android:id="@+id/editTextConfirmPasswordCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa nuevamente la contraseña"
+                style="@style/inputPassword"/>
+
+            <Button
+                android:id="@+id/btnRegistrar"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Registrarse"
+                style="@style/btnSimple"/>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

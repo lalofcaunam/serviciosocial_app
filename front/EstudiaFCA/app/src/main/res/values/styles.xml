@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TEXTOS -->
+    <style name="generalText">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="subtitle">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+    </style>
+
+    <style name="labelText">
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <!-- INPUT -->
+    <style name="inputText">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="inputNumber">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="inputEmail">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="inputPassword">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <!-- BTN -->
+    <style name="btnSimple">
+        <item name="android:backgroundTint">@color/colorBtn</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">20dp</item>
+        <item name="cornerRadius">18dp</item>
+    </style>
+
+    <style name="btnMedium">
+        <item name="android:backgroundTint">@color/colorBtn</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="cornerRadius">18dp</item>
+    </style>
+
+
+</resources>

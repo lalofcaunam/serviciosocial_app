@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lalofcaunam.estudiafca">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EstudiaFCA">
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Login.EmailVerificationActivity" />
+        <activity android:name=".Login.ProfileActivity"
+            android:theme="@style/ThemeActionBar"
+            android:parentActivityName=".Login.LoginActivity"
+            android:label="Elige tipo de usuario" />
+        <activity android:name=".Login.SignupActivity"
+            android:theme="@style/ThemeActionBar"
+            android:parentActivityName=".Login.ProfileActivity"
+            android:label="Registrarse"/>
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".OnBoarding.MainActivity" />
+
+        <!--Cuestionarios-->
+
+        <!--Profesor-->
+        <activity android:name=".Profesor.CuestionariosProfesor"
+            android:label="Cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.AddCuestionario"
+            android:parentActivityName=".Profesor.CuestionariosProfesor"
+            android:label="Creación de cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.AddInfoCuestionario"
+            android:parentActivityName=".Profesor.AddCuestionario"
+            android:label="Creación de cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.PreguntasCuestionario"
+            android:parentActivityName=".Profesor.CuestionariosProfesor"
+            android:label="Preguntas del cuestionario"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.AddPreguntaCuestionario"
+            android:parentActivityName=".Profesor.PreguntasCuestionario"
+            android:label="Creacion de Pregunta"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.HistorialCuestionario"
+            android:parentActivityName=".Profesor.CuestionariosProfesor"
+            android:label="Historial de Cuestionario"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Profesor.InfoHistorial"
+            android:parentActivityName=".Profesor.HistorialCuestionario"
+            android:label="Información de Historial"
+            android:theme="@style/ThemeActionBar"/>
+
+        <!--Alumno-->
+        <activity android:name=".Alumno.CuestionariosAlumno"
+            android:label="Cuestionarios"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.ResultadosCuestionarioAlumno"
+            android:label="Cuestionario Resultados"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.AddResultadoCuestionario"
+            android:label="Respuesta"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.ResultadoFinalAlumno"
+            android:parentActivityName=".Alumno.CuestionariosAlumno"
+            android:label="Resultado Final"
+            android:theme="@style/ThemeActionBar"/>
+
+        <!--Login Reset Password-->
+        <activity android:name=".Login.ResetPassword"
+            android:parentActivityName=".Login.LoginActivity"
+            android:label="Restablecer contraseña"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

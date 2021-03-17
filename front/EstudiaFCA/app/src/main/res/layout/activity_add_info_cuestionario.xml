@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lista de asignaturas"
+            android:textSize="20sp"
+            style="@style/labelText" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <RadioButton
+                android:id="@+id/textAsignatura1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asignatura 1"
+                style="@style/generalText"
+                android:textSize="20sp"/>
+
+            <RadioButton
+                android:id="@+id/textAsignatura2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asignatura 2"
+                style="@style/generalText"
+                android:textSize="20sp"/>
+
+            <RadioButton
+                android:id="@+id/textAsignatura3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asignatura 3"
+                style="@style/generalText"
+                android:textSize="20sp"/>
+
+            <RadioButton
+                android:id="@+id/textAsignatura4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asignatura 4"
+                style="@style/generalText"
+                android:textSize="20sp"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Información del cuestionario"
+            android:textSize="20sp"
+            style="@style/labelText" />
+
+        <EditText
+            android:id="@+id/tituloCuestionario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre *"
+            style="@style/inputText"/>
+
+        <EditText
+            android:id="@+id/temaCuestionario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tema *"
+            style="@style/inputText"/>
+
+        <EditText
+            android:id="@+id/tiempoCuestionario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tiempo Estimado *"
+            style="@style/inputText"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/confirmInfoCuestionario"
+        style="@style/btnSimple"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="20dp"
+        android:text="Aceptar" />
+
+</FrameLayout>
