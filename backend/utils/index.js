@@ -10,7 +10,7 @@ module.exports = {
         res.status(code).json(Object.assign(Codigo[code], doc));
     },
     compararContrasenias: (userPassword, reqPassword) => {
-        return bcrypt.compare(reqPassword, userPassword);
+        return bcrypt.compareSync(reqPassword, userPassword);
     },
     crearToken: (payload, tiempoExpiracion, secret = process.env.JWT_SECRET) => {
         try {
