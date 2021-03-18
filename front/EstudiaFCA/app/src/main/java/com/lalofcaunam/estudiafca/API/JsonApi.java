@@ -27,7 +27,7 @@ public interface JsonApi {
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("usuarios/login")
-    Call<Object> loginUser(@Body Login login);
+    Call<ResultResponse> loginUser(@Body Login login);
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("usuarios/reset")

@@ -10,11 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.auth0.android.jwt.JWT;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,88 +96,28 @@ public class LoginActivity extends AppCompatActivity {
 
                         jsonApi = retrofit.create(JsonApi.class);
 
-                        Call login = jsonApi.loginUser(new Login(correo, password));
+                        Call<ResultResponse> login = jsonApi.loginUser(new Login(correo, password));
 
-                        login.enqueue(new Callback() {
+                        login.enqueue(new Callback<ResultResponse>() {
                             @Override
-                            public void onResponse(Call call, Response response) {
+                            public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
                                 System.out.println(response);
                                 System.out.println(response.body());
 
+                                if(!response.isSuccessful()){
+                                    System.out.println("Codigo: " + response.code());
+                                    return;
+                                }
+
+                                //String token = response.body().getMessage();
+                                //System.out.println(response.body().getMessage();
                             }
 
                             @Override
-                            public void onFailure(Call call, Throwable t) {
+                            public void onFailure(Call<ResultResponse> call, Throwable t) {
 
                             }
                         });
-
-                        // TODO: Enque login con response tipo ResultResponse
-                    /*login.enqueue(new Callback<ResultResponse>() {
-                        @Override
-                        public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
-                            if(!response.isSuccessful()){
-                                System.out.println("Codigo: " + response.code() + "\n");
-                                System.out.println("Mensaje: " + response.message() + "\n");
-                                System.out.println("Mensaje: " + response.body() + "\n");
-
-                                if(response.code() == 404) {
-                                    alertaLoginError("Usuario no encontrado", "No se encuentra el usuario favor de intentar nuevamente, o registrarse");
-                                } else if (response.code() == 400) {
-                                    alertaLoginError("Usuario inactivo", "La cuenta no ha sido activada, por favor revisa tu correo electrónico. \n En algunos casos el correo de verificación puede irse a la carpeta de Spam o Correo no deseado.");
-                                } else {
-                                    alertaLoginError("Error", "Ocurrió un error con el servicio, intentelo más tarde");
-                                }
-
-                                return;
-                            }
-
-                            System.out.println("Response: " + response + "\n");
-                            //token = response.message();
-                            //System.out.println("Token: " + response.body().getMessage());
-
-                            //JWT parsedJWT = new JWT(token);
-                            //System.out.println(parsedJWT.toString());
-
-                            alertaLoginExitoso("Iniciando Sesión", "Por favor, espere...");
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResultResponse> call, Throwable t) {
-
-                        }
-                    });*/
-
-
-                        // TODO: Intento con Volley
-                    /*RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                    try {
-                        JSONObject json = new JSONObject();
-                        json.put("correo", correo);
-                        json.put("contrasenia", password);
-
-                        JSONObject notification = new JSONObject();
-                        notification.put("body", json);
-
-                        json.put("notification", notification);
-
-                        String URL = "https://serviciosocial-backend.mybluemix.net/ssfca/api/v1/usuarios/login";
-
-                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, json, null, null) {
-                            @Override
-                            public Map<String, String> getHeaders() {
-                                Map<String, String> header = new HashMap<>();
-                                header.put("Content-Type", "application/json");
-                                header.put("Accept", "application/json");
-                                return header;
-                            }
-                        };
-
-                        myrequest.add(request);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
                     }
                 }
             }
