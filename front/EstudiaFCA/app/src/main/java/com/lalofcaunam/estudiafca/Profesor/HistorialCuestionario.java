@@ -21,8 +21,8 @@ import com.lalofcaunam.estudiafca.R;
 public class HistorialCuestionario extends AppCompatActivity {
 
     ListView listViewH;
-    String mIntentos[] = {"1000", "30000"};
-    String mFechas[] = {"Fecha 1", "Fecha 2"};
+    String mIntentos[] = {"02/04", "01/04"};
+    String mFechas[] = {"01/12/2020", "20/02/2021"};
 
     TextView textHistorial;
 

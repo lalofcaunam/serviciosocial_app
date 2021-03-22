@@ -3,8 +3,11 @@ package com.lalofcaunam.estudiafca.Profesor;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,16 +23,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lalofcaunam.estudiafca.Alumno.CuestionariosAlumno;
+import com.lalofcaunam.estudiafca.Login.LoginActivity;
 import com.lalofcaunam.estudiafca.R;
+
+import java.util.ArrayList;
 
 public class CuestionariosProfesor extends AppCompatActivity {
 
     Button btnAddCuestionario;
     ListView listViewCP;
-    String mTitulo[] = {"Cuestionario 1", "Cuestionario 2", "Cuestionario 3"};
-    String mTema[] = {"Tema 1", "Tema 2", "Tema 3"};
+    String mTitulo[] = {"Cuestionario 1", "Cuestionario 2"};
+    String mTema[] = {"Tema 1", "Tema 2"};
 
     TextView textCuestionariosProfesor;
+
+    private SharedPreferences preferences, showBoarding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +47,12 @@ public class CuestionariosProfesor extends AppCompatActivity {
         initComponents();
     }
 
-    public void initComponents(){
+    public void initComponents() {
         textCuestionariosProfesor = findViewById(R.id.textCuestionariosProfesor);
         btnAddCuestionario = findViewById(R.id.btnAddCuestionario);
         listViewCP = findViewById(R.id.listview_cuestionarios_profesor);
+        preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+        showBoarding = getSharedPreferences("showBoarding", MODE_PRIVATE);
         getData();
         listeners();
     }
@@ -80,7 +91,28 @@ public class CuestionariosProfesor extends AppCompatActivity {
         } else {
             textCuestionariosProfesor.setVisibility(View.VISIBLE);
         }
+    }
 
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            Toast.makeText(this, "Cerrando sesión", Toast.LENGTH_SHORT).show();
+            logout();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    private void logout() {
+        preferences.edit().clear().apply();
+        showBoarding.edit().clear().apply();
+        startActivity(new Intent(CuestionariosProfesor.this, LoginActivity.class));
+        finish();
     }
 
     // Adaptador de ListView
@@ -111,7 +143,7 @@ public class CuestionariosProfesor extends AppCompatActivity {
             btnOptionsCuestionarioAlumno.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    optionsCuestionario();
+                    optionsCuestionario(rTitulo[position]);
                 }
             });
 
@@ -119,9 +151,11 @@ public class CuestionariosProfesor extends AppCompatActivity {
         }
     }
 
-    private void optionsCuestionario() {
+    public void optionsCuestionario(String titulo) {
 
         String[] options = {"Ver Historial", "Ver Preguntas", "Activar/Desactivar"};
+
+        System.out.println(titulo);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CuestionariosProfesor.this);
         builder.setTitle("Selecciona una opcion");
@@ -132,7 +166,17 @@ public class CuestionariosProfesor extends AppCompatActivity {
                     Intent historial = new Intent(CuestionariosProfesor.this, HistorialCuestionario.class);
                     startActivity(historial);
                 } else if ("Ver Preguntas".equals(options[which])) {
-                    Toast.makeText(CuestionariosProfesor.this, options[which], Toast.LENGTH_SHORT).show();
+                    if(titulo.equals("Cuestionario 1")){
+                        Intent cuestionarioProfesor = new Intent(CuestionariosProfesor.this, PreguntasCuestionario.class);
+                        cuestionarioProfesor.putExtra("tituloCuestionario", titulo);
+                        cuestionarioProfesor.putExtra("activo", true);
+                        startActivity(cuestionarioProfesor);
+                    } else if (titulo.equals("Cuestionario 2")) {
+                        Intent cuestionarioProfesor = new Intent(CuestionariosProfesor.this, PreguntasCuestionario.class);
+                        cuestionarioProfesor.putExtra("tituloCuestionario", titulo);
+                        cuestionarioProfesor.putExtra("activo", false);
+                        startActivity(cuestionarioProfesor);
+                    }
                 } else if ("Activar/Desactivar".equals(options[which])) {
                     Toast.makeText(CuestionariosProfesor.this, options[which], Toast.LENGTH_SHORT).show();
                 }

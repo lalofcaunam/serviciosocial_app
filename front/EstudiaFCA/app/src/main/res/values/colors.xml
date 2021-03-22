@@ -18,4 +18,6 @@
     <color name="colorTextPrimary">#212121</color>
     <color name="colorTextSecondary">#757575</color>
     <color name="colorOnBoardingIndicatorInactive">#72BCF7</color>
+    <color name="colorGreen">#008000</color>
+    <color name="colorRed">#d53032</color>
 </resources>

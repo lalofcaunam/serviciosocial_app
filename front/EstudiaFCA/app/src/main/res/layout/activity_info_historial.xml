@@ -18,23 +18,189 @@
             android:textSize="22sp"
             style="@style/labelText" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha de realizacion"
+                android:textSize="22sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginVertical="15dp"
+                style="@style/generalText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20/02/2021"
+                android:textSize="22sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginVertical="15dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha de realizacion"
+            android:text="01/04"
             android:textSize="22sp"
             android:layout_marginLeft="15dp"
             android:layout_marginVertical="15dp"
             style="@style/generalText" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buenas vs Malas"
-            android:textSize="22sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginVertical="15dp"
-            style="@style/generalText" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correctas:"
+                android:textSize="22sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginVertical="15dp"
+                style="@style/generalText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="22sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginVertical="15dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Incorrectas:"
+                android:textSize="22sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginVertical="15dp"
+                style="@style/generalText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="22sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginVertical="15dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:button="@drawable/ic_baseline_done_24"
+                android:buttonTint="@color/colorGreen"
+                android:checked="true"
+                android:enabled="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pregunta 1"
+                android:textSize="22sp"
+                android:layout_marginLeft="0dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:button="@drawable/ic_baseline_close_24"
+                android:buttonTint="@color/colorRed"
+                android:checked="true"
+                android:enabled="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pregunta 2"
+                android:textSize="22sp"
+                android:layout_marginLeft="0dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:button="@drawable/ic_baseline_close_24"
+                android:buttonTint="@color/colorRed"
+                android:checked="true"
+                android:enabled="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pregunta 3"
+                android:textSize="22sp"
+                android:layout_marginLeft="0dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:button="@drawable/ic_baseline_close_24"
+                android:buttonTint="@color/colorRed"
+                android:checked="true"
+                android:enabled="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pregunta 4"
+                android:textSize="22sp"
+                android:layout_marginLeft="0dp"
+                style="@style/labelText" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

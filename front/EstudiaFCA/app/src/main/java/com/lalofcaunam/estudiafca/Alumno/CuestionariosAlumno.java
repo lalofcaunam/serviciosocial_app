@@ -3,10 +3,13 @@ package com.lalofcaunam.estudiafca.Alumno;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lalofcaunam.estudiafca.Login.LoginActivity;
 import com.lalofcaunam.estudiafca.Profesor.CuestionariosProfesor;
 import com.lalofcaunam.estudiafca.R;
 
@@ -34,6 +38,8 @@ public class CuestionariosAlumno extends AppCompatActivity implements DialogInfo
     private ArrayList<String> tituloC = new ArrayList<String>();
     private ArrayList<String> temaC = new ArrayList<String>();
 
+    private SharedPreferences preferences, showBoarding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +52,11 @@ public class CuestionariosAlumno extends AppCompatActivity implements DialogInfo
         listView = findViewById(R.id.listview_cuestionarios_alumno);
 
         tituloC.add("Cuestionario 1");
-        tituloC.add("Cuestionario 2");
 
         temaC.add("Tema 1");
-        temaC.add("Tema 2");
+
+        preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+        showBoarding = getSharedPreferences("showBoarding", MODE_PRIVATE);
 
         getData();
     }
@@ -66,20 +73,41 @@ public class CuestionariosAlumno extends AppCompatActivity implements DialogInfo
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(CuestionariosAlumno.this, tituloC.get(position), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CuestionariosAlumno.this, tituloC.get(position), Toast.LENGTH_SHORT).show();
                     if (tituloC.get(position).equals("Cuestionario 1")){
                         Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadosCuestionarioAlumno.class);
-                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", tituloC.get(position));
                         startActivity(resultadosCuestionarioAlumno);
                     } else {
-                        Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadoFinalAlumno.class);
-                        resultadosCuestionarioAlumno.putExtra("tituloCuestionario", tituloC.get(position));
-                        startActivity(resultadosCuestionarioAlumno);
+                        //Intent resultadosCuestionarioAlumno = new Intent(CuestionariosAlumno.this, ResultadoFinalAlumno.class);
+                        //startActivity(resultadosCuestionarioAlumno);
                     }
                 }
             });
         }
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            Toast.makeText(this, "Cerrando sesión", Toast.LENGTH_SHORT).show();
+            logout();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        preferences.edit().clear().apply();
+        showBoarding.edit().clear().apply();
+        startActivity(new Intent(CuestionariosAlumno.this, LoginActivity.class));
+        finish();
     }
 
     @Override

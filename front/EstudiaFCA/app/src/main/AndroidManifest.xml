@@ -67,6 +67,7 @@
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".Alumno.ResultadosCuestionarioAlumno"
+            android:parentActivityName=".Alumno.CuestionariosAlumno"
             android:label="Cuestionario Resultados"
             android:theme="@style/ThemeActionBar"/>
 
@@ -75,7 +76,7 @@
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".Alumno.ResultadoFinalAlumno"
-            android:parentActivityName=".Alumno.CuestionariosAlumno"
+            android:parentActivityName=".Alumno.ResultadosCuestionarioAlumno"
             android:label="Resultado Final"
             android:theme="@style/ThemeActionBar"/>
 
@@ -83,6 +84,19 @@
         <activity android:name=".Login.ResetPassword"
             android:parentActivityName=".Login.LoginActivity"
             android:label="Restablecer contraseña"
+            android:theme="@style/ThemeActionBar"/>
+
+        <!--Respuestas Hardcode-->
+        <activity android:name=".Alumno.Respuesta1"
+            android:label="Respuesta"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.Respuesta2"
+            android:label="Respuesta"
+            android:theme="@style/ThemeActionBar"/>
+
+        <activity android:name=".Alumno.Respuesta3"
+            android:label="Respuesta"
             android:theme="@style/ThemeActionBar"/>
 
         <activity android:name=".SplashActivity">

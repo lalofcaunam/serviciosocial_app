@@ -55,12 +55,12 @@ public class AddCuestionario extends AppCompatActivity implements AdapterView.On
         Spinner cmbSemestres = (Spinner)parent;
         if(cmbLicenciaturas.getId() == R.id.cmbLicenciaturas)
         {
-            Toast.makeText(this, "Your choose :" + licenciaturas[position],Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Your choose :" + licenciaturas[position],Toast.LENGTH_SHORT).show();
             licenciatura = licenciaturas[position];
         }
         if(cmbSemestres.getId() == R.id.cmbSemestres)
         {
-            Toast.makeText(this, "Your choose :" + semestres[position],Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Your choose :" + semestres[position],Toast.LENGTH_SHORT).show();
             semestre = semestres[position];
         }
     }
@@ -77,6 +77,7 @@ public class AddCuestionario extends AppCompatActivity implements AdapterView.On
             public void onClick(View v) {
                 Intent addNewInfoCuestionario=new Intent(AddCuestionario.this, AddInfoCuestionario.class);
                 startActivity(addNewInfoCuestionario);
+                finish();
             }
         });
     }

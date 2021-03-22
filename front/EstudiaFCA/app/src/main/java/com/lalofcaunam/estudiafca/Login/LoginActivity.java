@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.lalofcaunam.estudiafca.API.JsonApi;
 import com.lalofcaunam.estudiafca.Alumno.CuestionariosAlumno;
 import com.lalofcaunam.estudiafca.Modelos.Login;
 import com.lalofcaunam.estudiafca.Modelos.ResultResponse;
+import com.lalofcaunam.estudiafca.OnBoarding.MainActivity;
 import com.lalofcaunam.estudiafca.Profesor.CuestionariosProfesor;
 import com.lalofcaunam.estudiafca.R;
 
@@ -47,7 +49,11 @@ public class LoginActivity extends AppCompatActivity {
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
+    Boolean isFirst;
+
     private JsonApi jsonApi;
+
+    private SharedPreferences preferences, showBoarding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistrarse = findViewById(R.id.btnRegistrarse);
         btnOlvidoContraseña = findViewById(R.id.btnOlvidoContraseña);
 
+        //Preferences
+        preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+        showBoarding = getSharedPreferences("showBoarding", MODE_PRIVATE);
+
         // Listeners
         listeners();
     }
@@ -81,12 +91,39 @@ public class LoginActivity extends AppCompatActivity {
                 correo = editTextCorreo.getText().toString().trim();
                 password = editTextPassword.getText().toString().trim();
                 if(validacionesLogin(correo, password)) {
+                    SharedPreferences.Editor editor = preferences.edit();
                     if(correo.equals("profesor@profesor.com") && password.equals("profesor")){
-                        Intent cuestionariosProfesor=new Intent(LoginActivity.this, CuestionariosProfesor.class);
-                        startActivity(cuestionariosProfesor);
+                        editor.putBoolean("isLogin", true);
+                        editor.putString("rol", "profesor");
+                        editor.apply();
+
+                        isFirst = showBoarding.getBoolean("isFirst", true);
+
+                        if(isFirst){
+                            Intent cuestionariosProfesor=new Intent(LoginActivity.this, MainActivity.class);
+                            cuestionariosProfesor.putExtra("rol", "profesor");
+                            startActivity(cuestionariosProfesor);
+                        } else {
+                            Intent cuestionariosProfesor=new Intent(LoginActivity.this, CuestionariosProfesor.class);
+                            startActivity(cuestionariosProfesor);
+                        }
+
                     } else if (correo.equals("alumno@alumno.com") && password.equals("alumno")) {
-                        Intent cuestionariosAlumno=new Intent(LoginActivity.this, CuestionariosAlumno.class);
-                        startActivity(cuestionariosAlumno);
+                        editor.putBoolean("isLogin", true);
+                        editor.putString("rol", "alumno");
+                        editor.apply();
+
+                        isFirst = showBoarding.getBoolean("isFirst", true);
+
+                        if(isFirst){
+                            Intent cuestionariosAlumno=new Intent(LoginActivity.this, MainActivity.class);
+                            cuestionariosAlumno.putExtra("rol", "alumno");
+                            startActivity(cuestionariosAlumno);
+                        } else {
+                            Intent cuestionariosAlumno=new Intent(LoginActivity.this, CuestionariosAlumno.class);
+                            startActivity(cuestionariosAlumno);
+                        }
+
                     } else {
                         //TODO: enque con response tipo Object (Generico)
                         Retrofit retrofit = new Retrofit.Builder()

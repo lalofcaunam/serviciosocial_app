@@ -13,6 +13,13 @@
         android:paddingHorizontal="55dp"
         android:gravity="center" />
 
+    <ListView
+        android:id="@+id/listview_resultado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        />
+
     <Button
         android:id="@+id/btnAddResultadoCuestionarioAlumno"
         android:layout_width="60dp"

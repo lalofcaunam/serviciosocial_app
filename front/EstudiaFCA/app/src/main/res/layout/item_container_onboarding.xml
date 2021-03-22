@@ -39,7 +39,7 @@
         android:fontFamily="@font/lato_regular"
         android:textColor="@color/colorText"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:justificationMode="inter_word"
         />
 
