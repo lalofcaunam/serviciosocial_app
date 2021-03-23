@@ -110,7 +110,7 @@ public class CuestionariosProfesor extends AppCompatActivity {
     }
     private void logout() {
         preferences.edit().clear().apply();
-        showBoarding.edit().clear().apply();
+        //showBoarding.edit().clear().apply();
         startActivity(new Intent(CuestionariosProfesor.this, LoginActivity.class));
         finish();
     }

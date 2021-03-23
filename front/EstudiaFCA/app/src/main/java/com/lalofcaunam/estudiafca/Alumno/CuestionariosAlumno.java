@@ -105,7 +105,7 @@ public class CuestionariosAlumno extends AppCompatActivity implements DialogInfo
 
     private void logout() {
         preferences.edit().clear().apply();
-        showBoarding.edit().clear().apply();
+        //showBoarding.edit().clear().apply();
         startActivity(new Intent(CuestionariosAlumno.this, LoginActivity.class));
         finish();
     }

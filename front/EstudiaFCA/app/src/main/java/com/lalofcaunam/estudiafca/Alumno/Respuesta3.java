@@ -19,10 +19,12 @@ public class Respuesta3 extends AppCompatActivity {
     TextView scoreP, textP;
     RadioGroup radioGroupRespuestas;
     RadioButton resp1, resp2, resp3, resp4;
-    Button btnRespuesta;
+    Button btnRespuesta, btnCancelar;
 
     String respuesta3 = "";
     int score, fail;
+
+    Boolean isCorrecta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class Respuesta3 extends AppCompatActivity {
         resp4 = findViewById(R.id.resp4);
 
         btnRespuesta = findViewById(R.id.btnRespuesta);
+        btnCancelar = findViewById(R.id.btnCancelar);
 
         scoreP.setText("0" + score + " / 03");
 
@@ -58,20 +61,24 @@ public class Respuesta3 extends AppCompatActivity {
                 int idDeRadioButtonSeleccionado = group.getCheckedRadioButtonId();
                 if (idDeRadioButtonSeleccionado == resp1.getId()) {
                     respuesta3 = resp1.getText().toString();
+                    resetScore();
+                    isCorrecta = true;
                     score++;
-                    alerta("Respuesta Correcta","");
                 } else if (idDeRadioButtonSeleccionado == resp2.getId()) {
                     respuesta3 = resp2.getText().toString();
+                    resetFail();
+                    isCorrecta = false;
                     fail++;
-                    alerta("Respuesta Incorrecta","Comentario respuesta 2");
                 } else if (idDeRadioButtonSeleccionado == resp3.getId()) {
                     respuesta3 = resp3.getText().toString();
+                    resetFail();
+                    isCorrecta = false;
                     fail++;
-                    alerta("Respuesta Incorrecta","Comentario respuesta 3");
                 }else if (idDeRadioButtonSeleccionado == resp4.getId()) {
                     respuesta3 = resp4.getText().toString();
+                    resetFail();
+                    isCorrecta = false;
                     fail++;
-                    alerta("Respuesta Incorrecta","Comentario respuesta 4");
                 } else {
                     respuesta3 = "";
                 }
@@ -81,14 +88,34 @@ public class Respuesta3 extends AppCompatActivity {
         listeners();
     }
 
+    public void resetScore(){
+        score = score;
+    }
+
+    public void resetFail(){
+        fail = fail;
+    }
+
     private void listeners(){
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertaCancelar("¿Desea cancelar el cuetionario?", "Una vez cancelado se perderán sus respuestas");
+            }
+        });
+
         btnRespuesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (respuesta3.equals("")){
-                    alerta("No ha seleccionado una respuesta","Por favor, seleccione una respuesta");
+                    alertaNoSeleccion("No ha seleccionado una respuesta","Por favor, seleccione una respuesta");
                 } else {
-                    alertaFinalizado("Cuestionario Finalizado", "Resultados: \n Correctos: " + score + " \n Incorrectos: " + fail);
+                    if (isCorrecta){
+                        alerta("Respuesta correcta", "");
+                    } else {
+                        alerta("Respuesta Incorrecta", "Comentario respuesta incorrecta");
+                    }
                 }
             }
         });
@@ -98,10 +125,28 @@ public class Respuesta3 extends AppCompatActivity {
         AlertDialog alertDialog = new AlertDialog.Builder(Respuesta3.this).create();
         alertDialog.setTitle(titulo);
         alertDialog.setMessage(mensaje);
+        alertDialog.setCancelable(false);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+
+                        AlertDialog alertDialogFinal = new AlertDialog.Builder(Respuesta3.this).create();
+                        alertDialogFinal.setTitle("Cuestionario Finalizado");
+                        alertDialogFinal.setMessage("");
+                        alertDialogFinal.setCancelable(false);
+                        alertDialogFinal.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent finalizar = new Intent(Respuesta3.this, ResultadoFinalAlumno.class);
+                                        startActivity(finalizar);
+                                        finish();
+                                        dialog.dismiss();
+
+                                    }
+                                });
+                        alertDialogFinal.show();
+
                     }
                 });
         alertDialog.show();
@@ -115,10 +160,61 @@ public class Respuesta3 extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent finalizar = new Intent(Respuesta3.this, ResultadosCuestionarioAlumno.class);
-                        startActivity(finalizar);
+                        AlertDialog alertDialogFinal = new AlertDialog.Builder(Respuesta3.this).create();
+                        alertDialogFinal.setTitle("Cuestionario Finalizado");
+                        alertDialogFinal.setMessage("");
+                        alertDialogFinal.setCancelable(false);
+                        alertDialogFinal.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent finalizar = new Intent(Respuesta3.this, ResultadoFinalAlumno.class);
+                                        finalizar.putExtra("score", score);
+                                        finalizar.putExtra("fail", fail);
+                                        finalizar.putExtra("isResultadoFinal", true);
+                                        startActivity(finalizar);
+                                        finish();
+                                        dialog.dismiss();
+
+                                    }
+                                });
+                        alertDialogFinal.show();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void alertaNoSeleccion(String titulo, String mensaje){
+        AlertDialog alertDialog = new AlertDialog.Builder(Respuesta3.this).create();
+        alertDialog.setTitle(titulo);
+        alertDialog.setMessage(mensaje);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void alertaCancelar(String titulo, String mensaje){
+        AlertDialog alertDialog = new AlertDialog.Builder(Respuesta3.this).create();
+        alertDialog.setTitle(titulo);
+        alertDialog.setMessage(mensaje);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Si, Cancelar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent cancelarCuestionario = new Intent(Respuesta3.this, ResultadosCuestionarioAlumno.class);
+                        startActivity(cancelarCuestionario);
                         finish();
+                        dialog.dismiss();
                     }
                 });
         alertDialog.show();

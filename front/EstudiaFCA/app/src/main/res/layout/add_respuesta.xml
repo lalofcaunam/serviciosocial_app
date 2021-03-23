@@ -73,12 +73,29 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnRespuesta"
-        android:text="Confirmar"
-        style="@style/btnMedium"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center|bottom">
+
+        <Button
+            android:id="@+id/btnRespuesta"
+            android:layout_gravity="center"
+            android:text="Confirmar"
+            style="@style/btnMedium"
+            android:layout_marginBottom="20dp"
+            />
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_gravity="center"
+            android:text="Cancelar"
+            android:backgroundTint="@color/colorBackground"
+            style="@style/btnSimple"
+            android:layout_marginBottom="20dp"
+            />
+
+    </LinearLayout>
 
 </FrameLayout>

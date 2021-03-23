@@ -131,28 +131,44 @@ public class AddPreguntaCuestionario extends AppCompatActivity implements Adapte
 
             if(respuesta.equals("Respuesta 1")){
                 c1 = "Correcta";
-                comentarioRespuesta1.setVisibility(View.GONE);
-                comentarioRespuesta2.setVisibility(View.VISIBLE);
-                comentarioRespuesta3.setVisibility(View.VISIBLE);
-                comentarioRespuesta4.setVisibility(View.VISIBLE);
+                comentarioRespuesta1.setText("Correcta");
+                comentarioRespuesta1.setEnabled(false);
+                comentarioRespuesta2.setText("");
+                comentarioRespuesta2.setEnabled(true);
+                comentarioRespuesta3.setText("");
+                comentarioRespuesta3.setEnabled(true);
+                comentarioRespuesta4.setText("");
+                comentarioRespuesta4.setEnabled(true);
             } else if(respuesta.equals("Respuesta 2")){
                 c2 = "Correcta";
-                comentarioRespuesta1.setVisibility(View.VISIBLE);
-                comentarioRespuesta2.setVisibility(View.GONE);
-                comentarioRespuesta3.setVisibility(View.VISIBLE);
-                comentarioRespuesta4.setVisibility(View.VISIBLE);
+                comentarioRespuesta1.setText("");
+                comentarioRespuesta1.setEnabled(true);
+                comentarioRespuesta2.setText("Correcta");
+                comentarioRespuesta2.setEnabled(false);
+                comentarioRespuesta3.setText("");
+                comentarioRespuesta3.setEnabled(true);
+                comentarioRespuesta4.setText("");
+                comentarioRespuesta4.setEnabled(true);
             } else if(respuesta.equals("Respuesta 3")){
                 c3 = "Correcta";
-                comentarioRespuesta1.setVisibility(View.VISIBLE);
-                comentarioRespuesta2.setVisibility(View.VISIBLE);
-                comentarioRespuesta3.setVisibility(View.GONE);
-                comentarioRespuesta4.setVisibility(View.VISIBLE);
+                comentarioRespuesta1.setText("");
+                comentarioRespuesta1.setEnabled(true);
+                comentarioRespuesta2.setText("");
+                comentarioRespuesta2.setEnabled(true);
+                comentarioRespuesta3.setText("Correcta");
+                comentarioRespuesta3.setEnabled(false);
+                comentarioRespuesta4.setText("");
+                comentarioRespuesta4.setEnabled(true);
             } else if (respuesta.equals("Respuesta 4")){
                 c4 = "Correcta";
-                comentarioRespuesta1.setVisibility(View.VISIBLE);
-                comentarioRespuesta2.setVisibility(View.VISIBLE);
-                comentarioRespuesta3.setVisibility(View.VISIBLE);
-                comentarioRespuesta4.setVisibility(View.GONE);
+                comentarioRespuesta1.setText("");
+                comentarioRespuesta1.setEnabled(true);
+                comentarioRespuesta2.setText("");
+                comentarioRespuesta2.setEnabled(true);
+                comentarioRespuesta3.setText("");
+                comentarioRespuesta3.setEnabled(true);
+                comentarioRespuesta4.setText("Correcta");
+                comentarioRespuesta4.setEnabled(false);
             }
 
         }
