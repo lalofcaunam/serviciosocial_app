@@ -50,6 +50,8 @@ public class Respuesta1 extends AppCompatActivity {
         btnRespuesta = findViewById(R.id.btnRespuesta);
         btnCancelar = findViewById(R.id.btnCancelar);
 
+        scoreP.setText("01 / 03");
+
         btnRespuesta.setText("Siguiente");
 
         radioGroupRespuestas.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

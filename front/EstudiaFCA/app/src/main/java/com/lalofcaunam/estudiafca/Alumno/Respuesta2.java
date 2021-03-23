@@ -51,7 +51,7 @@ public class Respuesta2 extends AppCompatActivity {
         btnRespuesta = findViewById(R.id.btnRespuesta);
         btnCancelar = findViewById(R.id.btnCancelar);
 
-        scoreP.setText("0" + score + " / 03");
+        scoreP.setText("02 / 03");
 
         btnRespuesta.setText("Siguiente");
 
